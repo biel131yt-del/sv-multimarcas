@@ -37,3 +37,5 @@ nextjs/
 # Arquivos de imagem muito pesados (as fotos reais vão por fora ou por CDN)
 # Descomente se necessário:
 # images/carros/*.jpg
+
+.vercel
