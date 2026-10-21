@@ -1,7 +1,0 @@
-{
-  "name": "sv-multimarcas-api",
-  "version": "1.0.0",
-  "private": true,
-  "type": "module",
-  "description": "Serverless Functions da SV Multimarcas (Vercel Node.js runtime)"
-}

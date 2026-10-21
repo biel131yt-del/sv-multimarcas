@@ -2,8 +2,10 @@
   "name": "sv-multimarcas",
   "version": "1.0.0",
   "private": true,
+  "type": "module",
   "description": "Site de divulgacao do estoque + painel de gestao - SV Multimarcas",
   "scripts": {
+    "build": "echo 'Site estatico - sem build necessario'",
     "otimizar": "node scripts/otimizar-imagens.mjs",
     "publicar": "node scripts/publicar-estoque.mjs",
     "marcar-fotos": "node scripts/marcar-fotos.mjs"
