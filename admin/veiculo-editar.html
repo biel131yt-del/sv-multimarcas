@@ -388,16 +388,22 @@
     renderSlots();
     renderChecklist(['Revisão em dia', 'Laudo aprovado', 'Pneus novos', 'Freios ok', 'IPTV quitado']);
    }
+
+   // O preview lateral depende dos campos acima: so atualiza aqui
+   atualizarPreview();
   }
 
   /* Carrega o estoque do banco: o painel precisa mostrar o que esta no ar */
   (async function () {
-    const { veiculos, origem } = await SV_ESTOQUE_ADMIN.carregar();
-    VEICULOS = veiculos;
-    veiculo = VEICULOS.find(v => v.id === id) || null;
-    inicializar();
-    // O preview lateral depende dos campos preenchidos: so atualiza aqui
-    atualizarPreview();
+    try {
+      const { veiculos, origem } = await SV_ESTOQUE_ADMIN.carregar();
+      VEICULOS = veiculos;
+      veiculo = VEICULOS.find(v => v.id === id) || null;
+      inicializar();
+    } catch (e) {
+      console.warn('[SV] Falha ao carregar do banco, usando seed local:', e.message);
+      inicializar();
+    }
   })();
 
   /* ---------- Fotos por ângulo ---------- */
