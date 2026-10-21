@@ -413,7 +413,7 @@
       <div class="detail-grid">
         <div class="gallery">
           <div class="main-image">
-            <img id="mainImg" src="" alt="" fetchpriority="high">
+            <img id="mainImg" src="" alt="" fetchpriority="high" decoding="async" width="1200" height="800">
             <span class="main-angle" id="mainAngle"></span>
           </div>
           <div class="gallery-thumbs" id="galleryThumbs"></div>
@@ -491,7 +491,9 @@
           <a href="https://www.facebook.com/SouzaVeiculosMultimarcas/?locale=pt_BR" target="_blank" rel="noopener noreferrer" aria-label="Facebook"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M24 12.073c0-6.627-5.373-12-12-12s-12 5.373-12 12c0 5.99 4.388 10.954 10.125 11.854v-8.385H7.078v-3.47h3.047V9.43c0-3.007 1.792-4.669 4.533-4.669 1.312 0 2.686.235 2.686.235v2.953H15.83c-1.491 0-1.956.925-1.956 1.874v2.25h3.328l-.532 3.47h-2.796v8.385C19.612 23.027 24 18.062 24 12.073z"/></svg></a>
         </div>
       </div>
-      <p class="footer-bottom">© <span id="anoAtual"></span> SV Multimarcas — Todos os direitos reservados. Preços sujeitos a confirmação com a loja.</p>
+      <p class="footer-bottom">© <span id="anoAtual"></span> SV Multimarcas — Todos os direitos reservados.<br>
+        <a href="privacidade.html" style="color: rgba(168,173,181,0.6);">Política de privacidade</a>
+        · Preços sujeitos a confirmação com a loja.</p>
     </div>
   </footer>
 
@@ -613,7 +615,9 @@
         btn.type = 'button';
         btn.setAttribute('aria-label', 'Ver foto: ' + item.label);
         btn.innerHTML =
-          '<img src="' + item.src + '" alt="" loading="lazy">' +
+          '<img src="' + item.src + '" alt="" loading="lazy" decoding="async"' +
+          (SV.srcset(item.src) ? ' srcset="' + SV.srcset(item.src) + '" sizes="(max-width: 1024px) 25vw, 160px"' : '') +
+          '>' +
           '<span class="angulo">' + SV.escapeHtml(item.label) + '</span>' +
           (item.real ? '' : '<span class="pendente" aria-hidden="true" title="Foto ainda não enviada"></span>');
         btn.addEventListener('click', () => mostrarFoto(i));
@@ -654,7 +658,7 @@
       if (relacionados.length) {
         const grid = document.getElementById('relGrid');
         grid.innerHTML = relacionados.map(v => {
-          const img = (v.imagens && v.imagens[0]) || 'images/hero.jfif';
+          const img = (v.imagens && v.imagens[0]) || 'images/hero.webp';
           return '<article class="rel-card">' +
             '<a href="veiculo.html?id=' + v.id + '">' +
               '<div class="rel-img"><img src="' + img + '" alt="' + SV.escapeHtml(v.marca + ' ' + v.modelo) + '" loading="lazy" decoding="async">' +

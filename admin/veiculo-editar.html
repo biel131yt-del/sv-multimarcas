@@ -276,7 +276,7 @@
         <!-- Preview -->
         <aside class="preview-pane">
           <div class="preview-card">
-            <div class="pc-img"><img id="previewImg" src="../images/hero.jfif" alt=""></div>
+            <div class="pc-img"><img id="previewImg" src="../images/hero.webp" alt=""></div>
             <div class="pc-body">
               <div class="pc-brand" id="previewMarca">Marca</div>
               <div class="pc-model" id="previewModelo">Modelo</div>
@@ -329,7 +329,7 @@
   const fmtMoeda = v => new Intl.NumberFormat('pt-BR', { style: 'currency', currency: 'BRL' }).format(v || 0);
 
   // Imagens do estoque são paths relativos à raiz do site
-  const imgPath = p => (!p ? '../images/hero.jfif' : (p.startsWith('images/') ? '../' + p : p));
+  const imgPath = p => (!p ? '../images/hero.webp' : (p.startsWith('images/') ? '../' + p : p));
 
   document.getElementById('countVeiculos').textContent = VEICULOS.length;
 

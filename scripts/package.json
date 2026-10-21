@@ -1,0 +1,13 @@
+{
+  "name": "sv-multimarcas-scripts",
+  "version": "1.0.0",
+  "private": true,
+  "type": "module",
+  "description": "Ferramentas de manutencao do site SV Multimarcas (otimizacao de imagens)",
+  "scripts": {
+    "otimizar": "node otimizar-imagens.mjs"
+  },
+  "devDependencies": {
+    "sharp": "^0.35.5"
+  }
+}

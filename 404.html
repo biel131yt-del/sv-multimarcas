@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <title>Página não encontrada — SV Multimarcas</title>
+  <meta name="robots" content="noindex">
+  <meta name="theme-color" content="#0B0B0D">
+  <link rel="icon" href="images/logo.png">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Montserrat:wght@600;800&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --black: #0B0B0D; --graphite: #151518; --white: #FFFFFF;
+      --silver: #A8ADB5; --red: #E30613; --blue: #164FE5;
+      --radius: 4px;
+    }
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    body {
+      background: var(--black); color: var(--white);
+      font-family: 'Inter', system-ui, sans-serif;
+      min-height: 100vh; min-height: 100svh;
+      display: flex; flex-direction: column; align-items: center; justify-content: center;
+      padding: 24px; text-align: center; position: relative; overflow: hidden;
+    }
+    body::before {
+      content: ''; position: absolute; inset: 0;
+      background:
+        radial-gradient(900px 500px at 15% -10%, rgba(22,79,229,0.16), transparent 65%),
+        radial-gradient(700px 500px at 90% 110%, rgba(227,6,19,0.12), transparent 60%);
+      pointer-events: none;
+    }
+    .box { position: relative; max-width: 520px; }
+    .logo img { height: 46px; margin: 0 auto 32px; }
+    .codigo {
+      font-family: 'Montserrat', sans-serif; font-weight: 800;
+      font-size: clamp(64px, 18vw, 108px); line-height: 1;
+      background: linear-gradient(135deg, var(--red), var(--blue));
+      -webkit-background-clip: text; background-clip: text; color: transparent;
+      margin-bottom: 12px;
+    }
+    h1 { font-family: 'Montserrat', sans-serif; font-weight: 800; font-size: 22px; margin-bottom: 12px; }
+    p { color: var(--silver); font-size: 15px; line-height: 1.7; margin-bottom: 32px; }
+    .acoes { display: flex; flex-direction: column; gap: 12px; }
+    @media (min-width: 480px) { .acoes { flex-direction: row; justify-content: center; } }
+    a.btn {
+      display: inline-flex; align-items: center; justify-content: center;
+      padding: 14px 28px; min-height: 48px;
+      font-family: 'Montserrat', sans-serif; font-weight: 700; font-size: 14px;
+      text-transform: uppercase; letter-spacing: 0.5px;
+      border-radius: var(--radius); transition: 0.3s; white-space: nowrap;
+    }
+    .btn-primary { background: var(--red); color: var(--white); }
+    .btn-primary:hover { background: #c50510; }
+    .btn-secondary { background: transparent; border: 1px solid var(--white); color: var(--white); }
+    .btn-secondary:hover { background: var(--white); color: var(--black); }
+    .atalhos {
+      margin-top: 40px; padding-top: 24px; border-top: 1px solid rgba(168,173,181,0.08);
+      font-size: 13px; color: rgba(168,173,181,0.55); line-height: 1.8;
+    }
+    .atalhos a { color: var(--silver); text-decoration: underline; text-underline-offset: 3px; }
+    .atalhos a:hover { color: var(--white); }
+  </style>
+</head>
+<body>
+  <div class="box">
+    <div class="logo"><img src="images/logo.png" alt="SV Multimarcas"></div>
+    <div class="codigo">404</div>
+    <h1>Não encontramos esta página</h1>
+    <p>
+      O endereço pode ter mudado ou o veículo que você procurou saiu do estoque.
+      Volte ao estoque para ver as opções disponíveis agora.
+    </p>
+    <div class="acoes">
+      <a href="index.html#estoque" class="btn btn-primary">Ver estoque</a>
+      <a href="index.html" class="btn btn-secondary">Ir para o início</a>
+    </div>
+    <div class="atalhos">
+      También puede parecer <a href="index.html#vender">vender o seu carro</a> ou
+      <a href="index.html#financiamento">simular financiamento</a>.
+    </div>
+  </div>
+</body>
+</html>

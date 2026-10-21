@@ -1303,7 +1303,9 @@
   <!-- Hero -->
   <main>
   <section class="hero" id="inicio">
-    <img src="images/hero.jfif" alt="Veículo premium SV Multimarcas" class="hero-bg" fetchpriority="high">
+    <img src="images/hero.webp" alt="Veículo premium SV Multimarcas" class="hero-bg"
+         srcset="images/hero-400.webp 400w, images/hero-800.webp 800w, images/hero-1200.webp 1200w, images/hero.webp 1920w"
+         sizes="100vw" fetchpriority="high" decoding="async" width="1920" height="1080">
     <div class="hero-overlay"></div>
     <div class="hero-content">
       <h1 id="heroH1">Seu próximo carro está aqui.</h1>
@@ -1791,9 +1793,10 @@
 
     <div class="footer-bottom">
       <div class="footer-bottom-inner">
-        <p>© <span id="anoAtual"></span> SV Multimarcas — Todos os direitos reservados.</p>
+        <p>© <span id="anoAtual"></span> SV Multimarcas — Todos os direitos reservados.<br>
+          <a href="privacidade.html">Política de privacidade</a> · Preços sujeitos a confirmação com a loja.</p>
         <div class="footer-legal">
-          <a href="#">Política de privacidade</a>
+          <a href="privacidade.html">Política de privacidade</a>
           <a href="#">Termos de uso</a>
           <a href="#">Política de cookies</a>
         </div>
@@ -1972,7 +1975,8 @@
           <article class="vehicle-card">
             <a href="veiculo.html?id=${v.id}">
               <div class="vehicle-image">
-                <img src="${img}" alt="${SV.escapeHtml(v.marca + ' ' + v.modelo + ' ' + v.ano)}" loading="lazy" decoding="async" width="600" height="400">
+                <img src="${img}" alt="${SV.escapeHtml(v.marca + ' ' + v.modelo + ' ' + v.ano)}" loading="lazy" decoding="async" width="600" height="400"
+                     srcset="${SV.srcset(img)}" sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 33vw">
                 ${v.destaque ? '<span class="featured-badge">Em destaque</span>' : ''}
                 ${pendentes.length ? '<span class="foto-pendente-badge" title="Falta: ' + SV.escapeHtml(pendentes.join(', ')) + '">Fotos pendentes</span>' : ''}
                 <span class="vehicle-price-badge">${SV.fmt.preco(v.preco)}</span>

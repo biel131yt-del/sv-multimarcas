@@ -1,0 +1,215 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <title>Acesso restrito — SV Multimarcas</title>
+  <meta name="robots" content="noindex, nofollow">
+  <meta name="theme-color" content="#0B0B0D">
+  <link rel="icon" href="images/logo.png">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Montserrat:wght@600;800&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --black: #0B0B0D;
+      --graphite: #151518;
+      --white: #FFFFFF;
+      --silver: #A8ADB5;
+      --red: #E30613;
+      --blue: #164FE5;
+      --radius: 4px;
+    }
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    body {
+      background: var(--black);
+      color: var(--white);
+      font-family: 'Inter', system-ui, sans-serif;
+      min-height: 100vh;
+      min-height: 100svh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 24px;
+      position: relative;
+      overflow: hidden;
+    }
+    body::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background:
+        radial-gradient(900px 500px at 20% -10%, rgba(22,79,229,0.16), transparent 65%),
+        radial-gradient(700px 500px at 90% 110%, rgba(227,6,19,0.12), transparent 60%);
+      pointer-events: none;
+    }
+    .box {
+      position: relative;
+      width: 100%;
+      max-width: 400px;
+    }
+    .card {
+      background: var(--graphite);
+      border: 1px solid rgba(168,173,181,0.1);
+      border-radius: var(--radius);
+      padding: 32px 28px;
+    }
+    .logo { text-align: center; margin-bottom: 28px; }
+    .logo img { height: 46px; width: auto; margin: 0 auto 20px; }
+    .logo h1 {
+      font-family: 'Montserrat', sans-serif;
+      font-weight: 800;
+      font-size: 19px;
+      margin-bottom: 6px;
+    }
+    .logo p { color: var(--silver); font-size: 14px; }
+
+    label {
+      display: block;
+      font-size: 12px;
+      color: var(--silver);
+      text-transform: uppercase;
+      letter-spacing: 0.7px;
+      font-weight: 600;
+      margin-bottom: 7px;
+    }
+    input[type="password"] {
+      width: 100%;
+      min-height: 48px;
+      padding: 13px 14px;
+      background: rgba(255,255,255,0.03);
+      border: 1px solid rgba(168,173,181,0.1);
+      border-radius: var(--radius);
+      color: var(--white);
+      font-family: inherit;
+      font-size: 16px;
+    }
+    input[type="password"]:focus {
+      outline: none;
+      border-color: var(--blue);
+    }
+    input[type="password"]::placeholder { color: rgba(168,173,181,0.35); }
+
+    .erro {
+      display: none;
+      margin-top: 14px;
+      padding: 10px 12px;
+      background: rgba(227,6,19,0.1);
+      border: 1px solid rgba(227,6,19,0.3);
+      border-radius: var(--radius);
+      color: var(--red);
+      font-size: 13px;
+    }
+
+    button {
+      width: 100%;
+      margin-top: 20px;
+      min-height: 50px;
+      background: var(--red);
+      color: var(--white);
+      border: none;
+      border-radius: var(--radius);
+      font-family: 'Montserrat', sans-serif;
+      font-weight: 700;
+      font-size: 14px;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+      cursor: pointer;
+      transition: background 0.3s;
+    }
+    button:hover { background: #c50510; }
+    button:disabled { opacity: 0.6; cursor: not-allowed; }
+
+    .voltar {
+      display: block;
+      text-align: center;
+      margin-top: 20px;
+      color: var(--silver);
+      font-size: 13px;
+      text-decoration: none;
+      transition: color 0.3s;
+    }
+    .voltar:hover { color: var(--white); }
+
+    .dica {
+      margin-top: 24px;
+      padding-top: 18px;
+      border-top: 1px solid rgba(168,173,181,0.08);
+      font-size: 12px;
+      color: rgba(168,173,181,0.55);
+      line-height: 1.6;
+    }
+  </style>
+</head>
+<body>
+
+  <div class="box">
+    <div class="card">
+      <div class="logo">
+        <img src="images/logo.png" alt="SV Multimarcas">
+        <h1>Painel do Site</h1>
+        <p>Área restrita à equipe da SV Multimarcas</p>
+      </div>
+
+      <form id="formLogin" autocomplete="off">
+        <label for="senha">Senha de acesso</label>
+        <input type="password" id="senha" placeholder="Digite a senha" autocomplete="current-password" required>
+        <div class="erro" id="erro">Senha incorreta. Tente novamente.</div>
+        <button type="submit" id="btnEntrar">Entrar</button>
+      </form>
+
+      <a href="index.html" class="voltar">← Voltar para o site</a>
+
+      <p class="dica">
+        O acesso é registrado e a sessão expira em 12 horas.
+        Em caso de dúvida, fale com o responsável pelo site.
+      </p>
+    </div>
+  </div>
+
+  <script>
+    (function () {
+      const form = document.getElementById('formLogin');
+      const erro = document.getElementById('erro');
+      const btn = document.getElementById('btnEntrar');
+      const input = document.getElementById('senha');
+
+      const next = new URLSearchParams(location.search).get('next') || '/admin/';
+
+      form.addEventListener('submit', async (e) => {
+        e.preventDefault();
+        erro.style.display = 'none';
+        btn.disabled = true;
+        btn.textContent = 'Verificando...';
+
+        try {
+          const res = await fetch('/api/login', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ senha: input.value })
+          });
+
+          if (res.ok) {
+            location.href = next;
+            return;
+          }
+
+          const data = await res.json().catch(() => ({}));
+          erro.textContent = data.error || 'Não foi possível entrar. Tente novamente.';
+          erro.style.display = 'block';
+          input.value = '';
+          input.focus();
+        } catch (e) {
+          erro.textContent = 'Erro de conexão. Verifique sua internet.';
+          erro.style.display = 'block';
+        } finally {
+          btn.disabled = false;
+          btn.textContent = 'Entrar';
+        }
+      });
+
+      input.focus();
+    })();
+  </script>
+</body>
+</html>
