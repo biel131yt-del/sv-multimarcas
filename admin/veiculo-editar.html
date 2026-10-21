@@ -396,6 +396,8 @@
     VEICULOS = veiculos;
     veiculo = VEICULOS.find(v => v.id === id) || null;
     inicializar();
+    // O preview lateral depende dos campos preenchidos: so atualiza aqui
+    atualizarPreview();
   })();
 
   /* ---------- Fotos por ângulo ---------- */

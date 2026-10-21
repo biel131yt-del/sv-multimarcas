@@ -2101,7 +2101,9 @@
       // A renderizacao inicial ja usou o seed local, entao nao ha espera.
       if (window.SV_ESTOQUE) {
         window.SV_ESTOQUE.carregar(true).then(lista => {
-          if (Array.isArray(lista) && lista.length && lista.length !== VEICULOS.length) {
+          if (Array.isArray(lista) && lista.length) {
+            // Sempre re-renderiza: a quantidade pode ser a mesma e mesmo
+            // assim as fotos e os status podem ter mudado.
             VEICULOS = lista;
             renderEstoque(VEICULOS);
             atualizarFiltros();
