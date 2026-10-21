@@ -47,7 +47,7 @@ window.SV_VEHICLES = [
       "Chave reserva",
       "Nota fiscal"
     ],
-    "atualizado_em": "2026-10-21T20:04:32.930Z"
+    "atualizado_em": "2026-10-21T20:05:00.643Z"
   },
   {
     "id": 2,
@@ -82,7 +82,7 @@ window.SV_VEHICLES = [
       "Manual do proprietário",
       "Chave reserva"
     ],
-    "atualizado_em": "2026-10-21T20:01:08.706Z"
+    "atualizado_em": "2026-10-21T20:05:00.762Z"
   },
   {
     "id": 3,
@@ -116,7 +116,7 @@ window.SV_VEHICLES = [
       "IPTV quitado",
       "Manual do proprietário"
     ],
-    "atualizado_em": "2026-10-21T20:01:08.823Z"
+    "atualizado_em": "2026-10-21T20:05:00.881Z"
   },
   {
     "id": 4,
@@ -153,7 +153,7 @@ window.SV_VEHICLES = [
       "Chave reserva",
       "Nota fiscal"
     ],
-    "atualizado_em": "2026-10-21T20:01:08.938Z"
+    "atualizado_em": "2026-10-21T20:05:00.999Z"
   },
   {
     "id": 5,
@@ -188,7 +188,7 @@ window.SV_VEHICLES = [
       "Manual do proprietário",
       "Chave reserva"
     ],
-    "atualizado_em": "2026-10-21T20:01:09.055Z"
+    "atualizado_em": "2026-10-21T20:05:01.118Z"
   },
   {
     "id": 6,
@@ -222,7 +222,7 @@ window.SV_VEHICLES = [
       "IPTV quitado",
       "Manual do proprietário"
     ],
-    "atualizado_em": "2026-10-21T20:01:09.171Z"
+    "atualizado_em": "2026-10-21T20:05:01.237Z"
   },
   {
     "id": 7,
@@ -256,7 +256,7 @@ window.SV_VEHICLES = [
       "IPTV quitado",
       "Chave reserva"
     ],
-    "atualizado_em": "2026-10-21T20:01:09.288Z"
+    "atualizado_em": "2026-10-21T20:05:01.355Z"
   },
   {
     "id": 8,
@@ -289,7 +289,7 @@ window.SV_VEHICLES = [
       "Freios ok",
       "IPTV quitado"
     ],
-    "atualizado_em": "2026-10-21T20:01:09.404Z"
+    "atualizado_em": "2026-10-21T20:05:01.473Z"
   },
   {
     "id": 9,
@@ -324,6 +324,6 @@ window.SV_VEHICLES = [
       "Manual do proprietário",
       "Chave reserva"
     ],
-    "atualizado_em": "2026-10-21T20:01:09.520Z"
+    "atualizado_em": "2026-10-21T20:05:01.592Z"
   }
 ];
