@@ -327,15 +327,16 @@
 <div class="toast" id="toast"><svg viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"/></svg><span id="toastMsg">Salvo</span></div>
 
 <script src="/data/vehicles.js"></script>
+<script src="/data/estoque-admin.js"></script>
 <script src="/lib/ui.js"></script>
 <script>
 (function () {
   'use strict';
 
-  const VEICULOS = window.SV_VEHICLES || [];
+  let VEICULOS = window.SV_VEHICLES || [];
   const params = new URLSearchParams(window.location.search);
   const id = Number(params.get('id'));
-  const veiculo = VEICULOS.find(v => v.id === id) || null;
+  let veiculo = VEICULOS.find(v => v.id === id) || null;
 
   const $ = s => document.querySelector(s);
   const fmtMoeda = v => new Intl.NumberFormat('pt-BR', { style: 'currency', currency: 'BRL' }).format(v || 0);
@@ -355,7 +356,9 @@
   ];
 
   /* ---------- Modo: editar ou novo ---------- */
-  if (veiculo) {
+  function inicializar() {
+   document.getElementById('countVeiculos').textContent = VEICULOS.length;
+   if (veiculo) {
     document.getElementById('tituloPagina').textContent = 'Editar ' + veiculo.marca + ' ' + veiculo.modelo;
     document.getElementById('btnVerNoSite').style.display = 'inline-flex';
     document.getElementById('btnVerNoSite').href = '/veiculo.html?id=' + veiculo.id;
@@ -381,10 +384,19 @@
 
     renderSlots();
     renderChecklist(veiculo.checklist || []);
-  } else {
+   } else {
     renderSlots();
     renderChecklist(['Revisão em dia', 'Laudo aprovado', 'Pneus novos', 'Freios ok', 'IPTV quitado']);
+   }
   }
+
+  /* Carrega o estoque do banco: o painel precisa mostrar o que esta no ar */
+  (async function () {
+    const { veiculos, origem } = await SV_ESTOQUE_ADMIN.carregar();
+    VEICULOS = veiculos;
+    veiculo = VEICULOS.find(v => v.id === id) || null;
+    inicializar();
+  })();
 
   /* ---------- Fotos por ângulo ---------- */
 
@@ -636,27 +648,29 @@
       VEICULOS.push(dados);
     }
 
-    // 1) Tenta publicar direto no GitHub (dispara deploy automatico)
+    // 1) Publica no banco (dispara o deploy automatico)
     let publicado = false;
     try {
-      const resp = await fetch('/api/veiculos', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({
-          veiculos: VEICULOS,
-          mensagem: (veiculo ? 'Atualiza' : 'Adiciona') + ' ' + dados.marca + ' ' + dados.modelo + ' no estoque'
-        })
-      });
-      const json = await resp.json().catch(() => ({}));
-      publicado = resp.ok;
+      const { ok, json } = await SV_ESTOQUE_ADMIN.salvar(
+        VEICULOS,
+        (veiculo ? 'Atualiza' : 'Adiciona') + ' ' + dados.marca + ' ' + dados.modelo + ' no estoque'
+      );
+      publicado = ok;
       if (publicado) {
+        // Recarrega do banco: o que o painel mostra passa a ser o que esta no ar
+        const { veiculos } = await SV_ESTOQUE_ADMIN.carregar();
+        if (veiculos && veiculos.length) {
+          VEICULOS = veiculos;
+          veiculo = VEICULOS.find(v => v.id === dados.id) || veiculo;
+        }
         toast('Veículo publicado. O site atualiza em instantes.');
         return;
       }
       if (json.dica) {
         toast(json.dica, true);
         return;
-      }    } catch (err) {
+      }
+    } catch (err) {
       console.warn('[SV] Falha ao publicar:', err.message);
     }
 

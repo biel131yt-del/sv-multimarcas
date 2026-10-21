@@ -240,18 +240,20 @@
 <div class="toast" id="toast"><svg viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"/></svg><span id="toastMsg">Salvo</span></div>
 
 <script src="/data/vehicles.js"></script>
+<script src="/data/estoque-admin.js"></script>
 <script src="/lib/ui.js"></script>
 <script>
 (function () {
   'use strict';
 
-  const VEICULOS = window.SV_VEHICLES || [];
+  let VEICULOS = window.SV_VEHICLES || [];
   const fmtMoeda = v => new Intl.NumberFormat('pt-BR', { style: 'currency', currency: 'BRL' }).format(v || 0);
   const fmtNum = v => new Intl.NumberFormat('pt-BR').format(v || 0);
   const imgPath = p => (!p ? '/images/placeholder-veiculo.svg' : (p.startsWith('images/') ? '/' + p : p));
   const capa = v => imgPath(SV.fotoCapa(v));
 
-  /* ---------- Métricas reais ---------- */
+  /* ---------- Métricas reais (do banco) ---------- */
+  function renderDashboard() {
   document.getElementById('statVeiculos').textContent = VEICULOS.length;
   document.getElementById('statDestaques').textContent = VEICULOS.filter(v => v.destaque).length;
   document.getElementById('countVeiculos').textContent = VEICULOS.length;
@@ -345,6 +347,17 @@
     '<div class="bar-row"><div class="bar-head"><span>' + a + '</span><span>' + anos[a] + '</span></div>' +
     '<div class="bar-track"><div class="bar-fill red" style="width:' + (anos[a] / maxAno * 100) + '%"></div></div></div>'
   ).join('') || '<p style="color:var(--silver); font-size:13px;">Sem dados.</p>';
+
+  }
+
+  /* Carrega do banco para o painel refletir o que esta no ar */
+  (async function () {
+    const { veiculos } = await SV_ESTOQUE_ADMIN.carregar();
+    if (veiculos && veiculos.length) {
+      VEICULOS = veiculos;
+      renderDashboard();
+    }
+  })();
 
   /* ---------- Contatos (banco) ---------- */
   (async function carregarContatos() {
