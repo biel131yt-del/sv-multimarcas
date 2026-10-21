@@ -71,13 +71,15 @@ export default async function handler(req, res) {
   /* --- Preferencia 1: Vercel Blob --- */
   if (temBlob()) {
     try {
-      const url = await subirFoto(binario, `${PASTA_BLOB}/${seguro}`, tipo);
+      const r = await subirFoto(binario, `${PASTA_BLOB}/${seguro}`, tipo);
       return res.status(200).json({
         ok: true,
         origem: 'blob',
-        caminho: url,
-        url,
-        bytes: binario.length
+        caminho: r.url,
+        url: r.url,
+        pathname: r.pathname,
+        privado: r.privado,
+        bytes: r.bytes
       });
     } catch (e) {
       console.error('[upload] erro no Vercel Blob:', e.message);
