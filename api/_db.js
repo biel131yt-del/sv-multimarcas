@@ -92,6 +92,28 @@ export async function lerVeiculo(id) {
   return row ? normalizarVeiculo(row) : null;
 }
 
+/**
+ * Remove data URLs (base64) dos caminhos de foto.
+ *
+ * Um base64 de 500KB dentro do vehicles.js deixa o script do site
+ * gigabytes e trava a pagina. O caminho real (images/carros/...) e
+ * o que deve ser gravado — o upload ja devolve o path.
+ */
+function limparFotos(fotos) {
+  const saida = {};
+  for (const angulo of ['frente', 'interior', 'traseira']) {
+    const valor = fotos && fotos[angulo];
+    saida[angulo] =
+      typeof valor === 'string' && !valor.startsWith('data:')
+        ? valor
+        : 'images/placeholder-veiculo.svg';
+  }
+  saida.extras = Array.isArray(fotos?.extras)
+    ? fotos.extras.filter(e => typeof e === 'string' && !e.startsWith('data:'))
+    : [];
+  return saida;
+}
+
 /** Grava (upsert) um veiculo */
 export async function salvarVeiculo(v) {
   const row = await queryOne(
@@ -124,7 +146,7 @@ export async function salvarVeiculo(v) {
     [
       v.id, v.marca, v.modelo, v.versao || null, v.ano, v.km || 0,
       v.cambio || 'Automático', v.combustivel || 'Flex', v.preco || 0,
-      JSON.stringify(v.fotos || {}), !!v.destaque, v.status || 'disponivel',
+      JSON.stringify(limparFotos(v.fotos)), !!v.destaque, v.status || 'disponivel',
       v.descricao || null, v.portas || 4, v.cor || null, v.placa || null,
       v.unicoDono || null, v.revisao || null, v.checklist || []
     ]
@@ -140,7 +162,7 @@ export async function removerVeiculo(id) {
 
 /** Converte a linha do banco no formato usado pelo site */
 function normalizarVeiculo(row) {
-  const fotos = row.fotos || {};
+  const fotos = limparFotos(row.fotos || {});
   return {
     id: Number(row.id),
     marca: row.marca,
@@ -152,10 +174,10 @@ function normalizarVeiculo(row) {
     combustivel: row.combustivel || 'Flex',
     preco: row.preco || 0,
     fotos: {
-      frente: fotos.frente || 'images/placeholder-veiculo.svg',
-      interior: fotos.interior || 'images/placeholder-veiculo.svg',
-      traseira: fotos.traseira || 'images/placeholder-veiculo.svg',
-      extras: fotos.extras || []
+      frente: fotos.frente,
+      interior: fotos.interior,
+      traseira: fotos.traseira,
+      extras: fotos.extras
     },
     destaque: !!row.destaque,
     status: row.status || 'disponivel',

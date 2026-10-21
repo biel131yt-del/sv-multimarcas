@@ -141,10 +141,22 @@ export default async function handler(req, res) {
 
   /* --- Preferencia 2: GitHub --- */
   if (temToken()) {
+    // Remove data URLs antes de gravar: base64 no vehicles.js
+    // deixa o script do site gigabytes.
+    const limpo = veiculos.map(v => ({
+      ...v,
+      fotos: {
+        frente: v.fotos?.frente?.startsWith('data:') ? 'images/placeholder-veiculo.svg' : (v.fotos?.frente || 'images/placeholder-veiculo.svg'),
+        interior: v.fotos?.interior?.startsWith('data:') ? 'images/placeholder-veiculo.svg' : (v.fotos?.interior || 'images/placeholder-veiculo.svg'),
+        traseira: v.fotos?.traseira?.startsWith('data:') ? 'images/placeholder-veiculo.svg' : (v.fotos?.traseira || 'images/placeholder-veiculo.svg'),
+        extras: (v.fotos?.extras || []).filter(e => typeof e === 'string' && !e.startsWith('data:'))
+      }
+    }));
+
     const conteudo =
       CABECALHO +
       'window.SV_VEHICLES = ' +
-      JSON.stringify(veiculos, null, 2) +
+      JSON.stringify(limpo, null, 2) +
       ';\n';
 
     try {

@@ -426,10 +426,11 @@
         fotos[slot] = json.caminho;
         toast('Foto enviada. O site atualiza em instantes.');
       } else {
-        // Sem token ou falha: mantem preview local e avisa
-        fotos[slot] = dataUrl;
+        // Sem backend: NAO guarda o base64 no cadastro (inflaria o
+        // vehicles.js). Mantem o placeholder e orienta o caminho manual.
         const json = await resp.json().catch(() => ({}));
-        toast(json.dica || 'Foto mantida apenas neste navegador. Configure GITHUB_TOKEN para publicar.', true);
+        fotos[slot] = 'images/placeholder-veiculo.svg';
+        toast(json.dica || 'Foto nao enviada. Configure o banco (Neon) ou use "Baixar vehicles.js".', true);
       }
       renderSlots();
     };
