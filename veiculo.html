@@ -513,30 +513,35 @@
       'use strict';
 
       const CFG = window.SV_CONFIG;
-      const VEICULOS = window.SV_VEHICLES || [];
+      let VEICULOS = window.SV_VEHICLES || [];
 
       const params = new URLSearchParams(window.location.search);
       const id = Number(params.get('id'));
-      const veiculo = VEICULOS.find(v => v.id === id);
+      let veiculo = VEICULOS.find(v => v.id === id);
 
-      /* ---------- Veículo não encontrado no seed local ---------- */
-      if (!veiculo) {
-        // Pode estar no Supabase (veiculo recem-cadastrado pelo painel).
-        if (window.SV_ESTOQUE) {
-          window.SV_ESTOQUE.carregar(true).then(lista => {
-            const v = (lista || []).find(x => x.id === id);
-            if (v) {
-              // Recarrega: agora o seed local ja esta atualizado pelo cache
-              location.reload();
-              return;
+      /* ---------- Busca o veiculo no banco (fonte da verdade) ---------- */
+      // O seed local so muda com push. O banco e o que esta no ar.
+      const buscarNoBanco = window.SV_ESTOQUE
+        ? window.SV_ESTOQUE.carregar(true)
+        : Promise.resolve(null);
+
+      buscarNoBanco.then(lista => {
+        if (lista && lista.length) {
+          VEICULOS = lista;
+          const doBanco = VEICULOS.find(v => v.id === id);
+          if (doBanco) {
+            // Se o banco tem dados mais novos que o seed, re-renderiza
+            if (!veiculo || JSON.stringify(doBanco.fotos) !== JSON.stringify(veiculo.fotos)) {
+              veiculo = doBanco;
+              renderizar();
             }
-            mostrarNaoEncontrado();
-          }).catch(() => mostrarNaoEncontrado());
-          return;
+            return;
+          }
         }
-        mostrarNaoEncontrado();
-        return;
-      }
+        if (!veiculo) mostrarNaoEncontrado();
+      }).catch(() => {
+        if (!veiculo) mostrarNaoEncontrado();
+      });
 
       function mostrarNaoEncontrado() {
         document.body.innerHTML =
@@ -547,6 +552,8 @@
           '</div>';
       }
 
+      /* ---------- Renderizacao ---------- */
+      function renderizar() {
       /* ---------- SEO dinâmico ---------- */
       const titulo = veiculo.marca + ' ' + veiculo.modelo + ' ' + veiculo.ano + ' — SV Multimarcas';
       document.title = titulo;
@@ -704,6 +711,11 @@
           ticking = false;
         });
       }, { passive: true });
+
+      }
+
+      // Renderiza com o seed (instantaneo) e corrige com o banco
+      if (veiculo) renderizar();
 
       /* ---------- Menu mobile ---------- */
       const menuToggle = document.getElementById('menuToggle');
