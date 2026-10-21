@@ -314,8 +314,23 @@ tbody td {
 }
 tbody tr:hover { background: rgba(255,255,255,0.02); }
 tbody tr:last-child td { border-bottom: none; }
-td.num, th.num { text-align: right; }
+td.num, th.num { text-align: right; white-space: nowrap; }
 td.acoes { text-align: right; white-space: nowrap; }
+
+/* Coluna de acoes fixa a direita - nunca some no scroll */
+th.acoes, td.acoes {
+  position: sticky;
+  right: 0;
+  z-index: 2;
+  background: var(--graphite);
+  box-shadow: -8px 0 12px -8px rgba(0, 0, 0, 0.7);
+}
+thead th.acoes {
+  background: #17171b;
+  z-index: 3;
+}
+tbody tr:hover td.acoes { background: #1c1c21; }
+tbody td.acoes { border-left: 1px solid rgba(255, 255, 255, 0.04); }
 
 .cell-veiculo { display: flex; align-items: center; gap: 12px; min-width: 220px; }
 .cell-veiculo img {
@@ -324,6 +339,18 @@ td.acoes { text-align: right; white-space: nowrap; }
 }
 .cell-veiculo strong { display: block; font-size: 13.5px; font-weight: 600; }
 .cell-veiculo span { font-size: 11.5px; color: var(--silver); }
+.cell-veiculo a strong { color: var(--white); transition: color var(--transition); }
+.cell-veiculo a:hover strong { color: var(--red); }
+
+/* Marca de destaque no nome do veiculo */
+.tag-destaque {
+  display: inline-block;
+  margin-left: 6px;
+  font-size: 9px; font-weight: 700; letter-spacing: 0.4px;
+  text-transform: uppercase;
+  color: var(--blue);
+  vertical-align: middle;
+}
 
 .badge {
   display: inline-flex; align-items: center; gap: 5px;
@@ -346,6 +373,59 @@ td.acoes { text-align: right; white-space: nowrap; }
 .link-action svg { width: 13px; height: 13px; fill: none; stroke: currentColor; stroke-width: 2; stroke-linecap: round; stroke-linejoin: round; }
 .link-action:hover { color: var(--white); background: rgba(255,255,255,0.06); }
 .link-action.perigo:hover { color: #f87171; background: rgba(239,68,68,0.1); }
+
+/* Seletor de status direto na tabela */
+.status-select {
+  padding: 5px 26px 5px 10px;
+  min-height: 28px;
+  background-color: var(--black);
+  border: 1px solid rgba(168, 173, 181, 0.14);
+  border-radius: 3px;
+  color: var(--silver);
+  font-family: var(--font-title);
+  font-size: 10.5px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.4px;
+  cursor: pointer;
+  appearance: none;
+  -webkit-appearance: none;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%23A8ADB5' stroke-width='2' stroke-linecap='round'%3E%3Cpath d='M6 9l6 6 6-6'/%3E%3C/svg%3E");
+  background-repeat: no-repeat;
+  background-position: right 8px center;
+  background-size: 12px;
+  transition: var(--transition);
+}
+.status-select:hover { border-color: var(--silver); color: var(--white); }
+.status-select:focus { outline: none; border-color: var(--blue); }
+.status-select[data-valor="disponivel"] { color: #4ade80; border-color: rgba(34, 197, 94, 0.3); }
+.status-select[data-valor="reservado"] { color: #fbbf24; border-color: rgba(245, 158, 11, 0.3); }
+.status-select[data-valor="vendido"] { color: #f87171; border-color: rgba(239, 68, 68, 0.35); background-color: rgba(239, 68, 68, 0.08); }
+.status-select option { background: var(--panel); color: var(--white); text-transform: none; }
+
+/* Botao de publicar */
+.btn-publish {
+  background: transparent;
+  border: 1px solid rgba(34, 197, 94, 0.4);
+  color: #4ade80;
+}
+.btn-publish:hover { background: rgba(34, 197, 94, 0.12); border-color: #4ade80; }
+
+/* Painel de aviso */
+.aviso-box {
+  display: flex;
+  align-items: flex-start;
+  gap: 10px;
+  padding: 12px 14px;
+  background: rgba(245, 158, 11, 0.08);
+  border: 1px solid rgba(245, 158, 11, 0.3);
+  border-radius: var(--radius);
+  font-size: 12.5px;
+  color: #fbbf24;
+  line-height: 1.6;
+}
+.aviso-box svg { width: 16px; height: 16px; flex-shrink: 0; margin-top: 2px; fill: none; stroke: currentColor; stroke-width: 2; stroke-linecap: round; }
+.aviso-box.ok { background: rgba(34, 197, 94, 0.08); border-color: rgba(34, 197, 94, 0.3); color: #4ade80; }
 
 .empty-state {
   padding: 56px 20px; text-align: center; color: var(--silver);

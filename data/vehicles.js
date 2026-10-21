@@ -25,7 +25,7 @@ window.SV_VEHICLES = [
     combustivel: 'Gasolina',
     preco: 149900,
     fotos: {
-      frente: 'images/placeholder-veiculo.svg',
+      frente: 'images/carros/1-frente.jpg',
       interior: 'images/placeholder-veiculo.svg',
       traseira: 'images/placeholder-veiculo.svg',
       extras: []
@@ -55,7 +55,7 @@ window.SV_VEHICLES = [
     combustivel: 'Gasolina',
     preco: 189900,
     fotos: {
-      frente: 'images/placeholder-veiculo.svg',
+      frente: 'images/carros/1-frente.jpg',
       interior: 'images/placeholder-veiculo.svg',
       traseira: 'images/placeholder-veiculo.svg',
       extras: []
@@ -85,7 +85,7 @@ window.SV_VEHICLES = [
     combustivel: 'Gasolina',
     preco: 159900,
     fotos: {
-      frente: 'images/placeholder-veiculo.svg',
+      frente: 'images/carros/1-frente.jpg',
       interior: 'images/placeholder-veiculo.svg',
     traseira: 'images/placeholder-veiculo.svg',
       extras: []
@@ -115,7 +115,7 @@ window.SV_VEHICLES = [
     combustivel: 'Gasolina',
     preco: 219900,
     fotos: {
-      frente: 'images/placeholder-veiculo.svg',
+      frente: 'images/carros/1-frente.jpg',
       interior: 'images/placeholder-veiculo.svg',
       traseira: 'images/placeholder-veiculo.svg',
       extras: []
@@ -145,7 +145,7 @@ window.SV_VEHICLES = [
     combustivel: 'Flex',
     preco: 119900,
     fotos: {
-      frente: 'images/placeholder-veiculo.svg',
+      frente: 'images/carros/1-frente.jpg',
       interior: 'images/placeholder-veiculo.svg',
       traseira: 'images/placeholder-veiculo.svg',
       extras: []
@@ -175,7 +175,7 @@ window.SV_VEHICLES = [
     combustivel: 'Gasolina',
     preco: 249900,
     fotos: {
-      frente: 'images/placeholder-veiculo.svg',
+      frente: 'images/carros/1-frente.jpg',
       interior: 'images/placeholder-veiculo.svg',
       traseira: 'images/placeholder-veiculo.svg',
       extras: []
@@ -205,7 +205,7 @@ window.SV_VEHICLES = [
     combustivel: 'Flex',
     preco: 89900,
     fotos: {
-      frente: 'images/placeholder-veiculo.svg',
+      frente: 'images/carros/1-frente.jpg',
       interior: 'images/placeholder-veiculo.svg',
       traseira: 'images/placeholder-veiculo.svg',
       extras: []
@@ -235,7 +235,7 @@ window.SV_VEHICLES = [
     combustivel: 'Flex',
     preco: 74900,
     fotos: {
-      frente: 'images/placeholder-veiculo.svg',
+      frente: 'images/carros/1-frente.jpg',
       interior: 'images/placeholder-veiculo.svg',
       traseira: 'images/placeholder-veiculo.svg',
       extras: []
@@ -264,7 +264,7 @@ window.SV_VEHICLES = [
     combustivel: 'Flex',
     preco: 199900,
     fotos: {
-      frente: 'images/placeholder-veiculo.svg',
+      frente: 'images/carros/1-frente.jpg',
       interior: 'images/placeholder-veiculo.svg',
       traseira: 'images/placeholder-veiculo.svg',
       extras: []

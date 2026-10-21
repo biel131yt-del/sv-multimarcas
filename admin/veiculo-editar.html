@@ -406,12 +406,34 @@
     const input = e.target.closest('input[data-slot]');
     if (!input || !input.files || !input.files[0]) return;
     const slot = input.getAttribute('data-slot');
+    const arquivo = input.files[0];
+    const idVeiculo = veiculo ? veiculo.id : (Math.max(0, ...VEICULOS.map(v => v.id)) + 1);
+    const nomeFinal = idVeiculo + '-' + slot + '-' + arquivo.name.replace(/[^\w.-]+/g, '-').toLowerCase();
+
     const reader = new FileReader();
-    reader.onload = ev => {
-      fotos[slot] = ev.target.result;
+    reader.onload = async ev => {
+      const dataUrl = ev.target.result;
+
+      // Tenta subir para o GitHub (dispara deploy automatico)
+      const resp = await fetch('/api/upload', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ nome: nomeFinal, dados: dataUrl })
+      });
+
+      if (resp.ok) {
+        const json = await resp.json();
+        fotos[slot] = json.caminho;
+        toast('Foto enviada. O site atualiza em instantes.');
+      } else {
+        // Sem token ou falha: mantem preview local e avisa
+        fotos[slot] = dataUrl;
+        const json = await resp.json().catch(() => ({}));
+        toast(json.dica || 'Foto mantida apenas neste navegador. Configure GITHUB_TOKEN para publicar.', true);
+      }
       renderSlots();
     };
-    reader.readAsDataURL(input.files[0]);
+    reader.readAsDataURL(arquivo);
   });
 
   document.getElementById('uploadExtras').addEventListener('change', e => {
@@ -561,7 +583,7 @@
   }
 
   /* ---------- Salvar ---------- */
-  $('#btnSalvar').addEventListener('click', () => {
+  $('#btnSalvar').addEventListener('click', async () => {
     const marca = $('#marca').value.trim();
     const modelo = $('#modelo').value.trim();
     if (!marca || !modelo) {
@@ -574,14 +596,38 @@
 
     if (veiculo) {
       Object.assign(veiculo, dados);
-      toast('Veículo atualizado com sucesso.');
     } else {
       VEICULOS.push(dados);
-      toast('Veículo cadastrado com sucesso.');
     }
 
-    // Em produção, este trecho vira um POST para o Supabase.
-    console.log('[SV] Veículo salvo:', dados);
+    // 1) Tenta publicar direto no GitHub (dispara deploy automatico)
+    let publicado = false;
+    try {
+      const resp = await fetch('/api/veiculos', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          veiculos: VEICULOS,
+          mensagem: (veiculo ? 'Atualiza' : 'Adiciona') + ' ' + dados.marca + ' ' + dados.modelo + ' no estoque'
+        })
+      });
+      const json = await resp.json().catch(() => ({}));
+      publicado = resp.ok;
+      if (publicado) {
+        toast('Veículo publicado. O site atualiza em instantes.');
+        return;
+      }
+      if (json.dica) {
+        toast(json.dica, true);
+        return;
+      }
+    } catch (err) {
+      console.warn('[SV] Falha ao publicar:', err.message);
+    }
+
+    // 2) Sem backend: orienta o fluxo manual
+    console.log('[SV] Veículo salvo localmente:', dados);
+    toast('Veículo salvo neste navegador. Use "Baixar vehicles.js" para publicar.', true);
   });
 
   /* ---------- Exportar vehicles.js ---------- */
