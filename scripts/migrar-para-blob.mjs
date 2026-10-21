@@ -96,6 +96,7 @@ for (const nome of arquivos) {
   const opcoes = {
     contentType: 'image/jpeg',
     addRandomSuffix: false,
+    allowOverwrite: true,
     cacheControlMaxAge: 31536000,
     token: tokenBlob
   };

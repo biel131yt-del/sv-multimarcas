@@ -34,6 +34,7 @@ export async function subirFoto(binario, nome, tipo) {
   const opcoes = {
     contentType: tipo || 'image/jpeg',
     addRandomSuffix: false,
+    allowOverwrite: true,   // reenviar foto do mesmo veiculo/angulo substitui
     cacheControlMaxAge: 31536000, // 1 ano (imagens nao mudam)
     token: process.env.BLOB_READ_WRITE_TOKEN
   };

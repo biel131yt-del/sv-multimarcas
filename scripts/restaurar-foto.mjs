@@ -46,6 +46,7 @@ const r = await put('carros/' + nome, bin, {
   access: 'private',
   contentType: 'image/jpeg',
   addRandomSuffix: false,
+  allowOverwrite: true,
   cacheControlMaxAge: 31536000,
   token: tokenBlob
 });

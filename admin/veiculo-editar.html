@@ -461,12 +461,11 @@
           toast('Atencao: a foto original tinha apenas ' + processada.origem.largura + 'px de largura. Para capa, o ideal e 1200px ou mais.', true);
         }
       } else {
-        fotos[slot] = 'images/placeholder-veiculo.svg';
-        toast(json.error || json.dica || 'Nao foi possivel enviar a foto.', true);
+        // Mantem a foto anterior: falhar no upload nao pode apagar o que ja estava
+        toast(json.error || json.dica || 'Nao foi possivel enviar a foto. A foto anterior foi mantida.', true);
       }
     } catch (err) {
-      fotos[slot] = 'images/placeholder-veiculo.svg';
-      toast(err.message || 'Nao foi possivel processar a imagem.', true);
+      toast(err.message || 'Nao foi possivel processar a imagem. A foto anterior foi mantida.', true);
     }
 
     input.value = '';
