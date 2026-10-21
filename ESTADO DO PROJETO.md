@@ -1,6 +1,6 @@
 # 📌 ESTADO DO PROJETO — ponto de continuação
 
-> **Última atualização:** 21/10/2026
+> **Última atualização:** 21/10/2026 (sessão 2 — pós-deploy)
 > **Este arquivo é o ponto de partida para retomar qualquer tarefa.**
 
 ---
@@ -19,6 +19,66 @@ presencialmente. Por isso o painel **não tem** ticket médio, faturamento, vend
 do mês, pipeline ou taxa de conversão — e **não deve ganhar** essas métricas,
 porque o site não tem como saber esses números. Todas as métricas existentes
 são reais e verificáveis.
+
+---
+
+## 🔐 Acesso ao painel (NOVO nesta sessão)
+
+O painel **agora exige senha**. Implementado com Routing Middleware da Vercel
+(sem dependências):
+
+| Arquivo | Função |
+|---|---|
+| `middleware.ts` | Intercepta `/admin/*` antes do cache. Valida o cookie `sv_admin` (HMAC SHA-256). Runtime Node.js. |
+| `api/login.js` | Confere a senha contra `ADMIN_PASSWORD` **no servidor** e assina o cookie. `POST /api/login` e `POST /api/logout`. |
+| `login.html` | Tela de acesso. Redireciona para `?next=` ao entrar. |
+
+**Variáveis de ambiente (já configuradas na Vercel, secret):**
+- `ADMIN_PASSWORD` — senha de acesso
+- `ADMIN_SECRET` — segredo da assinatura do cookie
+
+> ⚠️ A senha está no arquivo `%TEMP%\sv_admin_senha.txt` **neste PC**.
+> **Troque-a em produção** e salve no gerenciador de senhas.
+> Sem `ADMIN_PASSWORD`, o painel fica **bloqueado** (falha segura) e
+> `/admin` mostra "Painel nao configurado" (HTTP 503).
+
+**Cookie de sessão:** `sv_admin`, 12h, `HttpOnly` + `Secure` + `SameSite=Lax`.
+
+---
+
+## 🖼️ Otimização de imagens (NOVO nesta sessão)
+
+Todas as fotos foram convertidas para **WebP** com variantes responsivas:
+
+| Antes | Depois |
+|---|---|
+| `hero.jfif` 83KB | `hero.webp` 63KB + `-400/-800/-1200` |
+| `referencia1.jfif` 196KB | `referencia1.webp` 155KB + variantes |
+| `referencia2.jfif` 118KB | `referencia2.webp` 70KB + variantes |
+| `logo.png` 18KB | `logo.webp` 4KB (PNG mantido p/ favicon) |
+| **Total 431KB** | **295KB (-32%)** |
+
+O `srcset` está aplicado no hero (`index.html`) e na galeria (`veiculo.html`).
+`lib/ui.js` expõe `SV.srcset(src)`.
+
+**Para as fotos reais chegarem:**
+```bash
+cd scripts
+npm install
+node otimizar-imagens.mjs    # converte o que estiver em ../images/
+```
+
+> ⚠️ **NUNCA** editar os arquivos do site com `Set-Content` do PowerShell 5.1
+> (`-Encoding UTF8`): isso **corrompe acentos**. Use
+> `[System.IO.File]::ReadAllText/WriteAllText` com UTF8 explícito, ou a
+> ferramenta de edição. Já aconteceu e o git foi usado para reverter.
+
+---
+
+## 📄 Páginas legais (NOVO nesta sessão)
+
+- `404.html` — página de erro, detectada automaticamente pela Vercel
+- `privacidade.html` — Política de Privacidade LGPD, linkada no rodapé
 
 ---
 
@@ -50,8 +110,13 @@ são reais e verificáveis.
 
 ### Backend
 - `api/leads.js` — Vercel Function: `POST` cria contato, `GET` lista contatos
+- `api/login.js` — autenticação do painel (senha no servidor)
 - `api/package.json` — `{ "type": "module" }` (necessário p/ ESM na function)
 - Sem Supabase configurado = modo demo (valida e loga; o WhatsApp sempre abre)
+
+### Ferramentas
+- `scripts/otimizar-imagens.mjs` — converte para WebP + gera srcset
+- `scripts/testar-auth.mjs` — testa o fluxo de login localmente (sem deploy)
 
 ---
 
@@ -163,17 +228,16 @@ mediante iframe 375px para simular mobile.
 
 ## 🔲 Pendências (em ordem de prioridade)
 
-1. **Deploy automático** — autorizar a Vercel GitHub App (ver acima)
-2. **Autenticar o MCP** — `/mcps` no OpenCode → `vercel` → sign in
-3. **Fotos reais** dos 9 veículos → `images/carros/<id>-<angulo>.jpg`
-   (frente, interior, traseira). README da pasta explica o padrão
-4. **Autenticação do painel admin** — hoje está aberto (risco de segurança)
+1. **Deploy automático** — autorizar a Vercel GitHub App no repo (ver acima)
+2. **Trocar a senha do admin** e guardá-la em gerenciador de senhas
+3. **Autenticar o MCP** — `/mcps` no OpenCode → `vercel` → sign in
+4. **Fotos reais** dos 9 veículos → `images/carros/<id>-<angulo>.jpg`
+   (frente, interior, traseira) e rodar `scripts/otimizar-imagens.mjs`
 5. **Dados reais da loja** — endereço, CEP, CNPJ, link do Google Maps, e-mail
 6. **Supabase** — criar as tabelas `vehicles` e `leads` (SQL no `README.md`),
    configurar `SUPABASE_URL` e `SUPABASE_SERVICE_ROLE_KEY` na Vercel
-7. **LGPD** — política de privacidade e consentimento
-8. Páginas `404.html` e `privacidade.html`
-9. Domínio próprio (ex.: `svmultimarcas.com.br`)
+7. **Domínio próprio** (ex.: `svmultimarcas.com.br`)
+8. Termos de uso e política de cookies (o placeholder aponta para `#`)
 
 ---
 

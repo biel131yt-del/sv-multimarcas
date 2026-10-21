@@ -56,10 +56,20 @@ sv-multimarcas/
 │   └── vehicles.js          # ⭐ FONTE ÚNICA do estoque
 │
 ├── lib/
-│   └── ui.js                # Formatação, máscaras, validação, envio de contatos
+│   └── ui.js                # Formatação, máscaras, validação, envio de contatos, srcset
 │
 ├── api/
-│   └── leads.js             # Vercel Function: POST cria contato / GET lista contatos
+│   ├── leads.js             # Vercel Function: POST cria contato / GET lista contatos
+│   └── login.js             # Vercel Function: autenticação do painel admin
+│
+├── middleware.ts            # Protege /admin/* (Routing Middleware, runtime Node.js)
+├── login.html               # Tela de acesso ao painel
+├── 404.html                 # Página de erro
+├── privacidade.html         # Política de Privacidade (LGPD)
+│
+├── scripts/                 # Ferramentas de manutenção (não vão para o deploy)
+│   ├── otimizar-imagens.mjs # Converte fotos para WebP + gera srcset
+│   └── testar-auth.mjs      # Testa o fluxo de login localmente
 │
 ├── admin/                   # Painel para gerenciar o site (otimizado para desktop)
 │   ├── index.html           # Visão geral do que está no ar
@@ -71,8 +81,9 @@ sv-multimarcas/
 │   └── assets/admin.css     # Estilos do painel
 │
 ├── images/                  # Logo + fotos
-│   ├── logo.png             # Logo com fundo transparente
-│   ├── hero.jfif            # Foto do hero (primeira dobra)
+│   ├── logo.png             # Logo (PNG, para favicon)
+│   ├── logo.webp            # Logo (WebP, para exibição)
+│   ├── hero.webp            # Foto do hero + variantes -400/-800/-1200
 │   ├── placeholder-veiculo.svg  # Placeholder enquanto falta foto real
 │   └── carros/               # 📸 FOTOS REAIS DOS VEÍCULOS (veja o README da pasta)
 │
@@ -314,6 +325,48 @@ Layout: sidebar fixa 248px + conteúdo, sidebar vira barra horizontal no mobile.
 - ❌ Não substitui o sistema de vendas da revenda
 
 Ele **publica e organiza o site**. A negociação é feita pela equipe, fora do painel.
+
+---
+
+## 🔐 Acesso ao painel (protegido por senha)
+
+O painel **exige senha**. Implementado com **Vercel Routing Middleware**
+(`middleware.ts` na raiz, runtime Node.js) — sem dependências e sem build.
+
+```
+/admin/*  →  middleware valida o cookie de sessão
+             ├─ válido  → libera o painel
+             └─ ausente/inválido → redireciona para /login?next=...
+```
+
+| Arquivo | Função |
+|---|---|
+| `middleware.ts` | Intercepta `/admin/*` antes do cache e valida o cookie HMAC |
+| `api/login.js` | Confere a senha contra `ADMIN_PASSWORD` **no servidor** e assina o cookie |
+| `login.html` | Tela de acesso com redirecionamento ao destino original |
+
+**Variáveis de ambiente (Vercel → Settings → Environment Variables):**
+
+| Variável | Obrigatória | Descrição |
+|---|---|---|
+| `ADMIN_PASSWORD` | ✅ | Senha de acesso ao painel |
+| `ADMIN_SECRET` | ❌ | Segredo da assinatura (cai para `ADMIN_PASSWORD` se vazia) |
+
+```bash
+vercel env add ADMIN_PASSWORD production --value "sua-senha-forte" --sensitive
+vercel env add ADMIN_SECRET   production --value "$(openssl rand -base64 32)" --sensitive
+```
+
+**Segurança:**
+- A senha é conferida **no servidor** — nunca trafega de volta ao navegador
+- Cookie `sv_admin`: `HttpOnly` + `Secure` + `SameSite=Lax`, validade de 12h
+- Comparação em **tempo constante** (`timingSafeEqual`) contra ataque de timing
+- **Falha segura:** sem `ADMIN_PASSWORD`, o painel fica bloqueado (HTTP 503)
+- Delay de 600ms em senha errada, dificultando força bruta
+
+> ⚠️ O `robots.txt` bloqueia `/admin` e `/api` da indexação.
+> A senha do painel **não substitui** autenticação no nível de hospedagem —
+> se precisar de mais proteção, use Vercel Firewall ou Cloudflare Access.
 
 ---
 
