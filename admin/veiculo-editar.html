@@ -402,39 +402,52 @@
     ).join('') || '<p style="grid-column:1/-1; font-size:12px; color:var(--silver);">Nenhuma foto extra.</p>';
   }
 
-  document.getElementById('slotsFotos').addEventListener('change', e => {
+  document.getElementById('slotsFotos').addEventListener('change', async e => {
     const input = e.target.closest('input[data-slot]');
     if (!input || !input.files || !input.files[0]) return;
+
     const slot = input.getAttribute('data-slot');
     const arquivo = input.files[0];
     const idVeiculo = veiculo ? veiculo.id : (Math.max(0, ...VEICULOS.map(v => v.id)) + 1);
-    const nomeFinal = idVeiculo + '-' + slot + '-' + arquivo.name.replace(/[^\w.-]+/g, '-').toLowerCase();
 
-    const reader = new FileReader();
-    reader.onload = async ev => {
-      const dataUrl = ev.target.result;
+    const botao = input.closest('.preview-item');
+    const aviso = botao ? botao.querySelector('.enviando') : null;
 
-      // Tenta subir para o GitHub (dispara deploy automatico)
+    try {
+      // Redimensiona e converte no navegador (resolve HEIC e limite de payload)
+      const processada = await SV.comprimirImagem(arquivo, {
+        maxDimensao: 1600,
+        qualidade: 0.85
+      });
+
+      const ext = processada.tipo === 'image/png' ? 'png' : 'jpg';
+      const nomeFinal = `${idVeiculo}-${slot}.${ext}`;
+
       const resp = await fetch('/api/upload', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ nome: nomeFinal, dados: dataUrl })
+        body: JSON.stringify({ nome: nomeFinal, dados: processada.dataUrl })
       });
 
+      const json = await resp.json().catch(() => ({}));
+
       if (resp.ok) {
-        const json = await resp.json();
         fotos[slot] = json.caminho;
-        toast('Foto enviada. O site atualiza em instantes.');
+        const info = processada.redimiu
+          ? ` (${(arquivo.size / 1048576).toFixed(1)}MB -> ${(json.bytes / 1024).toFixed(0)}KB)`
+          : ` (${(json.bytes / 1024).toFixed(0)}KB)`;
+        toast('Foto enviada' + info + '. O site atualiza em instantes.');
       } else {
-        // Sem backend: NAO guarda o base64 no cadastro (inflaria o
-        // vehicles.js). Mantem o placeholder e orienta o caminho manual.
-        const json = await resp.json().catch(() => ({}));
         fotos[slot] = 'images/placeholder-veiculo.svg';
-        toast(json.dica || 'Foto nao enviada. Configure o banco (Neon) ou use "Baixar vehicles.js".', true);
+        toast(json.error || json.dica || 'Nao foi possivel enviar a foto.', true);
       }
-      renderSlots();
-    };
-    reader.readAsDataURL(arquivo);
+    } catch (err) {
+      fotos[slot] = 'images/placeholder-veiculo.svg';
+      toast(err.message || 'Nao foi possivel processar a imagem.', true);
+    }
+
+    input.value = '';
+    renderSlots();
   });
 
   document.getElementById('uploadExtras').addEventListener('change', e => {
