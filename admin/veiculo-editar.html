@@ -224,6 +224,18 @@
                   <strong style="color:var(--white);">traseira</strong> permitem ao cliente
                   se imaginar usando o carro antes de vir visitar.
                 </p>
+                <p style="font-size:12px; color:rgba(168,173,181,0.75); margin-bottom:18px; line-height:1.6;">
+                  <strong style="color:var(--silver);">Dica:</strong> use fotos com
+                  <strong style="color:var(--silver);">1200px ou mais</strong> de largura —
+                  abaixo disso a capa fica pixelada no celular. O sistema redimensiona
+                  e converte para WebP automaticamente (peso ~60% menor), então pode
+                  enviar a foto original do celular sem se preocupar.
+                </p>
+                <p style="font-size:12px; color:rgba(168,173,181,0.75); margin-bottom:18px; line-height:1.6;">
+                  <strong style="color:var(--silver);">iPhone (HEIC):</strong> o Safari
+                  converte automaticamente. Se o navegador nao aceitar o arquivo,
+                  salve a foto como JPEG na galeria antes de enviar.
+                </p>
 
                 <div id="slotsFotos" style="display:grid; grid-template-columns:repeat(3,1fr); gap:14px;"></div>
 
@@ -414,13 +426,14 @@
     const aviso = botao ? botao.querySelector('.enviando') : null;
 
     try {
-      // Redimensiona e converte no navegador (resolve HEIC e limite de payload)
+      // Redimensiona e converte no navegador (resolve HEIC, limite de payload
+      // e otimiza a foto para o site). Padrao: WebP; fallback JPEG.
       const processada = await SV.comprimirImagem(arquivo, {
         maxDimensao: 1600,
         qualidade: 0.85
       });
 
-      const ext = processada.tipo === 'image/png' ? 'png' : 'jpg';
+      const ext = processada.webp ? 'webp' : 'jpg';
       const nomeFinal = `${idVeiculo}-${slot}.${ext}`;
 
       const resp = await fetch('/api/upload', {
@@ -433,10 +446,20 @@
 
       if (resp.ok) {
         fotos[slot] = json.caminho;
-        const info = processada.redimiu
-          ? ` (${(arquivo.size / 1048576).toFixed(1)}MB -> ${(json.bytes / 1024).toFixed(0)}KB)`
-          : ` (${(json.bytes / 1024).toFixed(0)}KB)`;
-        toast('Foto enviada' + info + '. O site atualiza em instantes.');
+        const antes = (arquivo.size / 1024).toFixed(0);
+        const depois = (json.bytes / 1024).toFixed(0);
+        const detalhes = [];
+        if (processada.redimiu) {
+          detalhes.push(processada.origem.largura + 'x' + processada.origem.altura + ' -> ' + processada.largura + 'x' + processada.altura);
+        }
+        detalhes.push(processada.webp ? 'WebP' : 'JPEG');
+        detalhes.push(antes + 'KB -> ' + depois + 'KB');
+        toast('Foto enviada (' + detalhes.join(' · ') + '). O site atualiza em instantes.');
+
+        // Aviso se a foto original era pequena demais para capa
+        if (processada.origem.largura < 1200) {
+          toast('Atencao: a foto original tinha apenas ' + processada.origem.largura + 'px de largura. Para capa, o ideal e 1200px ou mais.', true);
+        }
       } else {
         fotos[slot] = 'images/placeholder-veiculo.svg';
         toast(json.error || json.dica || 'Nao foi possivel enviar a foto.', true);
