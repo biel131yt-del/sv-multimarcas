@@ -15,7 +15,7 @@
  * Sem token, o upload cai no fallback (GitHub).
  */
 
-import { put, getDownloadUrl, head } from '@vercel/blob';
+import { put, get, del } from '@vercel/blob';
 
 export function temBlob() {
   return !!(process.env.BLOB_READ_WRITE_TOKEN && process.env.BLOB_STORE_ID);
@@ -64,45 +64,31 @@ export async function subirFoto(binario, nome, tipo) {
 
 /**
  * Le um blob privado e devolve os metadados + o stream.
- *
- * Usa getDownloadUrl (URL assinada temporaria) + fetch, que e o
- * caminho suportado pelas versoes 0.x do @vercel/blob.
- *
  * @param {string} pathname  ex.: 'carros/1-frente.jpg'
  */
 export async function lerFoto(pathname) {
   if (!pathname) return null;
 
-  const opcoes = {
+  const resultado = await get(pathname, {
     access: 'private',
     token: process.env.BLOB_READ_WRITE_TOKEN
-  };
+  });
 
-  // Metadados
-  let meta = null;
-  try {
-    meta = await head(pathname, opcoes);
-  } catch { /* segue sem metadados */ }
-
-  // URL assinada temporaria
-  const url = await getDownloadUrl(pathname, opcoes);
-  const res = await fetch(url);
-  if (!res.ok) return null;
+  if (!resultado || resultado.statusCode !== 200) return null;
 
   return {
-    stream: res.body,
-    contentType: (meta && meta.contentType) || res.headers.get('content-type') || 'image/jpeg',
-    size: (meta && meta.size) || res.headers.get('content-length'),
-    etag: (meta && meta.etag) || res.headers.get('etag')
+    stream: resultado.stream,
+    contentType: resultado.blob.contentType || 'image/jpeg',
+    size: resultado.blob.size,
+    etag: resultado.blob.etag
   };
 }
 
 /**
- * Remove uma foto do Blob (por URL publica ou pathname).
+ * Remove uma foto do Blob (por pathname).
  */
-export async function removerFoto(url) {
-  if (!url) return false;
-  const { del } = await import('@vercel/blob');
-  await del(url, { token: process.env.BLOB_READ_WRITE_TOKEN });
+export async function removerFoto(pathname) {
+  if (!pathname) return false;
+  await del(pathname, { token: process.env.BLOB_READ_WRITE_TOKEN });
   return true;
 }
