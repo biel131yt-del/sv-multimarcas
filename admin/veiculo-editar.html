@@ -232,9 +232,9 @@
                   enviar a foto original do celular sem se preocupar.
                 </p>
                 <p style="font-size:12px; color:rgba(168,173,181,0.75); margin-bottom:18px; line-height:1.6;">
-                  <strong style="color:var(--silver);">iPhone (HEIC):</strong> o Safari
-                  converte automaticamente. Se o navegador nao aceitar o arquivo,
-                  salve a foto como JPEG na galeria antes de enviar.
+                  <strong style="color:var(--silver);">Foto de iPhone:</strong> abra este
+                  painel pelo Safari. Se nao aceitar a foto, salve ela como JPEG na
+                  galeria e envie de novo.
                 </p>
 
                 <div id="slotsFotos" style="display:grid; grid-template-columns:repeat(3,1fr); gap:14px;"></div>
@@ -657,8 +657,7 @@
       if (json.dica) {
         toast(json.dica, true);
         return;
-      }
-    } catch (err) {
+      }    } catch (err) {
       console.warn('[SV] Falha ao publicar:', err.message);
     }
 

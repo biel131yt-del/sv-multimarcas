@@ -27,8 +27,8 @@ export default async function handler(req, res) {
   }
 
   if (!temBlob() && !temToken()) {
-    return erro(res, 503, 'Upload desabilitado: configure o Vercel Blob ou o GITHUB_TOKEN.', {
-      dica: 'Sem backend, use "Baixar vehicles.js" e envie as fotos em images/carros/.'
+    return erro(res, 503, 'O envio de fotos nao esta disponivel no momento.', {
+      dica: 'Fale com o responsavel pelo site para habilitar o envio de fotos.'
     });
   }
 

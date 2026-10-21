@@ -175,7 +175,7 @@ export default async function handler(req, res) {
   }
 
   /* --- Sem backend: orienta o fluxo manual --- */
-  return erro(res, 503, 'Publicacao automatica desabilitada.', {
-    dica: 'Configure DATABASE_URL (Neon) ou GITHUB_TOKEN. Sem eles, baixe o vehicles.js e substitua em data/vehicles.js.'
+  return erro(res, 503, 'A publicacao automatica nao esta disponivel no momento.', {
+    dica: 'Fale com o responsavel pelo site para habilitar a publicacao automatica.'
   });
 }
