@@ -31,7 +31,7 @@ window.SV_VEHICLES = [
     },
     "destaque": true,
     "status": "disponivel",
-    "atualizado_em": "2026-10-21T19:56:53.319Z",
+    "atualizado_em": "2026-10-21T19:57:09.718Z",
     "descricao": "Hatch médio premium em excelente estado de conservação. Revisado e com laudo aprovado.",
     "portas": 4,
     "cor": "Preto",
