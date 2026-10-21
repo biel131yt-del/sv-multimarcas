@@ -1,0 +1,288 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Configurações — Painel Admin SV Multimarcas</title>
+  <meta name="theme-color" content="#0B0B0D">
+  <link rel="icon" href="../images/logo.png">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Montserrat:wght@600;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="assets/admin.css">
+</head>
+<body>
+
+<div class="admin">
+
+  <aside class="sidebar">
+    <div class="sidebar-logo">
+      <img src="../images/logo.png" alt="SV Multimarcas">
+      <span>Painel do Site</span>
+    </div>
+    <nav class="sidebar-nav">
+      <ul>
+        <li><a href="index.html">
+          <svg viewBox="0 0 24 24"><rect x="3" y="3" width="7" height="9"/><rect x="14" y="3" width="7" height="5"/><rect x="14" y="12" width="7" height="9"/><rect x="3" y="16" width="7" height="5"/></svg>
+          Visão geral
+        </a></li>
+        <li><a href="veiculos.html">
+          <svg viewBox="0 0 24 24"><path d="M5 17h14"/><circle cx="7.5" cy="17.5" r="1.5"/><circle cx="16.5" cy="17.5" r="1.5"/><path d="M3 17v-4.2a2 2 0 0 1 .2-.9L5 6h14l1.8 5.9a2 2 0 0 1 .2.9V17"/><path d="M3.5 12h17"/></svg>
+          Estoque publicado <span class="badge-count" id="countVeiculos">0</span>
+        </a></li>
+        <li><a href="conteudo.html">
+          <svg viewBox="0 0 24 24"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/></svg>
+          Conteúdo do site
+        </a></li>
+        <li><a href="leads.html">
+          <svg viewBox="0 0 24 24"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg>
+          Contatos recebidos <span class="badge-count">0</span>
+        </a></li>
+        <li><a href="configuracoes.html" class="active">
+          <svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1-2.83 2.83l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-4 0v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83-2.83l.06-.06A1.65 1.65 0 0 0 4.6 15a1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1 0-4h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 2.83-2.83l.06.06A1.65 1.65 0 0 0 9 4.6a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 4 0v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 2.83l-.06.06A1.65 1.65 0 0 0 19.4 9v0a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 0 4h-.09a1.65 1.65 0 0 0-1.51 1z"/></svg>
+          Configurações
+        </a></li>
+      </ul>
+    </nav>
+    <hr class="sidebar-divider">
+    <nav class="sidebar-nav">
+      <ul>
+        <li><a href="../index.html" target="_blank">
+          <svg viewBox="0 0 24 24"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"/><polyline points="15 3 21 3 21 9"/><line x1="10" y1="14" x2="21" y2="3"/></svg>
+          Ver site
+        </a></li>
+      </ul>
+    </nav>
+    <div class="sidebar-foot">SV Multimarcas<br>Painel v1.0</div>
+  </aside>
+
+  <div class="main">
+    <header class="topbar">
+      <div class="topbar-left">
+        <div>
+          <h1>Configurações da loja</h1>
+          <div class="topbar-sub">Dados exibidos no site e nos contatos</div>
+        </div>
+      </div>
+      <div class="topbar-right">
+        <button class="btn btn-primary" id="btnSalvarConfig">
+          <svg viewBox="0 0 24 24"><path d="M19 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11l5 5v11a2 2 0 0 1-2 2z"/><polyline points="17 21 17 13 7 13 7 21"/><polyline points="7 3 7 8 15 8"/></svg>
+          Salvar
+        </button>
+        <div class="user-chip"><span class="avatar">AD</span>Administrador</div>
+      </div>
+    </header>
+
+    <div class="content">
+      <div class="grid-2" style="grid-template-columns: 1fr 340px; align-items:start;">
+
+        <div>
+          <div class="form-section">
+            <div class="form-section-head">
+              <h3>Dados de contato</h3>
+              <span class="sub">Aparecem no rodapé e na seção Contato</span>
+            </div>
+            <div class="form-section-body">
+              <div class="form-grid">
+                <div class="field">
+                  <label for="whatsapp">WhatsApp (com DDI)</label>
+                  <input type="text" id="whatsapp" placeholder="5511999999999">
+                  <span class="hint">Formato internacional, só números. Ex: 5511999999999</span>
+                </div>
+                <div class="field">
+                  <label for="telefone">Telefone / WhatsApp (exibido)</label>
+                  <input type="text" id="telefone" placeholder="11999754932">
+                </div>
+                <div class="field">
+                  <label for="telefone2">Segundo telefone</label>
+                  <input type="text" id="telefone2" placeholder="1136512783">
+                </div>
+                <div class="field">
+                  <label for="email">E-mail</label>
+                  <input type="email" id="email" placeholder="contato@svmultimarcas.com.br">
+                </div>
+                <div class="field">
+                  <label for="instagram">Instagram</label>
+                  <input type="url" id="instagram" placeholder="https://instagram.com/...">
+                </div>
+                <div class="field">
+                  <label for="facebook">Facebook</label>
+                  <input type="url" id="facebook" placeholder="https://facebook.com/...">
+                </div>
+                <div class="field full">
+                  <label for="googleMaps">Google Maps</label>
+                  <input type="url" id="googleMaps" placeholder="https://maps.app.goo.gl/...">
+                  <span class="hint">Link curto do Google Maps da loja — melhora o SEO local.</span>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div class="form-section">
+            <div class="form-section-head">
+              <h3>Endereço e horário</h3>
+            </div>
+            <div class="form-section-body">
+              <div class="form-grid">
+                <div class="field full">
+                  <label for="logradouro">Endereço</label>
+                  <input type="text" id="logradouro" placeholder="Av. dos Automobilistas, nº 000">
+                </div>
+                <div class="field">
+                  <label for="cidade">Cidade</label>
+                  <input type="text" id="cidade" placeholder="São Paulo">
+                </div>
+                <div class="field">
+                  <label for="uf">UF</label>
+                  <input type="text" id="uf" placeholder="SP" maxlength="2">
+                </div>
+                <div class="field">
+                  <label for="cep">CEP</label>
+                  <input type="text" id="cep" placeholder="00000-000">
+                </div>
+                <div class="field">
+                  <label for="cnpj">CNPJ</label>
+                  <input type="text" id="cnpj" placeholder="00.000.000/0001-00">
+                  <span class="hint">Obrigatório para SEO local e confiança.</span>
+                </div>
+                <div class="field full">
+                  <label for="horarioSemana">Horário — Segunda a sexta</label>
+                  <input type="text" id="horarioSemana" placeholder="Segunda a sexta: 9h às 18h">
+                </div>
+                <div class="field full">
+                  <label for="horarioSabado">Horário — Sábado</label>
+                  <input type="text" id="horarioSabado" placeholder="Sábado: 9h às 14h">
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div class="form-section">
+            <div class="form-section-head">
+              <h3>Identidade</h3>
+            </div>
+            <div class="form-section-body">
+              <div class="form-grid">
+                <div class="field full">
+                  <label for="slogan">Slogan</label>
+                  <input type="text" id="slogan" placeholder="Seu próximo carro está aqui.">
+                </div>
+                <div class="field full">
+                  <label for="descricao">Descrição da loja (SEO)</label>
+                  <textarea id="descricao" rows="3" placeholder="Resumo usado nos metadados e na descrição do site"></textarea>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <aside>
+          <div class="panel">
+            <div class="panel-head"><h2>Conexão com banco de dados</h2></div>
+            <div class="panel-body">
+              <div class="field" style="margin-bottom:14px;">
+                <label for="supabaseUrl">SUPABASE_URL</label>
+                <input type="text" id="supabaseUrl" placeholder="https://xxxx.supabase.co">
+              </div>
+              <div class="field" style="margin-bottom:14px;">
+                <label for="supabaseKey">SUPABASE_ANON_KEY</label>
+                <input type="password" id="supabaseKey" placeholder="eyJhbGciOi...">
+              </div>
+              <div class="field">
+                <label for="endpoint">Endpoint de leads</label>
+                <input type="text" id="endpoint" placeholder="/api/leads">
+              </div>
+              <p style="font-size:11.5px; color:var(--silver); line-height:1.6; margin-top:14px;">
+                Sem credenciais, o site funciona em modo demonstração: os leads são
+                registrados apenas no log do servidor e o contato chega pelo WhatsApp.
+                Para persistir de verdade, configure as variáveis de ambiente na Vercel.
+              </p>
+            </div>
+          </div>
+
+          <div class="panel" style="margin-top:16px;">
+            <div class="panel-head"><h2>Onde alterar</h2></div>
+            <div class="panel-body">
+              <p style="font-size:12.5px; color:var(--silver); line-height:1.7;">
+                Estes valores são gravados em
+                <code style="color:var(--white); background:rgba(255,255,255,0.07); padding:1px 5px; border-radius:3px;">data/config.js</code>
+                e aplicados em todo o site automaticamente.
+              </p>
+            </div>
+          </div>
+        </aside>
+
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="toast" id="toast"><svg viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"/></svg><span id="toastMsg">Salvo</span></div>
+
+<script src="../data/config.js"></script>
+<script src="../data/vehicles.js"></script>
+<script>
+(function () {
+  'use strict';
+
+  const CFG = window.SV_CONFIG || {};
+  const $ = s => document.querySelector(s);
+  const VEICULOS = window.SV_VEHICLES || [];
+  document.getElementById('countVeiculos').textContent = VEICULOS.length;
+
+  // Preenche
+  $('#whatsapp').value = CFG.whatsapp || '';
+  $('#telefone').value = CFG.telefone || '';
+  $('#telefone2').value = CFG.telefone2 || '';
+  $('#email').value = CFG.email || '';
+  $('#instagram').value = CFG.instagram || '';
+  $('#facebook').value = CFG.facebook || '';
+  $('#googleMaps').value = CFG.googleMaps || '';
+  $('#logradouro').value = (CFG.endereco && CFG.endereco.logradouro) || '';
+  $('#cidade').value = (CFG.endereco && CFG.endereco.cidade) || '';
+  $('#uf').value = (CFG.endereco && CFG.endereco.uf) || '';
+  $('#cep').value = (CFG.endereco && CFG.endereco.cep) || '';
+  $('#horarioSemana').value = (CFG.horario && CFG.horario.semana) || '';
+  $('#horarioSabado').value = (CFG.horario && CFG.horario.sabado) || '';
+  $('#slogan').value = CFG.slogan || '';
+  $('#supabaseUrl').value = CFG.supabaseUrl || '';
+  $('#supabaseKey').value = CFG.supabaseAnonKey || '';
+  $('#endpoint').value = CFG.endpointLeads || '/api/leads';
+
+  $('#btnSalvarConfig').addEventListener('click', () => {
+    const novos = {
+      whatsapp: $('#whatsapp').value.trim(),
+      telefone: $('#telefone').value.trim(),
+      telefone2: $('#telefone2').value.trim(),
+      email: $('#email').value.trim(),
+      instagram: $('#instagram').value.trim(),
+      facebook: $('#facebook').value.trim(),
+      googleMaps: $('#googleMaps').value.trim(),
+      endereco: {
+        logradouro: $('#logradouro').value.trim(),
+        cidade: $('#cidade').value.trim(),
+        uf: $('#uf').value.trim().toUpperCase(),
+        cep: $('#cep').value.trim()
+      },
+      horario: {
+        semana: $('#horarioSemana').value.trim(),
+        sabado: $('#horarioSabado').value.trim()
+      },
+      slogan: $('#slogan').value.trim(),
+      supabaseUrl: $('#supabaseUrl').value.trim(),
+      supabaseAnonKey: $('#supabaseKey').value.trim(),
+      endpointLeads: $('#endpoint').value.trim() || '/api/leads'
+    };
+
+    Object.assign(CFG, novos);
+    console.log('[SV] Configurações salvas:', novos);
+
+    const t = $('#toast');
+    $('#toastMsg').textContent = 'Configurações salvas em data/config.js';
+    t.classList.add('visivel');
+    setTimeout(() => t.classList.remove('visivel'), 3200);
+  });
+})();
+</script>
+</body>
+</html>

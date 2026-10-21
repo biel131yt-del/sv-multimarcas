@@ -1,0 +1,519 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Conteúdo do site — Painel Admin SV Multimarcas</title>
+  <meta name="theme-color" content="#0B0B0D">
+  <link rel="icon" href="../images/logo.png">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Montserrat:wght@600;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="assets/admin.css">
+</head>
+<body>
+
+<div class="admin">
+
+  <aside class="sidebar">
+    <div class="sidebar-logo">
+      <img src="../images/logo.png" alt="SV Multimarcas">
+      <span>Painel do Site</span>
+    </div>
+    <nav class="sidebar-nav">
+      <ul>
+        <li><a href="index.html">
+          <svg viewBox="0 0 24 24"><rect x="3" y="3" width="7" height="9"/><rect x="14" y="3" width="7" height="5"/><rect x="14" y="12" width="7" height="9"/><rect x="3" y="16" width="7" height="5"/></svg>
+          Visão geral
+        </a></li>
+        <li><a href="veiculos.html">
+          <svg viewBox="0 0 24 24"><path d="M5 17h14"/><circle cx="7.5" cy="17.5" r="1.5"/><circle cx="16.5" cy="17.5" r="1.5"/><path d="M3 17v-4.2a2 2 0 0 1 .2-.9L5 6h14l1.8 5.9a2 2 0 0 1 .2.9V17"/><path d="M3.5 12h17"/></svg>
+          Estoque publicado <span class="badge-count" id="countVeiculos">0</span>
+        </a></li>
+        <li><a href="conteudo.html" class="active">
+          <svg viewBox="0 0 24 24"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/></svg>
+          Conteúdo do site
+        </a></li>
+        <li><a href="leads.html">
+          <svg viewBox="0 0 24 24"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg>
+          Contatos recebidos <span class="badge-count" id="countLeads">0</span>
+        </a></li>
+        <li><a href="configuracoes.html">
+          <svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1-2.83 2.83l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-4 0v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83-2.83l.06-.06A1.65 1.65 0 0 0 4.6 15a1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1 0-4h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 2.83-2.83l.06.06A1.65 1.65 0 0 0 9 4.6a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 4 0v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 2.83l-.06.06A1.65 1.65 0 0 0 19.4 9v0a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 0 4h-.09a1.65 1.65 0 0 0-1.51 1z"/></svg>
+          Configurações
+        </a></li>
+      </ul>
+    </nav>
+    <hr class="sidebar-divider">
+    <nav class="sidebar-nav">
+      <ul>
+        <li><a href="../index.html" target="_blank">
+          <svg viewBox="0 0 24 24"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"/><polyline points="15 3 21 3 21 9"/><line x1="10" y1="14" x2="21" y2="3"/></svg>
+          Ver site publicado
+        </a></li>
+      </ul>
+    </nav>
+    <div class="sidebar-foot">SV Multimarcas<br>Painel do site v1.0</div>
+  </aside>
+
+  <div class="main">
+    <header class="topbar">
+      <div class="topbar-left">
+        <div>
+          <h1>Conteúdo do site</h1>
+          <div class="topbar-sub">Textos que aparecem nas seções da página inicial</div>
+        </div>
+      </div>
+      <div class="topbar-right">
+        <button class="btn btn-secondary" id="btnRestaurar">
+          <svg viewBox="0 0 24 24"><polyline points="23 4 23 10 17 10"/><polyline points="1 20 1 14 7 14"/><path d="M3.51 9a9 9 0 0 1 14.85-3.36L23 10M1 14l4.64 4.36A9 9 0 0 0 20.49 15"/></svg>
+          Restaurar
+        </button>
+        <button class="btn btn-secondary" id="btnExportar">
+          <svg viewBox="0 0 24 24"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
+          Baixar arquivo
+        </button>
+        <button class="btn btn-primary" id="btnSalvar">
+          <svg viewBox="0 0 24 24"><path d="M19 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11l5 5v11a2 2 0 0 1-2 2z"/><polyline points="17 21 17 13 7 13 7 21"/><polyline points="7 3 7 8 15 8"/></svg>
+          Salvar
+        </button>
+        <div class="user-chip"><span class="avatar">AD</span>Administrador</div>
+      </div>
+    </header>
+
+    <div class="content">
+      <div style="display:grid; grid-template-columns: 1fr 380px; gap:20px; align-items:start;">
+
+        <!-- Editor -->
+        <div>
+          <div class="form-section">
+            <div class="form-section-head">
+              <h3>Primeira dobra (Hero)</h3>
+              <span class="sub">A primeira coisa que o visitante vê</span>
+            </div>
+            <div class="form-section-body">
+              <div class="form-grid">
+                <div class="field full">
+                  <label for="heroH1">Título principal</label>
+                  <input type="text" id="heroH1">
+                  <span class="hint">Frase de impacto. Aparece grande na tela.</span>
+                </div>
+                <div class="field full">
+                  <label for="heroSub">Subtítulo</label>
+                  <textarea id="heroSub" rows="2"></textarea>
+                </div>
+                <div class="field">
+                  <label for="heroCta1">Botão principal</label>
+                  <input type="text" id="heroCta1">
+                </div>
+                <div class="field">
+                  <label for="heroCta2">Botão secundário</label>
+                  <input type="text" id="heroCta2">
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div class="form-section">
+            <div class="form-section-head">
+              <h3>Estoque</h3>
+              <span class="sub">Cabeçalho da lista de veículos</span>
+            </div>
+            <div class="form-section-body">
+              <div class="form-grid">
+                <div class="field">
+                  <label for="estoqueH2">Título</label>
+                  <input type="text" id="estoqueH2">
+                </div>
+                <div class="field">
+                  <label for="estoqueCta">Texto do botão</label>
+                  <input type="text" id="estoqueCta">
+                </div>
+                <div class="field full">
+                  <label for="estoqueSub">Subtítulo</label>
+                  <textarea id="estoqueSub" rows="2"></textarea>
+                </div>
+                <div class="field full">
+                  <label for="estoqueAviso">Aviso abaixo do contador</label>
+                  <input type="text" id="estoqueAviso">
+                  <span class="hint">Reforça que o estoque é atualizado e que o preço precisa ser confirmado.</span>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div class="form-section">
+            <div class="form-section-head">
+              <h3>Serviços</h3>
+              <span class="sub">Compra, venda, troca e financiamento</span>
+            </div>
+            <div class="form-section-body">
+              <div class="form-grid">
+                <div class="field">
+                  <label for="servicosH2">Título</label>
+                  <input type="text" id="servicosH2">
+                </div>
+                <div class="field">
+                  <label for="servicosSub">Subtítulo</label>
+                  <input type="text" id="servicosSub">
+                </div>
+              </div>
+              <div style="margin-top:20px; border-top:1px solid rgba(255,255,255,0.06); padding-top:20px;">
+                <div class="form-grid">
+                  <div class="field">
+                    <label>Compra — título</label>
+                    <input type="text" data-c="servicos.itens.compra.titulo">
+                  </div>
+                  <div class="field">
+                    <label>Compra — botão</label>
+                    <input type="text" data-c="servicos.itens.compra.cta">
+                  </div>
+                  <div class="field full">
+                    <label>Compra — descrição</label>
+                    <input type="text" data-c="servicos.itens.compra.descricao">
+                  </div>
+
+                  <div class="field">
+                    <label>Venda — título</label>
+                    <input type="text" data-c="servicos.itens.venda.titulo">
+                  </div>
+                  <div class="field">
+                    <label>Venda — botão</label>
+                    <input type="text" data-c="servicos.itens.venda.cta">
+                  </div>
+                  <div class="field full">
+                    <label>Venda — descrição</label>
+                    <input type="text" data-c="servicos.itens.venda.descricao">
+                  </div>
+
+                  <div class="field">
+                    <label>Troca — título</label>
+                    <input type="text" data-c="servicos.itens.troca.titulo">
+                  </div>
+                  <div class="field">
+                    <label>Troca — botão</label>
+                    <input type="text" data-c="servicos.itens.troca.cta">
+                  </div>
+                  <div class="field full">
+                    <label>Troca — descrição</label>
+                    <input type="text" data-c="servicos.itens.troca.descricao">
+                  </div>
+
+                  <div class="field">
+                    <label>Financiamento — título</label>
+                    <input type="text" data-c="servicos.itens.financiamento.titulo">
+                  </div>
+                  <div class="field">
+                    <label>Financiamento — botão</label>
+                    <input type="text" data-c="servicos.itens.financiamento.cta">
+                  </div>
+                  <div class="field full">
+                    <label>Financiamento — descrição</label>
+                    <input type="text" data-c="servicos.itens.financiamento.descricao">
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div class="form-section">
+            <div class="form-section-head">
+              <h3>Por que escolher a SV Multimarcas</h3>
+              <span class="sub">Argumentos de credibilidade</span>
+            </div>
+            <div class="form-section-body">
+              <div class="form-grid">
+                <div class="field">
+                  <label for="confiancaH2">Título</label>
+                  <input type="text" id="confiancaH2">
+                </div>
+                <div class="field">
+                  <label for="confiancaSub">Subtítulo</label>
+                  <input type="text" id="confiancaSub">
+                </div>
+                <div class="field">
+                  <label>Atendimento — título</label>
+                  <input type="text" data-c="confianca.itens.atendimento.titulo">
+                </div>
+                <div class="field">
+                  <label>Atendimento — descrição</label>
+                  <input type="text" data-c="confianca.itens.atendimento.descricao">
+                </div>
+                <div class="field">
+                  <label>Transparência — título</label>
+                  <input type="text" data-c="confianca.itens.transparencia.titulo">
+                </div>
+                <div class="field">
+                  <label>Transparência — descrição</label>
+                  <input type="text" data-c="confianca.itens.transparencia.descricao">
+                </div>
+                <div class="field">
+                  <label>Negociação — título</label>
+                  <input type="text" data-c="confianca.itens.negociacao.titulo">
+                </div>
+                <div class="field">
+                  <label>Negociação — descrição</label>
+                  <input type="text" data-c="confianca.itens.negociacao.descricao">
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div class="form-section">
+            <div class="form-section-head">
+              <h3>Formulários e contato</h3>
+              <span class="sub">Venda, troca, financiamento e rodapé</span>
+            </div>
+            <div class="form-section-body">
+              <div class="form-grid">
+                <div class="field">
+                  <label for="vendaH2">Venda — título</label>
+                  <input type="text" id="vendaH2">
+                </div>
+                <div class="field">
+                  <label for="vendaSub">Venda — subtítulo</label>
+                  <input type="text" id="vendaSub">
+                </div>
+                <div class="field">
+                  <label for="financiamentoH2">Financiamento — título</label>
+                  <input type="text" id="financiamentoH2">
+                </div>
+                <div class="field">
+                  <label for="financiamentoSub">Financiamento — subtítulo</label>
+                  <input type="text" id="financiamentoSub">
+                </div>
+                <div class="field">
+                  <label for="contatoH2">Contato — título</label>
+                  <input type="text" id="contatoH2">
+                </div>
+                <div class="field">
+                  <label for="contatoSub">Contato — subtítulo</label>
+                  <input type="text" id="contatoSub">
+                </div>
+                <div class="field full">
+                  <label for="rodapeCtaH2">Rodapé — chamada final (título)</label>
+                  <input type="text" id="rodapeCtaH2">
+                </div>
+                <div class="field full">
+                  <label for="rodapeCtaTexto">Rodapé — chamada final (texto)</label>
+                  <textarea id="rodapeCtaTexto" rows="2"></textarea>
+                </div>
+                <div class="field full">
+                  <label for="rodapeDescricao">Rodapé — descrição da loja</label>
+                  <textarea id="rodapeDescricao" rows="2"></textarea>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div class="form-section">
+            <div class="form-section-head">
+              <h3>SEO</h3>
+              <span class="sub">Como o site aparece no Google e ao compartilhar</span>
+            </div>
+            <div class="form-section-body">
+              <div class="form-grid">
+                <div class="field full">
+                  <label for="metaTitle">Título da página</label>
+                  <input type="text" id="metaTitle">
+                  <span class="hint" id="contadorTitle">0 caracteres</span>
+                </div>
+                <div class="field full">
+                  <label for="metaDescription">Descrição</label>
+                  <textarea id="metaDescription" rows="2"></textarea>
+                  <span class="hint" id="contadorDesc">0 caracteres</span>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Preview -->
+        <aside class="preview-pane">
+          <div class="panel">
+            <div class="panel-head">
+              <h2>Pré-visualização</h2>
+              <span class="sub" id="previewStatus">em tempo real</span>
+            </div>
+            <div class="panel-body">
+              <div style="border:1px solid rgba(255,255,255,0.08); border-radius:4px; overflow:hidden; background:var(--black);">
+                <div style="padding:28px 18px; text-align:center; background:linear-gradient(180deg, rgba(22,79,229,0.12), transparent);">
+                  <div id="pvHeroH1" style="font-family:Montserrat,sans-serif; font-weight:800; font-size:19px; color:#fff; line-height:1.2; margin-bottom:10px;"></div>
+                  <div id="pvHeroSub" style="font-size:12.5px; color:var(--silver); line-height:1.5; margin-bottom:16px;"></div>
+                  <div style="display:flex; gap:6px; justify-content:center;">
+                    <span id="pvCta1" style="background:var(--red); color:#fff; padding:7px 12px; font-size:10px; font-weight:700; text-transform:uppercase;"></span>
+                    <span id="pvCta2" style="border:1px solid #fff; color:#fff; padding:7px 12px; font-size:10px; font-weight:700; text-transform:uppercase;"></span>
+                  </div>
+                </div>
+                <div style="padding:16px 18px; border-top:1px solid rgba(255,255,255,0.06);">
+                  <div id="pvEstoqueH2" style="font-family:Montserrat,sans-serif; font-weight:800; font-size:14px; color:#fff; margin-bottom:5px;"></div>
+                  <div id="pvEstoqueSub" style="font-size:11.5px; color:var(--silver); line-height:1.5;"></div>
+                </div>
+                <div style="padding:16px 18px; border-top:1px solid rgba(255,255,255,0.06);">
+                  <div id="pvServicosH2" style="font-family:Montserrat,sans-serif; font-weight:800; font-size:14px; color:#fff; margin-bottom:5px;"></div>
+                  <div id="pvServicosSub" style="font-size:11.5px; color:var(--silver); line-height:1.5;"></div>
+                </div>
+                <div style="padding:16px 18px; border-top:1px solid rgba(255,255,255,0.06);">
+                  <div id="pvConfiancaH2" style="font-family:Montserrat,sans-serif; font-weight:800; font-size:14px; color:#fff; margin-bottom:5px;"></div>
+                  <div id="pvConfiancaSub" style="font-size:11.5px; color:var(--silver); line-height:1.5;"></div>
+                </div>
+              </div>
+
+              <div style="margin-top:16px; padding:12px 14px; background:rgba(22,79,229,0.07); border:1px solid rgba(22,79,229,0.25); border-radius:4px;">
+                <p style="font-size:11.5px; color:var(--silver); line-height:1.6;">
+                  As alterações ficam salvas em <code style="color:#fff;">data/content.js</code> e
+                  passam a valer assim que o site for recarregado.
+                </p>
+              </div>
+            </div>
+          </div>
+        </aside>
+
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="toast" id="toast"><svg viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"/></svg><span id="toastMsg">Salvo</span></div>
+
+<script src="../data/content.js"></script>
+<script src="../data/vehicles.js"></script>
+<script>
+(function () {
+  'use strict';
+
+  const CONTEUDO = window.SV_CONTENT || {};
+  const VEICULOS = window.SV_VEHICLES || [];
+  const $ = s => document.querySelector(s);
+
+  document.getElementById('countVeiculos').textContent = VEICULOS.length;
+
+  /* ---------- Preenche os campos ---------- */
+  const ids = [
+    ['heroH1', 'hero.h1'], ['heroSub', 'hero.subtitulo'],
+    ['heroCta1', 'hero.ctaPrincipal'], ['heroCta2', 'hero.ctaSecundario'],
+    ['estoqueH2', 'estoque.h2'], ['estoqueSub', 'estoque.subtitulo'],
+    ['estoqueAviso', 'estoque.aviso'], ['estoqueCta', 'estoque.textoBotao'],
+    ['servicosH2', 'servicos.h2'], ['servicosSub', 'servicos.subtitulo'],
+    ['confiancaH2', 'confianca.h2'], ['confiancaSub', 'confianca.subtitulo'],
+    ['vendaH2', 'venda.h2'], ['vendaSub', 'venda.subtitulo'],
+    ['financiamentoH2', 'financiamento.h2'], ['financiamentoSub', 'financiamento.subtitulo'],
+    ['contatoH2', 'contato.h2'], ['contatoSub', 'contato.subtitulo'],
+    ['rodapeCtaH2', 'rodape.ctaH2'], ['rodapeCtaTexto', 'rodape.ctaTexto'],
+    ['rodapeDescricao', 'rodape.descricao'],
+    ['metaTitle', 'meta.title'], ['metaDescription', 'meta.description']
+  ];
+
+  function get(path) {
+    return path.split('.').reduce((o, k) => (o == null ? o : o[k]), CONTEUDO);
+  }
+
+  ids.forEach(([id, path]) => {
+    const el = document.getElementById(id);
+    const v = get(path);
+    if (el && v != null) el.value = v;
+  });
+
+  document.querySelectorAll('[data-c]').forEach(el => {
+    const v = get(el.getAttribute('data-c'));
+    if (v != null) el.value = v;
+  });
+
+  /* ---------- Preview ao vivo ---------- */
+  const pv = {
+    heroH1: 'pvHeroH1', heroSub: 'pvHeroSub', cta1: 'pvCta1', cta2: 'pvCta2',
+    estoqueH2: 'pvEstoqueH2', estoqueSub: 'pvEstoqueSub',
+    servicosH2: 'pvServicosH2', servicosSub: 'pvServicosSub',
+    confiancaH2: 'pvConfiancaH2', confiancaSub: 'pvConfiancaSub'
+  };
+
+  function atualizarPreview() {
+    $('#' + pv.heroH1).textContent = $('#heroH1').value || 'Título';
+    $('#' + pv.heroSub).textContent = $('#heroSub').value || '';
+    $('#' + pv.cta1).textContent = $('#heroCta1').value || 'Botão';
+    $('#' + pv.cta2).textContent = $('#heroCta2').value || 'Botão';
+    $('#' + pv.estoqueH2).textContent = $('#estoqueH2').value || '';
+    $('#' + pv.estoqueSub).textContent = $('#estoqueSub').value || '';
+    $('#' + pv.servicosH2).textContent = $('#servicosH2').value || '';
+    $('#' + pv.servicosSub).textContent = $('#servicosSub').value || '';
+    $('#' + pv.confiancaH2).textContent = $('#confiancaH2').value || '';
+    $('#' + pv.confiancaSub).textContent = $('#confiancaSub').value || '';
+
+    const t = $('#metaTitle').value.length;
+    const d = $('#metaDescription').value.length;
+    $('#contadorTitle').textContent = t + ' caracteres' + (t > 60 ? ' (acima do ideal — corte um pouco)' : '');
+    $('#contadorDesc').textContent = d + ' caracteres' + (d > 160 ? ' (acima do ideal)' : '');
+  }
+
+  document.querySelectorAll('input, textarea').forEach(el => {
+    el.addEventListener('input', atualizarPreview);
+  });
+
+  /* ---------- Salvar ---------- */
+  function coletar() {
+    ids.forEach(([id, path]) => {
+      const el = document.getElementById(id);
+      if (!el) return;
+      const partes = path.split('.');
+      let alvo = CONTEUDO;
+      for (let i = 0; i < partes.length - 1; i++) {
+        if (typeof alvo[partes[i]] !== 'object' || alvo[partes[i]] === null) alvo[partes[i]] = {};
+        alvo = alvo[partes[i]];
+      }
+      alvo[partes[partes.length - 1]] = el.value;
+    });
+
+    document.querySelectorAll('[data-c]').forEach(el => {
+      const partes = el.getAttribute('data-c').split('.');
+      let alvo = CONTEUDO;
+      for (let i = 0; i < partes.length - 1; i++) {
+        if (typeof alvo[partes[i]] !== 'object' || alvo[partes[i]] === null) alvo[partes[i]] = {};
+        alvo = alvo[partes[i]];
+      }
+      alvo[partes[partes.length - 1]] = el.value;
+    });
+  }
+
+  $('#btnSalvar').addEventListener('click', () => {
+    coletar();
+    console.log('[SV] Conteúdo salvo:', CONTEUDO);
+    toast('Conteúdo aplicado. Use "Baixar arquivo" para publicar no site.');
+  });
+
+  /* ---------- Exportar arquivo ---------- */
+  $('#btnExportar').addEventListener('click', () => {
+    coletar();
+    const conteudo = '/**\n * SV Multimarcas — Conteúdo textual do site\n * Gerado pelo painel admin em ' +
+      new Date().toLocaleString('pt-BR') + '\n * Substitua este arquivo em data/content.js\n */\n' +
+      'window.SV_CONTENT = ' + JSON.stringify(CONTEUDO, null, 2) + ';\n';
+
+    const blob = new Blob([conteudo], { type: 'text/javascript;charset=utf-8' });
+    const url = URL.createObjectURL(blob);
+    const a = document.createElement('a');
+    a.href = url;
+    a.download = 'content.js';
+    document.body.appendChild(a);
+    a.click();
+    document.body.removeChild(a);
+    setTimeout(() => URL.revokeObjectURL(url), 1000);
+
+    toast('Arquivo content.js baixado. Substitua em data/content.js.');
+  });
+
+  $('#btnRestaurar').addEventListener('click', () => {
+    if (!confirm('Descartar as alterações e recarregar o conteúdo salvo?')) return;
+    location.reload();
+  });
+
+  function toast(msg) {
+    const t = $('#toast');
+    $('#toastMsg').textContent = msg;
+    t.classList.add('visivel');
+    setTimeout(() => t.classList.remove('visivel'), 3200);
+  }
+
+  atualizarPreview();
+})();
+</script>
+</body>
+</html>

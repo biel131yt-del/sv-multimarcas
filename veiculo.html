@@ -1,0 +1,717 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <title>Veículo — SV Multimarcas</title>
+  <meta name="description" content="Veículo disponível na SV Multimarcas. Confira detalhes, fotos e fale conosco.">
+  <meta name="theme-color" content="#0B0B0D">
+  <link rel="icon" href="images/logo.png">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Montserrat:wght@600;800&display=swap" rel="stylesheet">
+
+  <style>
+    :root {
+      --black: #0B0B0D;
+      --graphite: #151518;
+      --white: #FFFFFF;
+      --silver: #A8ADB5;
+      --red: #E30613;
+      --blue: #164FE5;
+      --font-title: 'Montserrat', 'Inter', system-ui, -apple-system, sans-serif;
+      --font-text: 'Inter', system-ui, -apple-system, sans-serif;
+      --radius: 4px;
+      --transition: 0.3s ease;
+      --header-h: 64px;
+      --header-h-desktop: 84px;
+      --safe-b: env(safe-area-inset-bottom, 0px);
+      --safe-r: env(safe-area-inset-right, 0px);
+    }
+    @media (min-width: 1024px) { :root { --header-h: var(--header-h-desktop); } }
+
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+
+    html {
+      scroll-behavior: smooth;
+      scroll-padding-top: calc(var(--header-h) + 16px);
+      font-synthesis: none;
+      -webkit-font-smoothing: antialiased;
+      -webkit-text-size-adjust: 100%;
+    }
+
+    body {
+      background: var(--black);
+      color: var(--white);
+      font-family: var(--font-text);
+      line-height: 1.6;
+      overflow-x: hidden;
+      min-height: 100vh;
+    }
+    body.menu-aberto { overflow: hidden; }
+
+    h1, h2, h3, h4 { font-family: var(--font-title); font-weight: 800; }
+    a { text-decoration: none; color: inherit; }
+    img { max-width: 100%; display: block; }
+
+    .container { max-width: 1200px; margin: 0 auto; padding: 0 16px; }
+    @media (min-width: 640px) { .container { padding: 0 20px; } }
+    @media (min-width: 1024px) { .container { padding: 0 24px; } }
+
+    /* Header */
+    header {
+      position: fixed; top: 0; left: 0; right: 0;
+      z-index: 1000;
+      height: var(--header-h);
+      background: var(--black);
+      transition: height var(--transition), background var(--transition);
+      border-bottom: 1px solid rgba(168,173,181,0.06);
+    }
+    header.scrolled {
+      background: rgba(11,11,13,0.94);
+      backdrop-filter: blur(12px);
+      -webkit-backdrop-filter: blur(12px);
+    }
+    .nav-wrapper {
+      max-width: 1200px; margin: 0 auto; padding: 0 16px;
+      height: 100%; display: flex; align-items: center;
+      justify-content: space-between; gap: 16px;
+    }
+    @media (min-width: 640px) { .nav-wrapper { padding: 0 20px; } }
+    @media (min-width: 1024px) { .nav-wrapper { padding: 0 24px; gap: 24px; } }
+
+    .logo-wrap { flex-shrink: 0; display: flex; align-items: center; }
+    .logo-wrap img { display: block; height: 34px; width: auto; transition: height var(--transition); }
+    @media (min-width: 1024px) { .logo-wrap img { height: 46px; } }
+    header.scrolled .logo-wrap img { height: 32px; }
+    @media (min-width: 1024px) { header.scrolled .logo-wrap img { height: 42px; } }
+
+    .nav-menu { display: none; list-style: none; gap: 28px; align-items: center; }
+    @media (min-width: 1024px) { .nav-menu { display: flex; } }
+    .nav-menu li a { color: var(--white); font-size: 14px; font-weight: 600; transition: color var(--transition); }
+    .nav-menu li a:hover { color: var(--silver); }
+
+    .btn-ver-veiculos {
+      display: none; align-items: center; justify-content: center;
+      background: transparent; border: 1px solid var(--white); color: var(--white);
+      padding: 10px 22px; font-family: var(--font-title); font-weight: 700;
+      font-size: 13px; text-transform: uppercase; letter-spacing: 0.5px;
+      border-radius: var(--radius); transition: var(--transition); cursor: pointer; white-space: nowrap;
+    }
+    @media (min-width: 1024px) { .btn-ver-veiculos { display: inline-flex; } }
+    .btn-ver-veiculos:hover { background: var(--white); color: var(--black); }
+
+    .menu-toggle {
+      display: flex; flex-direction: column; justify-content: center; gap: 5px;
+      width: 44px; height: 44px; margin-right: -10px;
+      background: none; border: none; cursor: pointer; z-index: 1001;
+    }
+    .menu-toggle span { display: block; width: 22px; height: 2px; margin-left: 10px; background: var(--white); transition: var(--transition); border-radius: 1px; }
+    @media (min-width: 1024px) { .menu-toggle { display: none; } }
+
+    .mobile-menu {
+      position: fixed; inset: 0; background: var(--black); z-index: 999;
+      padding: calc(var(--header-h) + 24px) 20px calc(32px + var(--safe-b));
+      display: flex; flex-direction: column;
+      transform: translateX(100%); transition: transform 0.35s ease;
+      overflow-y: auto; -webkit-overflow-scrolling: touch;
+    }
+    .mobile-menu.open { transform: translateX(0); }
+    .mobile-menu-close {
+      position: absolute; top: 10px; right: 12px;
+      width: 44px; height: 44px; background: none; border: none;
+      color: var(--white); font-size: 26px; cursor: pointer; line-height: 1;
+    }
+    .mobile-menu ul { list-style: none; }
+    .mobile-menu li { border-bottom: 1px solid rgba(255,255,255,0.05); }
+    .mobile-menu li a {
+      color: var(--white); font-family: var(--font-title); font-weight: 800;
+      font-size: 17px; display: block; padding: 16px 0;
+    }
+    .mobile-cta { margin-top: 24px; display: flex; flex-direction: column; gap: 12px; }
+
+    .btn-primary {
+      background: var(--red); color: var(--white); padding: 14px 28px; min-height: 48px;
+      font-family: var(--font-title); font-weight: 700; font-size: 14px;
+      text-transform: uppercase; letter-spacing: 0.5px; border: none; border-radius: var(--radius);
+      cursor: pointer; transition: var(--transition);
+      display: inline-flex; align-items: center; justify-content: center; white-space: nowrap;
+      -webkit-tap-highlight-color: transparent;
+    }
+    .btn-primary:hover { background: #c50510; }
+    .btn-secondary {
+      background: transparent; border: 1px solid var(--white); color: var(--white);
+      padding: 14px 28px; min-height: 48px;
+      font-family: var(--font-title); font-weight: 700; font-size: 14px;
+      text-transform: uppercase; letter-spacing: 0.5px; border-radius: var(--radius);
+      cursor: pointer; transition: var(--transition);
+      display: inline-flex; align-items: center; justify-content: center; white-space: nowrap;
+      -webkit-tap-highlight-color: transparent;
+    }
+    .btn-secondary:hover { background: var(--white); color: var(--black); }
+
+    /* Página */
+    .page-header { padding: calc(var(--header-h) + 32px) 0 28px; text-align: center; }
+    .page-header h1 { font-size: clamp(1.5rem, 6vw, 2.75rem); color: var(--white); margin-bottom: 10px; line-height: 1.15; text-wrap: balance; }
+    .page-header p { color: var(--silver); font-size: 1rem; font-weight: 400; }
+
+    .vehicle-detail { padding: 0 0 64px; }
+    .detail-grid { display: grid; grid-template-columns: 1fr; gap: 28px; }
+    @media (min-width: 1024px) { .detail-grid { grid-template-columns: 1.15fr 0.85fr; gap: 48px; } }
+
+    /* Galeria */
+    .main-image {
+      position: relative;
+      aspect-ratio: 4 / 3;
+      border-radius: var(--radius);
+      overflow: hidden;
+      background: var(--graphite);
+      border: 1px solid rgba(168,173,181,0.08);
+      margin-bottom: 12px;
+    }
+    @media (min-width: 1024px) { .main-image { aspect-ratio: 3 / 2; } }
+    .main-image img { width: 100%; height: 100%; object-fit: cover; }
+    .main-angle {
+      position: absolute; bottom: 12px; left: 12px;
+      background: rgba(11,11,13,0.82);
+      color: var(--white);
+      font-family: var(--font-title); font-weight: 700;
+      font-size: 11px; text-transform: uppercase; letter-spacing: 0.8px;
+      padding: 5px 10px; border-radius: var(--radius);
+    }
+
+    .gallery-thumbs { display: grid; grid-template-columns: repeat(4, 1fr); gap: 8px; }
+    .gallery-thumbs button {
+      position: relative;
+      padding: 0; border: 0; background: none; cursor: pointer;
+      border-radius: var(--radius); overflow: hidden;
+      border: 2px solid transparent;
+    }
+    .gallery-thumbs img {
+      width: 100%; aspect-ratio: 4 / 3; object-fit: cover;
+      opacity: 0.55; transition: var(--transition); display: block;
+    }
+    .gallery-thumbs button:hover img,
+    .gallery-thumbs button.active img { opacity: 1; }
+    .gallery-thumbs button.active { border-color: var(--red); }
+    .gallery-thumbs .angulo {
+      position: absolute; bottom: 0; left: 0; right: 0;
+      background: rgba(11,11,13,0.8);
+      color: var(--white);
+      font-size: 9.5px; font-weight: 700;
+      text-transform: uppercase; letter-spacing: 0.5px;
+      text-align: center; padding: 3px 2px;
+    }
+    .gallery-thumbs .pendente {
+      position: absolute; top: 5px; right: 5px;
+      width: 9px; height: 9px;
+      background: var(--red);
+      border-radius: 50%;
+      border: 2px solid var(--black);
+    }
+
+    .foto-aviso {
+      display: flex; align-items: center; gap: 9px;
+      background: rgba(245,158,11,0.08);
+      border: 1px solid rgba(245,158,11,0.3);
+      border-radius: var(--radius);
+      padding: 11px 14px;
+      font-size: 12.5px;
+      color: #fbbf24;
+      line-height: 1.5;
+    }
+    .foto-aviso svg { width: 16px; height: 16px; flex-shrink: 0; fill: none; stroke: currentColor; stroke-width: 2; stroke-linecap: round; stroke-linejoin: round; }
+
+    /* Info */
+    .info { display: flex; flex-direction: column; gap: 20px; }
+    .info-brand {
+      font-family: var(--font-title); font-weight: 800; font-size: 12px;
+      color: var(--silver); text-transform: uppercase; letter-spacing: 1px;
+    }
+    .info-model { font-size: clamp(1.35rem, 5.5vw, 2.25rem); font-weight: 800; color: var(--white); line-height: 1.15; }    .info-price { font-weight: 700; font-size: 1.6rem; color: var(--red); margin-top: 4px; }
+
+    .info-box {
+      background: var(--graphite);
+      border: 1px solid rgba(168,173,181,0.08);
+      padding: 20px 18px;
+      border-radius: var(--radius);
+    }
+    @media (min-width: 640px) { .info-box { padding: 24px 22px; } }
+    .info-box h3 { font-size: 16px; color: var(--white); margin-bottom: 16px; }
+
+    .specs-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 16px 12px; }
+    .spec-item { display: flex; flex-direction: column; gap: 3px; min-width: 0; }
+    .spec-label { font-size: 11px; color: var(--silver); text-transform: uppercase; letter-spacing: 0.5px; }
+    .spec-value { font-size: 15px; color: var(--white); font-weight: 600; word-break: break-word; }
+
+    .info-description p { color: var(--silver); font-size: 14px; line-height: 1.7; }
+
+    .info-checklist h3 { display: flex; align-items: center; gap: 9px; }
+    .info-checklist h3::before {
+      content: ''; width: 18px; height: 18px; flex-shrink: 0;
+      background: var(--red);
+      -webkit-mask: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%23000' stroke-width='3' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpolyline points='20 6 9 17 4 12'/%3E%3C/svg%3E") center/contain no-repeat;
+      mask: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%23000' stroke-width='3' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpolyline points='20 6 9 17 4 12'/%3E%3C/svg%3E") center/contain no-repeat;
+    }
+    .checklist-grid { display: grid; grid-template-columns: 1fr; gap: 10px; }
+    @media (min-width: 480px) { .checklist-grid { grid-template-columns: repeat(2, 1fr); } }
+    .checklist-item { display: flex; align-items: center; gap: 9px; font-size: 13px; color: var(--silver); }
+    .checklist-item svg { width: 16px; height: 16px; stroke: #4ade80; fill: none; stroke-width: 3; flex-shrink: 0; }
+
+    .info-actions { display: flex; flex-direction: column; gap: 10px; }
+    .info-actions > * { width: 100%; }
+
+    .back-link {
+      display: inline-flex; align-items: center; gap: 8px;
+      color: var(--silver); font-size: 14px; font-weight: 500;
+      transition: color var(--transition); margin-bottom: 20px;
+      min-height: 44px;
+    }
+    .back-link:hover { color: var(--white); }
+
+    /* Sticky CTA mobile */
+    .sticky-cta {
+      position: fixed;
+      left: 0; right: 0; bottom: 0;
+      z-index: 999;
+      display: flex;
+      gap: 8px;
+      padding: 10px 12px calc(10px + var(--safe-b));
+      background: rgba(11,11,13,0.96);
+      backdrop-filter: blur(12px);
+      -webkit-backdrop-filter: blur(12px);
+      border-top: 1px solid rgba(168,173,181,0.1);
+    }
+    .sticky-cta > * { flex: 1; min-height: 46px; font-size: 12px; padding: 12px 14px; }
+    @media (min-width: 1024px) { .sticky-cta { display: none; } }
+    body { padding-bottom: 74px; }
+    @media (min-width: 1024px) { body { padding-bottom: 0; } }
+
+    /* Veículos relacionados */
+    .relacionados { background: var(--graphite); border-top: 1px solid rgba(255,255,255,0.06); padding: 48px 0 64px; }
+    .relacionados h2 { font-size: clamp(1.35rem, 5vw, 2rem); text-align: center; margin-bottom: 32px; }
+    .rel-grid { display: grid; grid-template-columns: 1fr; gap: 16px; }
+    @media (min-width: 600px) { .rel-grid { grid-template-columns: repeat(2, 1fr); } }
+    @media (min-width: 1024px) { .rel-grid { grid-template-columns: repeat(3, 1fr); gap: 24px; } }
+
+    .rel-card {
+      background: var(--black); border: 1px solid rgba(168,173,181,0.08);
+      border-radius: var(--radius); overflow: hidden; transition: border-color var(--transition);
+    }
+    .rel-card:hover { border-color: rgba(168,173,181,0.2); }
+    .rel-img { position: relative; height: 160px; overflow: hidden; }
+    .rel-img img { width: 100%; height: 100%; object-fit: cover; transition: transform 0.5s ease; }
+    .rel-card:hover .rel-img img { transform: scale(1.03); }
+    .rel-price-badge {
+      position: absolute; bottom: 8px; left: 8px;
+      background: rgba(11,11,13,0.85); color: var(--white);
+      font-family: var(--font-title); font-weight: 800; font-size: 13px;
+      padding: 4px 9px; border-radius: var(--radius);
+    }
+    .rel-info { padding: 16px; }
+    .rel-brand { font-family: var(--font-title); font-weight: 800; font-size: 11px; color: var(--silver); text-transform: uppercase; letter-spacing: 0.5px; }
+    .rel-model { font-size: 15px; font-weight: 800; color: var(--white); margin: 4px 0 12px; line-height: 1.25; }
+    .rel-info .btn-secondary { width: 100%; min-height: 42px; font-size: 12px; }
+
+    /* Rodapé */
+    footer { border-top: 1px solid rgba(255,255,255,0.06); padding: 36px 0 28px; }
+    .footer-top { display: flex; flex-direction: column; gap: 18px; align-items: center; text-align: center; }
+    @media (min-width: 768px) { .footer-top { flex-direction: row; justify-content: space-between; text-align: left; } }
+    .footer-top .logo-wrap img { height: 40px; }
+    .footer-info { font-size: 13px; color: var(--silver); line-height: 1.7; }
+    .footer-info a {
+      color: var(--white);
+      font-weight: 600;
+      display: inline-block;
+      padding: 4px 0;
+      min-height: 24px;
+    }
+    .footer-social { display: flex; gap: 8px; }
+    .footer-social a {
+      width: 36px; height: 36px; border: 1px solid rgba(168,173,181,0.12);
+      border-radius: var(--radius); display: flex; align-items: center; justify-content: center; color: var(--silver);
+    }
+    .footer-social a svg { width: 16px; height: 16px; fill: currentColor; }
+    .footer-social a:hover { color: var(--white); border-color: var(--silver); }
+    .footer-bottom {
+      margin-top: 24px; padding-top: 18px; border-top: 1px solid rgba(255,255,255,0.06);
+      font-size: 12px; color: rgba(168,173,181,0.82); text-align: center;
+    }
+
+    /* WhatsApp flutuante — sobe acima do sticky CTA */
+    .whatsapp-float {
+      position: fixed;
+      bottom: calc(86px + var(--safe-b));
+      right: calc(16px + var(--safe-r));
+      z-index: 10000;
+    }
+    @media (min-width: 1024px) { .whatsapp-float { bottom: 26px; right: 26px; } }
+    .whatsapp-btn {
+      width: 48px; height: 48px; background: #25D366; border-radius: 50%;
+      display: flex; align-items: center; justify-content: center;
+      box-shadow: 0 4px 18px rgba(37,211,102,0.35); transition: var(--transition);
+    }
+    .whatsapp-btn svg { width: 24px; height: 24px; fill: var(--white); }
+    .whatsapp-btn:hover { background: #1eb653; transform: scale(1.05); }
+
+    ::-webkit-scrollbar { width: 8px; height: 8px; }
+    ::-webkit-scrollbar-track { background: var(--black); }
+    ::-webkit-scrollbar-thumb { background: var(--silver); }
+  </style>
+</head>
+<body>
+
+  <header id="header">
+    <div class="nav-wrapper">
+      <a href="index.html" class="logo">
+        <div class="logo-wrap"><img src="images/logo.png" alt="SV Multimarcas" width="140" height="46"></div>
+      </a>
+      <ul class="nav-menu">
+        <li><a href="index.html#inicio">Início</a></li>
+        <li><a href="index.html#estoque">Estoque</a></li>
+        <li><a href="index.html#servicos">Serviços</a></li>
+        <li><a href="index.html#vender">Vender ou trocar</a></li>
+        <li><a href="index.html#financiamento">Financiamento</a></li>
+        <li><a href="index.html#contato">Contato</a></li>
+      </ul>
+      <a href="index.html#estoque" class="btn-ver-veiculos">Ver veículos</a>
+      <button class="menu-toggle" id="menuToggle" aria-label="Abrir menu" aria-expanded="false">
+        <span></span><span></span><span></span>
+      </button>
+    </div>
+  </header>
+
+  <div class="mobile-menu" id="mobileMenu" aria-hidden="true" inert>
+    <button class="mobile-menu-close" id="mobileMenuClose" aria-label="Fechar menu">✕</button>
+    <ul>
+      <li><a href="index.html#inicio">Início</a></li>
+      <li><a href="index.html#estoque">Estoque</a></li>
+      <li><a href="index.html#servicos">Serviços</a></li>
+      <li><a href="index.html#vender">Vender ou trocar</a></li>
+      <li><a href="index.html#financiamento">Financiamento</a></li>
+      <li><a href="index.html#contato">Contato</a></li>
+    </ul>
+    <div class="mobile-cta">
+      <a href="index.html#estoque" class="btn-primary">Ver veículos</a>
+      <a href="#" class="btn-secondary js-wa-consultor">Falar com um consultor</a>
+    </div>
+  </div>
+
+  <main>
+  <section class="page-header">
+    <h1 id="pageTitle">Veículo</h1>
+    <p id="pageSubtitle"></p>
+  </section>
+
+  <section class="vehicle-detail">
+    <div class="container">
+      <a href="index.html#estoque" class="back-link">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="15 18 9 12 15 6"/></svg>
+        Voltar ao estoque
+      </a>
+
+      <div class="detail-grid">
+        <div class="gallery">
+          <div class="main-image">
+            <img id="mainImg" src="" alt="" fetchpriority="high">
+            <span class="main-angle" id="mainAngle"></span>
+          </div>
+          <div class="gallery-thumbs" id="galleryThumbs"></div>
+          <div class="foto-aviso" id="fotoAviso" style="display:none; margin-top:12px;">
+            <svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg>
+            <span id="fotoAvisoTexto"></span>
+          </div>
+        </div>
+
+        <div class="info">
+          <div>
+            <span class="info-brand" id="detailBrand"></span>
+            <h2 class="info-model" id="detailModel"></h2>
+            <div class="info-price" id="detailPrice"></div>
+          </div>
+
+          <div class="info-box">
+            <h3>Especificações</h3>
+            <div class="specs-grid">
+              <div class="spec-item"><span class="spec-label">Ano</span><span class="spec-value" id="specYear"></span></div>
+              <div class="spec-item"><span class="spec-label">Quilometragem</span><span class="spec-value" id="specKm"></span></div>
+              <div class="spec-item"><span class="spec-label">Câmbio</span><span class="spec-value" id="specTransmission"></span></div>
+              <div class="spec-item"><span class="spec-label">Combustível</span><span class="spec-value" id="specFuel"></span></div>
+              <div class="spec-item"><span class="spec-label">Portas</span><span class="spec-value" id="specDoors"></span></div>
+              <div class="spec-item"><span class="spec-label">Cor</span><span class="spec-value" id="specColor"></span></div>
+              <div class="spec-item"><span class="spec-label">Placa</span><span class="spec-value" id="specPlate"></span></div>
+              <div class="spec-item"><span class="spec-label">Único dono</span><span class="spec-value" id="specOwner"></span></div>
+              <div class="spec-item"><span class="spec-label">Revisão</span><span class="spec-value" id="specReview"></span></div>
+            </div>
+          </div>
+
+          <div class="info-box info-description">
+            <h3>Sobre este veículo</h3>
+            <p id="detailDescription"></p>
+          </div>
+
+          <div class="info-box info-checklist">
+            <h3>Itens verificados</h3>
+            <div class="checklist-grid" id="checklistContainer"></div>
+          </div>
+
+          <div class="info-actions">
+            <a id="btnWhatsApp" target="_blank" rel="noopener noreferrer" class="btn-primary">Tenho interesse neste veículo</a>
+            <a id="btnFinanciamento" href="index.html#financiamento" class="btn-secondary">Simular financiamento</a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="relacionados" id="relacionados" style="display:none;">
+    <div class="container">
+      <h2>Mais veículos</h2>
+      <div class="rel-grid" id="relGrid"></div>
+    </div>
+  </section>
+  </main>
+
+  <!-- CTA fixo no mobile -->
+  <div class="sticky-cta">
+    <a href="index.html#estoque" class="btn-secondary">Ver estoque</a>
+    <a id="btnWhatsAppSticky" target="_blank" rel="noopener noreferrer" class="btn-primary">Tenho interesse</a>
+  </div>
+
+  <footer>
+    <div class="container">
+      <div class="footer-top">
+        <a href="index.html" class="logo-wrap"><img src="images/logo.png" alt="SV Multimarcas" width="140" height="40"></a>
+        <div class="footer-info">
+          <a href="tel:11999754932" class="js-telefone">(11) 99975-4932</a> · <a href="tel:1136512783">(11) 3651-2783</a><br>
+          Seg a Sex 9h–18h · Sáb 9h–14h
+        </div>
+        <div class="footer-social">
+          <a href="https://www.instagram.com/sv26anos/" target="_blank" rel="noopener noreferrer" aria-label="Instagram"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 2.16c3.2 0 3.58.01 4.85.07 1.17.05 1.8.25 2.23.41.56.22.96.48 1.38.9.42.42.68.82.9 1.38.16.42.36 1.06.41 2.23.06 1.27.07 1.65.07 4.85s-.01 3.58-.07 4.85c-.05 1.17-.25 1.8-.41 2.23-.22.56-.48.96-.9 1.38-.42.42-.82.68-1.38.9-.42.16-1.06.36-2.23.41-1.27.06-1.65.07-4.85.07s-3.58-.01-4.85-.07c-1.17-.05-1.8-.25-2.23-.41-.56-.22-.96-.48-1.38-.9-.42-.42-.68-.82-.9-1.38-.16-.42-.36-1.06-.41-2.23-.06-1.27-.07-1.65-.07-4.85s.01-3.58.07-4.85c.05-1.17.25-1.8.41-2.23.22-.56.48-.96.9-1.38.42-.42.82-.68 1.38-.9.42-.16 1.06-.36 2.23-.41C8.42 2.17 8.8 2.16 12 2.16zM12 0C8.74 0 8.33.01 7.05.07 5.78.13 4.9.33 4.14.63c-.79.3-1.46.71-2.13 1.38C1.34 2.68.93 3.35.63 4.14.33 4.9.13 5.78.07 7.05.01 8.33 0 8.74 0 12s.01 3.67.07 4.95c.06 1.27.26 2.15.56 2.91.3.79.71 1.46 1.38 2.13.67.67 1.34 1.08 2.13 1.38.76.3 1.64.5 2.91.56C8.33 23.99 8.74 24 12 24s3.67-.01 4.95-.07c1.27-.06 2.15-.26 2.91-.56.79-.3 1.46-.71 2.13-1.38.67-.67 1.08-1.34 1.38-2.13.3-.76.5-1.64.56-2.91.06-1.28.07-1.69.07-4.95s-.01-3.67-.07-4.95c-.06-1.27-.26-2.15-.56-2.91-.3-.79-.71-1.46-1.38-2.13C21.32 1.34 20.65.93 19.86.63c-.76-.3-1.64-.5-2.91-.56C15.33.01 14.92 0 12 0zm0 5.84a6.16 6.16 0 1 0 0 12.32 6.16 6.16 0 0 0 0-12.32zM12 16a4 4 0 1 1 0-8 4 4 0 0 1 0 8zm7.85-10.4a1.44 1.44 0 1 1-2.88 0 1.44 1.44 0 0 1 2.88 0z"/></svg></a>
+          <a href="https://www.facebook.com/SouzaVeiculosMultimarcas/?locale=pt_BR" target="_blank" rel="noopener noreferrer" aria-label="Facebook"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M24 12.073c0-6.627-5.373-12-12-12s-12 5.373-12 12c0 5.99 4.388 10.954 10.125 11.854v-8.385H7.078v-3.47h3.047V9.43c0-3.007 1.792-4.669 4.533-4.669 1.312 0 2.686.235 2.686.235v2.953H15.83c-1.491 0-1.956.925-1.956 1.874v2.25h3.328l-.532 3.47h-2.796v8.385C19.612 23.027 24 18.062 24 12.073z"/></svg></a>
+        </div>
+      </div>
+      <p class="footer-bottom">© <span id="anoAtual"></span> SV Multimarcas — Todos os direitos reservados. Preços sujeitos a confirmação com a loja.</p>
+    </div>
+  </footer>
+
+  <div class="whatsapp-float">
+    <a id="btnWhatsAppFloat" target="_blank" rel="noopener noreferrer" class="whatsapp-btn" aria-label="Fale pelo WhatsApp">
+      <svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.347-.347.52-.52.174-.174.232-.298.347-.497.115-.198.057-.371-.029-.52-.087-.148-.669-1.611-.916-2.207-.242-.579-.487-.5-.669-.51a12.8 12.8 0 0 0-.57-.01c-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.872.118.571-.085 1.758-.719 2.006-1.414.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 0 1-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 0 1-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884a9.82 9.82 0 0 1 6.988 2.896 9.83 9.83 0 0 1 2.893 6.994c-.003 5.45-4.437 9.885-9.885 9.885M20.52 3.449C18.24 1.245 15.24 0 12.045 0 5.463 0 .104 5.358.101 11.945c0 2.096.548 4.142 1.588 5.945L.057 24l6.305-1.654a11.9 11.9 0 0 0 5.683 1.448h.005c6.585 0 11.946-5.358 11.949-11.945a11.87 11.87 0 0 0-3.479-8.4"/></svg>
+    </a>
+  </div>
+
+  <script src="data/config.js"></script>
+  <script src="data/vehicles.js"></script>
+  <script src="lib/ui.js"></script>
+
+  <script>
+    (function () {
+      'use strict';
+
+      const CFG = window.SV_CONFIG;
+      const VEICULOS = window.SV_VEHICLES || [];
+
+      const params = new URLSearchParams(window.location.search);
+      const id = Number(params.get('id'));
+      const veiculo = VEICULOS.find(v => v.id === id);
+
+      if (!veiculo) {
+        document.body.innerHTML =
+          '<div style="padding:80px 20px; text-align:center;">' +
+          '<h1 style="color:var(--white); font-family:Montserrat,sans-serif; font-size:1.8rem; margin-bottom:12px;">Veículo não encontrado</h1>' +
+          '<p style="color:var(--silver); margin-bottom:28px;">O veículo solicitado não está disponível.</p>' +
+          '<a href="index.html#estoque" style="display:inline-block; background:var(--red); color:#fff; padding:14px 28px; text-decoration:none; font-family:Montserrat,sans-serif; font-weight:700; text-transform:uppercase; font-size:13px;">Ver estoque</a>' +
+          '</div>';
+        return;
+      }
+
+      /* ---------- SEO dinâmico ---------- */
+      const titulo = veiculo.marca + ' ' + veiculo.modelo + ' ' + veiculo.ano + ' — SV Multimarcas';
+      document.title = titulo;
+
+      const desc = (veiculo.descricao || '') + ' ' + SV.fmt.preco(veiculo.preco) + ' | ' + CFG.slogan;
+      const metaDesc = document.querySelector('meta[name="description"]');
+      if (metaDesc) metaDesc.setAttribute('content', desc);
+
+      const imgPrincipal = SV.fotoCapa(veiculo);
+
+      /* ---------- Schema.org Product/Offer ---------- */
+      const schema = document.createElement('script');
+      schema.type = 'application/ld+json';
+      schema.textContent = JSON.stringify({
+        '@context': 'https://schema.org',
+        '@type': 'Product',
+        name: veiculo.marca + ' ' + veiculo.modelo + (veiculo.versao ? ' ' + veiculo.versao : ''),
+        image: SV.galeria(veiculo).map(g => g.src),
+        description: veiculo.descricao || '',
+        sku: 'SV-' + veiculo.id,
+        brand: { '@type': 'Brand', name: veiculo.marca },
+        vehicleModel: veiculo.modelo,
+        vehicleIdentificationNumber: veiculo.placa,
+        modelDate: String(veiculo.ano),
+        mileageFromOdometer: { '@type': 'QuantitativeValue', value: veiculo.km, unitCode: 'KMT' },
+        fuelType: veiculo.combustivel,
+        vehicleTransmission: veiculo.cambio,
+        numberOfDoors: veiculo.portas,
+        color: veiculo.cor,
+        offers: {
+          '@type': 'Offer',
+          price: veiculo.preco,
+          priceCurrency: 'BRL',
+          availability: 'https://schema.org/InStock',
+          seller: { '@type': 'Organization', name: CFG.nome }
+        }
+      });
+      document.head.appendChild(schema);
+
+      /* ---------- Preenche a página ---------- */
+      document.getElementById('pageTitle').textContent = veiculo.marca + ' ' + veiculo.modelo;
+      document.getElementById('pageSubtitle').textContent = veiculo.ano + ' · ' + SV.fmt.preco(veiculo.preco);
+
+      document.getElementById('detailBrand').textContent = veiculo.marca;
+      document.getElementById('detailModel').textContent = veiculo.modelo + (veiculo.versao ? ' ' + veiculo.versao : '') + ' ' + veiculo.ano;
+      document.getElementById('detailPrice').textContent = SV.fmt.preco(veiculo.preco);
+
+      document.getElementById('specYear').textContent = veiculo.ano;
+      document.getElementById('specKm').textContent = SV.fmt.km(veiculo.km);
+      document.getElementById('specTransmission').textContent = veiculo.cambio;
+      document.getElementById('specFuel').textContent = veiculo.combustivel;
+      document.getElementById('specDoors').textContent = veiculo.portas;
+      document.getElementById('specColor').textContent = veiculo.cor;
+      document.getElementById('specPlate').textContent = veiculo.placa;
+      document.getElementById('specOwner').textContent = veiculo.unicoDono;
+      document.getElementById('specReview').textContent = veiculo.revisao;
+      document.getElementById('detailDescription').textContent = veiculo.descricao || 'Veículo disponível no estoque da SV Multimarcas.';
+
+      /* ---------- Checklist ---------- */
+      const checklist = document.getElementById('checklistContainer');
+      (veiculo.checklist || []).forEach(item => {
+        const div = document.createElement('div');
+        div.className = 'checklist-item';
+        div.innerHTML = '<svg viewBox="0 0 24 24" fill="none" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg><span>' + SV.escapeHtml(item) + '</span>';
+        checklist.appendChild(div);
+      });
+
+      /* ---------- Galeria por ângulo ---------- */
+      const mainImg = document.getElementById('mainImg');
+      const mainAngle = document.getElementById('mainAngle');
+      const thumbs = document.getElementById('galleryThumbs');
+      const galeria = SV.galeria(veiculo);
+
+      function mostrarFoto(i) {
+        const item = galeria[i];
+        if (!item) return;
+        mainImg.src = item.src;
+        mainImg.alt = veiculo.marca + ' ' + veiculo.modelo + ' ' + veiculo.ano + ' — ' + item.label;
+        mainAngle.textContent = item.label;
+        SV.$$('#galleryThumbs button').forEach((b, idx) => b.classList.toggle('active', idx === i));
+      }
+
+      galeria.forEach((item, i) => {
+        const btn = document.createElement('button');
+        btn.type = 'button';
+        btn.setAttribute('aria-label', 'Ver foto: ' + item.label);
+        btn.innerHTML =
+          '<img src="' + item.src + '" alt="" loading="lazy">' +
+          '<span class="angulo">' + SV.escapeHtml(item.label) + '</span>' +
+          (item.real ? '' : '<span class="pendente" aria-hidden="true" title="Foto ainda não enviada"></span>');
+        btn.addEventListener('click', () => mostrarFoto(i));
+        thumbs.appendChild(btn);
+      });
+
+      if (galeria.length) mostrarFoto(0);
+
+      // Aviso de fotos faltantes
+      const pendentes = SV.fotosPendentes(veiculo);
+      if (pendentes.length) {
+        document.getElementById('fotoAvisoTexto').textContent =
+          'Fotos ainda não enviadas: ' + pendentes.join(', ') + '. ' +
+          'Consulte a loja para ver o veículo ao vivo.';
+        document.getElementById('fotoAviso').style.display = 'flex';
+      }
+
+      /* ---------- WhatsApp ---------- */
+      const mensagem = 'Olá SV Multimarcas, tenho interesse no ' + veiculo.marca + ' ' + veiculo.modelo +
+        (veiculo.versao ? ' ' + veiculo.versao : '') + ' ' + veiculo.ano +
+        ' (' + SV.fmt.preco(veiculo.preco) + ') anunciado no site.';
+      const urlWA = SV.linkWhatsApp(mensagem);
+
+      document.getElementById('btnWhatsApp').href = urlWA;
+      document.getElementById('btnWhatsAppSticky').href = urlWA;
+      document.getElementById('btnWhatsAppFloat').href = urlWA;
+      document.getElementById('btnFinanciamento').href = 'index.html#financiamento?ref=' + veiculo.id;
+
+      SV.$$('.js-wa-consultor').forEach(a => {
+        a.href = SV.linkWhatsApp('Olá SV Multimarcas, vim pelo site e gostaria de falar com um consultor.');
+      });
+      SV.$$('.js-telefone').forEach(el => { el.textContent = SV.fmt.telefone(CFG.telefone); });
+      const elAno = document.getElementById('anoAtual');
+      if (elAno) elAno.textContent = new Date().getFullYear();
+
+      /* ---------- Veículos relacionados ---------- */
+      const relacionados = VEICULOS.filter(v => v.id !== veiculo.id).slice(0, 3);
+      if (relacionados.length) {
+        const grid = document.getElementById('relGrid');
+        grid.innerHTML = relacionados.map(v => {
+          const img = (v.imagens && v.imagens[0]) || 'images/hero.jfif';
+          return '<article class="rel-card">' +
+            '<a href="veiculo.html?id=' + v.id + '">' +
+              '<div class="rel-img"><img src="' + img + '" alt="' + SV.escapeHtml(v.marca + ' ' + v.modelo) + '" loading="lazy" decoding="async">' +
+              '<span class="rel-price-badge">' + SV.fmt.preco(v.preco) + '</span></div>' +
+            '</a>' +
+            '<div class="rel-info">' +
+              '<div class="rel-brand">' + SV.escapeHtml(v.marca) + '</div>' +
+              '<div class="rel-model">' + SV.escapeHtml(v.modelo) + ' ' + v.ano + '</div>' +
+              '<a href="veiculo.html?id=' + v.id + '" class="btn-secondary">Ver detalhes</a>' +
+            '</div>' +
+          '</article>';
+        }).join('');
+        document.getElementById('relacionados').style.display = 'block';
+      }
+
+      /* ---------- Header scroll ---------- */
+      const header = document.getElementById('header');
+      let ticking = false;
+      window.addEventListener('scroll', () => {
+        if (ticking) return;
+        ticking = true;
+        requestAnimationFrame(() => {
+          header.classList.toggle('scrolled', window.scrollY > 20);
+          ticking = false;
+        });
+      }, { passive: true });
+
+      /* ---------- Menu mobile ---------- */
+      const menuToggle = document.getElementById('menuToggle');
+      const mobileMenu = document.getElementById('mobileMenu');
+      const menuClose = document.getElementById('mobileMenuClose');
+
+      function abrirMenu() {
+        mobileMenu.classList.add('open');
+        mobileMenu.setAttribute('aria-hidden', 'false');
+        mobileMenu.removeAttribute('inert');
+        menuToggle.setAttribute('aria-expanded', 'true');
+        document.body.classList.add('menu-aberto');
+        SV.lockScroll(true);
+        menuClose.focus();
+      }
+      function fecharMenu() {
+        mobileMenu.classList.remove('open');
+        mobileMenu.setAttribute('aria-hidden', 'true');
+        mobileMenu.setAttribute('inert', '');
+        menuToggle.setAttribute('aria-expanded', 'false');
+        document.body.classList.remove('menu-aberto');
+        SV.lockScroll(false);
+      }
+      menuToggle.addEventListener('click', abrirMenu);
+      menuClose.addEventListener('click', fecharMenu);
+      SV.$$('#mobileMenu a').forEach(a => a.addEventListener('click', fecharMenu));
+      document.addEventListener('keydown', e => {
+        if (e.key === 'Escape' && mobileMenu.classList.contains('open')) fecharMenu();
+      });
+
+    })();
+  </script>
+</body>
+</html>

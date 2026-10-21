@@ -1,0 +1,242 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Contatos recebidos — Painel do Site SV Multimarcas</title>
+  <meta name="theme-color" content="#0B0B0D">
+  <link rel="icon" href="../images/logo.png">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Montserrat:wght@600;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="assets/admin.css">
+</head>
+<body>
+
+<div class="admin">
+
+  <aside class="sidebar">
+    <div class="sidebar-logo">
+      <img src="../images/logo.png" alt="SV Multimarcas">
+      <span>Painel do Site</span>
+    </div>
+    <nav class="sidebar-nav">
+      <ul>
+        <li><a href="index.html">
+          <svg viewBox="0 0 24 24"><rect x="3" y="3" width="7" height="9"/><rect x="14" y="3" width="7" height="5"/><rect x="14" y="12" width="7" height="9"/><rect x="3" y="16" width="7" height="5"/></svg>
+          Visão geral
+        </a></li>
+        <li><a href="veiculos.html">
+          <svg viewBox="0 0 24 24"><path d="M5 17h14"/><circle cx="7.5" cy="17.5" r="1.5"/><circle cx="16.5" cy="17.5" r="1.5"/><path d="M3 17v-4.2a2 2 0 0 1 .2-.9L5 6h14l1.8 5.9a2 2 0 0 1 .2.9V17"/><path d="M3.5 12h17"/></svg>
+          Estoque publicado <span class="badge-count" id="countVeiculos">0</span>
+        </a></li>
+        <li><a href="conteudo.html">
+          <svg viewBox="0 0 24 24"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/></svg>
+          Conteúdo do site
+        </a></li>
+        <li><a href="leads.html" class="active">
+          <svg viewBox="0 0 24 24"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg>
+          Contatos recebidos <span class="badge-count" id="countLeads">0</span>
+        </a></li>
+        <li><a href="configuracoes.html">
+          <svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1-2.83 2.83l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-4 0v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83-2.83l.06-.06A1.65 1.65 0 0 0 4.6 15a1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1 0-4h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 2.83-2.83l.06.06A1.65 1.65 0 0 0 9 4.6a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 4 0v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 2.83l-.06.06A1.65 1.65 0 0 0 19.4 9v0a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 0 4h-.09a1.65 1.65 0 0 0-1.51 1z"/></svg>
+          Configurações
+        </a></li>
+      </ul>
+    </nav>
+    <hr class="sidebar-divider">
+    <nav class="sidebar-nav">
+      <ul>
+        <li><a href="../index.html" target="_blank">
+          <svg viewBox="0 0 24 24"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"/><polyline points="15 3 21 3 21 9"/><line x1="10" y1="14" x2="21" y2="3"/></svg>
+          Ver site
+        </a></li>
+      </ul>
+    </nav>
+    <div class="sidebar-foot">SV Multimargas<br>Painel v1.0</div>
+  </aside>
+
+  <div class="main">
+    <header class="topbar">
+      <div class="topbar-left">
+        <div>
+          <h1>Contatos recebidos</h1>
+          <div class="topbar-sub">Pessoas que deixaram contato pelo site — o atendimento acontece fora daqui</div>
+        </div>
+      </div>
+      <div class="topbar-right">
+        <button class="btn btn-secondary" id="btnAtualizar">
+          <svg viewBox="0 0 24 24"><polyline points="23 4 23 10 17 10"/><polyline points="1 20 1 14 7 14"/><path d="M3.51 9a9 9 0 0 1 14.85-3.36L23 10M1 14l4.64 4.36A9 9 0 0 0 20.49 15"/></svg>
+          Atualizar
+        </button>
+        <div class="user-chip"><span class="avatar">AD</span>Administrador</div>
+      </div>
+    </header>
+
+    <div class="content">
+
+      <div class="stats">
+        <div class="stat destaque">
+          <div class="stat-label">Total de leads</div>
+          <div class="stat-value" id="statTotal">0</div>
+        </div>
+        <div class="stat info">
+          <div class="stat-label">Interesse em veículo</div>
+          <div class="stat-value" id="statInterest">0</div>
+        </div>
+        <div class="stat">
+          <div class="stat-label">Venda / troca</div>
+          <div class="stat-value" id="statSell">0</div>
+        </div>
+        <div class="stat sucesso">
+          <div class="stat-label">Financiamento</div>
+          <div class="stat-value" id="statFin">0</div>
+        </div>
+      </div>
+
+      <div class="panel">
+        <div class="table-tools">
+          <div class="search-box">
+            <svg viewBox="0 0 24 24"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
+            <input type="text" id="busca" placeholder="Buscar por nome, telefone ou veículo...">
+          </div>
+          <select id="filtroTipo" style="padding:9px 12px; min-height:38px; background:var(--black); border:1px solid rgba(255,255,255,0.08); border-radius:4px; color:var(--white); font-family:inherit; font-size:13px;">
+            <option value="">Todos os tipos</option>
+            <option value="interest">Interesse em veículo</option>
+            <option value="sell">Venda / troca</option>
+            <option value="financing">Financiamento</option>
+          </select>
+          <span style="margin-left:auto; font-size:12.5px; color:var(--silver);" id="contagem"></span>
+        </div>
+
+        <div class="panel-body" style="border-bottom:1px solid rgba(255,255,255,0.06);">
+          <p style="font-size:12px; color:var(--silver); line-height:1.6;">
+            Estes são <strong style="color:var(--white);">contatos</strong> deixados nos formulários do site.
+            Nenhuma venda é registrada aqui — o site serve para divulgar o estoque e
+            facilitate o contato; a negociação acontece com a equipe, no WhatsApp ou presencialmente.
+          </p>
+        </div>
+
+        <div class="panel-body flush">
+          <table>
+            <thead>
+              <tr>
+                <th>Contato</th>
+                <th>Tipo</th>
+                <th>Veículo / Mensagem</th>
+                <th>Origem</th>
+                <th>Recebido</th>
+                <th>Atendimento</th>
+                <th class="acoes">Ações</th>
+              </tr>
+            </thead>
+            <tbody id="tabela"></tbody>
+          </table>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</div>
+
+<div class="toast" id="toast"><svg viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"/></svg><span id="toastMsg">Atualizado</span></div>
+
+<script src="../data/config.js"></script>
+<script>
+(function () {
+  'use strict';
+
+  const CFG = window.SV_CONFIG || {};
+  let leads = [];
+
+  const $ = s => document.querySelector(s);
+  const fmtData = iso => {
+    if (!iso) return '—';
+    const d = new Date(iso);
+    if (isNaN(d)) return '—';
+    return d.toLocaleString('pt-BR', { day: '2-digit', month: '2-digit', year: '2-digit', hour: '2-digit', minute: '2-digit' });
+  };
+
+  const TIPO_LABEL = { interest: 'Interesse', sell: 'Venda / troca', financing: 'Financiamento' };
+  const TIPO_BADGE = { interest: 'badge-info', sell: 'badge-warn', financing: 'badge-ok' };
+
+  async function carregar() {
+    try {
+      const res = await fetch('/api/leads', { method: 'GET' });
+      if (res.ok) {
+        const data = await res.json();
+        leads = data.leads || [];
+      }
+    } catch (err) {
+      // Endpoint indisponível (sem backend configurado)
+    }
+    render();
+  }
+
+  function render() {
+    const q = $('#busca').value.trim().toLowerCase();
+    const t = $('#filtroTipo').value;
+
+    const lista = leads.filter(l => {
+      if (t && l.type !== t) return false;
+      if (q) {
+        const alvo = [l.name, l.phone, l.vehicle, l.message].join(' ').toLowerCase();
+        if (alvo.indexOf(q) === -1) return false;
+      }
+      return true;
+    });
+
+    $('#contagem').textContent = lista.length + ' de ' + leads.length + ' leads';
+    $('#countLeads').textContent = leads.length;
+    $('#statTotal').textContent = leads.length;
+    $('#statInterest').textContent = leads.filter(l => l.type === 'interest').length;
+    $('#statSell').textContent = leads.filter(l => l.type === 'sell').length;
+    $('#statFin').textContent = leads.filter(l => l.type === 'financing').length;
+
+    const tbody = $('#tabela');
+    if (!lista.length) {
+      tbody.innerHTML = '<tr><td colspan="7"><div class="empty-state">' +
+        '<svg viewBox="0 0 24 24"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg>' +
+        '<p>Nenhum lead recebido ainda. Os contatos enviados pelo site aparecem aqui.</p></div></td></tr>';
+      return;
+    }
+
+    tbody.innerHTML = lista.map((l, i) => {
+      const wa = 'https://wa.me/' + String(l.phone || '').replace(/\D/g, '') +
+        '?text=' + encodeURIComponent('Olá ' + (l.name || '') + ', aqui é da SV Multimargas sobre o seu contato pelo site.');
+      return '<tr>' +
+        '<td><div class="cell-veiculo" style="min-width:auto;">' +
+          '<div><strong>' + (l.name || '—') + '</strong>' +
+          '<span>' + (l.phone || '—') + (l.email ? ' · ' + l.email : '') + '</span></div>' +
+        '</div></td>' +
+        '<td><span class="badge ' + (TIPO_BADGE[l.type] || 'badge-mute') + '">' + (TIPO_LABEL[l.type] || l.type) + '</span></td>' +
+        '<td style="max-width:320px;"><div style="font-size:13px;">' + (l.vehicle || '—') + '</div>' +
+          '<div style="font-size:11.5px; color:var(--silver); margin-top:3px; white-space:nowrap; overflow:hidden; text-overflow:ellipsis;">' + (l.message || '') + '</div></td>' +
+        '<td><span class="badge badge-mute">' + (l.source || 'site') + '</span></td>' +
+        '<td style="white-space:nowrap; font-size:12.5px; color:var(--silver);">' + fmtData(l.created_at) + '</td>' +
+        '<td><span class="badge badge-warn">A responder</span></td>' +
+        '<td class="acoes">' +
+          '<a class="link-action" href="' + wa + '" target="_blank">' +
+            '<svg viewBox="0 0 24 24"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg>WhatsApp</a>' +
+          '<a class="link-action" href="tel:' + String(l.phone || '').replace(/\D/g, '') + '">' +
+            '<svg viewBox="0 0 24 24"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6A19.79 19.79 0 0 1 2.12 4.18 2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72c.13.96.36 1.9.7 2.81a2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45c.9.34 1.85.57 2.81.7A2 2 0 0 1 22 16.92z"/></svg>Ligar</a>' +
+        '</td>' +
+      '</tr>';
+    }).join('');
+  }
+
+  $('#busca').addEventListener('input', render);
+  $('#filtroTipo').addEventListener('change', render);
+  $('#btnAtualizar').addEventListener('click', () => {
+    carregar();
+    const t = $('#toast');
+    $('#toastMsg').textContent = 'Leads atualizados.';
+    t.classList.add('visivel');
+    setTimeout(() => t.classList.remove('visivel'), 2500);
+  });
+
+  carregar();
+})();
+</script>
+</body>
+</html>

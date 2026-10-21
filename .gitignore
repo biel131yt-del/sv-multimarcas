@@ -1,0 +1,39 @@
+# Dependências
+node_modules/
+.pnp
+.pnp.js
+
+# Build
+.next/
+out/
+build/
+dist/
+
+# Ambiente — NUNCA commitar credenciais
+.env
+.env.*
+!.env.example
+*.pem
+*.key
+
+# Editor / SO
+.DS_Store
+Thumbs.db
+desktop.ini
+
+# Logs
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+logs/
+*.log
+
+# Vercel
+.vercel
+
+# Scaffolding Next.js — mantido local como referência, não faz parte do deploy
+nextjs/
+
+# Arquivos de imagem muito pesados (as fotos reais vão por fora ou por CDN)
+# Descomente se necessário:
+# images/carros/*.jpg

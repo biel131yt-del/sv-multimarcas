@@ -1,0 +1,2399 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <title>SV Multimarcas — Seu próximo carro está aqui</title>
+  <meta name="description" content="Loja de veículos multimarcas com atendimento profissional e experiência premium. Compra, venda, troca e financiamento de carros.">
+  <meta name="theme-color" content="#0B0B0D">
+  <link rel="icon" href="images/logo.png">
+  <link rel="apple-touch-icon" href="images/logo.png">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Montserrat:wght@600;800&display=swap" rel="stylesheet">
+
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "AutomotiveBusiness",
+    "name": "SV Multimarcas",
+    "alternateName": "Souza Veículos Multimarcas",
+    "slogan": "Seu próximo carro está aqui.",
+    "description": "Loja de veículos multimarcas com atendimento profissional e experiência premium.",
+    "image": "images/logo.png",
+    "logo": "images/logo.png",
+    "telephone": "+55 11 99975-4932",
+    "priceRange": "$$",
+    "address": {
+      "@type": "PostalAddress",
+      "streetAddress": "Av. dos Automobilistas, nº 000",
+      "addressLocality": "São Paulo",
+      "addressRegion": "SP",
+      "postalCode": "00000-000",
+      "addressCountry": "BR"
+    },
+    "openingHoursSpecification": [
+      { "@type": "OpeningHoursSpecification", "dayOfWeek": ["Monday","Tuesday","Wednesday","Thursday","Friday"], "opens": "09:00", "closes": "18:00" },
+      { "@type": "OpeningHoursSpecification", "dayOfWeek": "Saturday", "opens": "09:00", "closes": "14:00" }
+    ],
+    "sameAs": [
+      "https://www.instagram.com/sv26anos/",
+      "https://www.facebook.com/SouzaVeiculosMultimarcas/"
+    ]
+  }
+  </script>
+
+  <style>
+    :root {
+      --black: #0B0B0D;
+      --graphite: #151518;
+      --white: #FFFFFF;
+      --silver: #A8ADB5;
+      --red: #E30613;
+      --blue: #164FE5;
+
+      --font-title: 'Montserrat', 'Inter', system-ui, -apple-system, sans-serif;
+      --font-text: 'Inter', system-ui, -apple-system, sans-serif;
+
+      --radius: 4px;
+      --transition: 0.3s ease;
+
+      /* Espaçamentos escalonados */
+      --sp-1: 8px;
+      --sp-2: 16px;
+      --sp-3: 24px;
+      --sp-4: 40px;
+      --sp-5: 64px;
+      --sp-6: 88px;
+
+      --header-h: 68px;
+      --header-h-desktop: 84px;
+      --safe-b: env(safe-area-inset-bottom, 0px);
+      --safe-r: env(safe-area-inset-right, 0px);
+    }
+
+    @media (min-width: 1024px) {
+      :root { --header-h: var(--header-h-desktop); }
+    }
+
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+
+    html {
+      scroll-behavior: smooth;
+      scroll-padding-top: calc(var(--header-h) + 16px);
+      font-synthesis: none;
+      text-rendering: optimizeLegibility;
+      -webkit-font-smoothing: antialiased;
+      -webkit-text-size-adjust: 100%;
+    }
+
+    body {
+      background: var(--black);
+      color: var(--white);
+      font-family: var(--font-text);
+      line-height: 1.6;
+      overflow-x: hidden;
+      min-height: 100vh;
+    }
+
+    body.menu-aberto { overflow: hidden; }
+
+    h1, h2, h3, h4, .montserrat {
+      font-family: var(--font-title);
+      font-weight: 800;
+    }
+
+    a { text-decoration: none; color: inherit; }
+    img { max-width: 100%; display: block; }
+
+    /* Container — largura máxima padronizada */
+    .container {
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 0 16px;
+    }
+    @media (min-width: 640px) { .container { padding: 0 20px; } }
+    @media (min-width: 1024px) { .container { padding: 0 24px; } }
+
+    /* =========================================
+       HEADER
+       ========================================= */
+    header {
+      position: fixed;
+      top: 0; left: 0; right: 0;
+      z-index: 1000;
+      height: var(--header-h);
+      background: var(--black);
+      transition: height var(--transition), background var(--transition);
+      border-bottom: 1px solid rgba(168, 173, 181, 0.06);
+    }
+
+    header.scrolled {
+      background: rgba(11, 11, 13, 0.94);
+      backdrop-filter: blur(12px);
+      -webkit-backdrop-filter: blur(12px);
+      border-bottom-color: rgba(168, 173, 181, 0.15);
+    }
+
+    .nav-wrapper {
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 0 16px;
+      height: 100%;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 16px;
+    }
+    @media (min-width: 640px) { .nav-wrapper { padding: 0 20px; } }
+    @media (min-width: 1024px) { .nav-wrapper { padding: 0 24px; gap: 24px; } }
+
+    .logo-wrap { flex-shrink: 0; display: flex; align-items: center; }
+
+    .logo-wrap img {
+      display: block;
+      height: 38px;
+      width: auto;
+      transition: height var(--transition);
+    }
+    @media (min-width: 1024px) { .logo-wrap img { height: 48px; } }
+    header.scrolled .logo-wrap img { height: 34px; }
+    @media (min-width: 1024px) { header.scrolled .logo-wrap img { height: 42px; } }
+
+    .nav-menu { display: none; list-style: none; gap: 28px; align-items: center; }
+    @media (min-width: 1024px) { .nav-menu { display: flex; } }
+
+    .nav-menu li a {
+      color: var(--white);
+      font-size: 14px;
+      font-weight: 600;
+      transition: color var(--transition);
+    }
+    .nav-menu li a:hover { color: var(--silver); }
+
+    .btn-ver-veiculos {
+      display: none;
+      align-items: center;
+      justify-content: center;
+      background: transparent;
+      border: 1px solid var(--white);
+      color: var(--white);
+      padding: 10px 22px;
+      font-family: var(--font-title);
+      font-weight: 700;
+      font-size: 13px;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+      border-radius: var(--radius);
+      transition: var(--transition);
+      cursor: pointer;
+      white-space: nowrap;
+    }
+    @media (min-width: 1024px) { .btn-ver-veiculos { display: inline-flex; } }
+    .btn-ver-veiculos:hover { background: var(--white); color: var(--black); }
+
+    /* Hambúrguer — alvo de toque adequado */
+    .menu-toggle {
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      gap: 5px;
+      width: 44px;
+      height: 44px;
+      margin-right: -10px;
+      background: none;
+      border: none;
+      cursor: pointer;
+      z-index: 1001;
+    }
+    .menu-toggle span {
+      display: block;
+      width: 22px;
+      height: 2px;
+      margin-left: 10px;
+      background: var(--white);
+      transition: var(--transition);
+      border-radius: 1px;
+    }
+    @media (min-width: 1024px) { .menu-toggle { display: none; } }
+
+    /* Menu mobile */
+    .mobile-menu {
+      position: fixed;
+      inset: 0;
+      background: var(--black);
+      z-index: 999;
+      padding: calc(var(--header-h) + 24px) 20px calc(32px + var(--safe-b));
+      display: flex;
+      flex-direction: column;
+      transform: translateX(100%);
+      transition: transform 0.35s ease;
+      overflow-y: auto;
+      -webkit-overflow-scrolling: touch;
+    }
+    .mobile-menu.open { transform: translateX(0); }
+
+    .mobile-menu-close {
+      position: absolute;
+      top: 10px; right: 12px;
+      width: 44px; height: 44px;
+      background: none; border: none;
+      color: var(--white);
+      font-size: 26px;
+      cursor: pointer;
+      line-height: 1;
+    }
+
+    .mobile-menu ul { list-style: none; }
+
+    .mobile-menu li { border-bottom: 1px solid rgba(255,255,255,0.05); }
+
+    .mobile-menu li a {
+      color: var(--white);
+      font-family: var(--font-title);
+      font-weight: 800;
+      font-size: 17px;
+      display: block;
+      padding: 16px 0;
+    }
+
+    .mobile-menu li a.btn-ver-veiculos {
+      margin-top: 24px;
+      padding: 14px 24px;
+      text-align: center;
+      border: 1px solid var(--white);
+      border-radius: var(--radius);
+      font-size: 13px;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+    }
+
+    .mobile-menu li a.btn-ver-veiculos:hover { background: var(--white); color: var(--black); }
+
+    .mobile-cta {
+      margin-top: 28px;
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+    }
+
+    .mobile-cta .btn-primary { width: 100%; min-height: 48px; }
+
+    .mobile-contact {
+      font-size: 14px;
+      color: var(--silver);
+      text-align: center;
+      margin-top: 20px;
+    }
+    .mobile-contact a { color: var(--white); font-weight: 600; }
+
+    /* =========================================
+       BOTÕES
+       ========================================= */
+    .btn-primary {
+      background: var(--red);
+      color: var(--white);
+      padding: 14px 28px;
+      min-height: 48px;
+      font-family: var(--font-title);
+      font-weight: 700;
+      font-size: 14px;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+      border: none;
+      border-radius: var(--radius);
+      cursor: pointer;
+      transition: var(--transition);
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      white-space: nowrap;
+      -webkit-tap-highlight-color: transparent;
+    }
+    .btn-primary:hover { background: #c50510; }
+    .btn-primary:disabled { opacity: 0.6; cursor: not-allowed; }
+
+    .btn-secondary {
+      background: transparent;
+      border: 1px solid var(--white);
+      color: var(--white);
+      padding: 14px 28px;
+      min-height: 48px;
+      font-family: var(--font-title);
+      font-weight: 700;
+      font-size: 14px;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+      border-radius: var(--radius);
+      cursor: pointer;
+      transition: var(--transition);
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      white-space: nowrap;
+      -webkit-tap-highlight-color: transparent;
+    }
+    .btn-secondary:hover { background: var(--white); color: var(--black); }
+
+    /* =========================================
+       HERO
+       ========================================= */
+    .hero {
+      position: relative;
+      min-height: 100svh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      overflow: hidden;
+      padding: calc(var(--header-h) + 40px) 0 56px;
+    }
+    @media (min-width: 1024px) { .hero { min-height: 100vh; padding-top: var(--header-h); } }
+
+    .hero-bg {
+      position: absolute;
+      inset: 0;
+      object-fit: cover;
+      object-position: center;
+      width: 100%;
+      height: 100%;
+    }
+    .hero-overlay {
+      position: absolute;
+      inset: 0;
+      background: linear-gradient(to top,
+        rgba(11,11,13,0.96) 0%,
+        rgba(11,11,13,0.6) 45%,
+        rgba(11,11,13,0.25) 78%,
+        rgba(11,11,13,0.5) 100%);
+    }
+
+    .hero-content {
+      position: relative;
+      z-index: 2;
+      text-align: center;
+      max-width: 860px;
+      padding: 0 16px;
+    }
+
+    .hero h1 {
+      font-size: clamp(1.85rem, 7vw, 3.75rem);
+      color: var(--white);
+      margin-bottom: 18px;
+      line-height: 1.12;
+      letter-spacing: -0.5px;
+      text-wrap: balance;
+    }
+
+    .hero p {
+      color: var(--silver);
+      font-size: 1rem;
+      margin-bottom: 32px;
+      max-width: 620px;
+      margin-left: auto;
+      margin-right: auto;
+      font-weight: 400;
+    }
+    @media (min-width: 640px) { .hero p { font-size: 1.125rem; } }
+
+    .hero-actions {
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+    }
+    @media (min-width: 560px) {
+      .hero-actions { flex-direction: row; justify-content: center; }
+      .hero-actions > * { flex: 0 1 auto; min-width: 200px; }
+    }
+
+    /* =========================================
+       SEÇÕES
+       ========================================= */
+    section { padding: 64px 0; }
+    @media (min-width: 1024px) { section { padding: 88px 0; } }
+
+    .section-header { text-align: center; margin-bottom: 48px; }
+    @media (min-width: 1024px) { .section-header { margin-bottom: 64px; } }
+
+    .section-header h2 {
+      font-size: clamp(1.6rem, 5.4vw, 2.75rem);
+      color: var(--white);
+      margin-bottom: 20px;
+      position: relative;
+      display: inline-block;
+      text-wrap: balance;
+    }
+    .section-header h2::after {
+      content: '';
+      position: absolute;
+      bottom: -10px; left: 50%;
+      transform: translateX(-50%);
+      width: 48px; height: 3px;
+      background: var(--red);
+    }
+    .section-header p {
+      color: var(--silver);
+      font-size: 1rem;
+      max-width: 640px;
+      margin: 0 auto;
+      font-weight: 400;
+    }
+    @media (min-width: 640px) { .section-header p { font-size: 1.125rem; } }
+
+    /* =========================================
+       FILTROS
+       ========================================= */
+    .filtros { margin-bottom: 32px; }
+    @media (min-width: 1024px) { .filtros { margin-bottom: 48px; } }
+
+    .btn-filtros {
+      width: 100%;
+      background: rgba(255,255,255,0.04);
+      border: 1px solid rgba(168,173,181,0.12);
+      color: var(--white);
+      padding: 0 20px;
+      min-height: 48px;
+      border-radius: var(--radius);
+      font-family: var(--font-text);
+      font-weight: 600;
+      font-size: 14px;
+      cursor: pointer;
+      transition: var(--transition);
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+    }
+    .btn-filtros:hover { background: rgba(255,255,255,0.08); border-color: var(--silver); }
+
+    .filtros-panel {
+      display: none;
+      margin-top: 16px;
+      padding: 20px;
+      background: var(--graphite);
+      border: 1px solid rgba(168,173,181,0.08);
+      border-radius: var(--radius);
+      text-align: left;
+    }
+    .filtros-panel.open { display: block; }
+
+    .filtros-panel h3 {
+      font-size: 12px;
+      text-transform: uppercase;
+      letter-spacing: 1px;
+      color: var(--silver);
+      margin-bottom: 16px;
+      font-weight: 700;
+    }
+
+    .filtros-grid { display: grid; grid-template-columns: 1fr; gap: 12px; }
+    @media (min-width: 560px) { .filtros-grid { grid-template-columns: 1fr 1fr; } }
+
+    .filtros-grid select,
+    .filtros-grid input {
+      width: 100%;
+      min-height: 46px;
+      padding: 12px;
+      background: rgba(255,255,255,0.03);
+      border: 1px solid rgba(168,173,181,0.08);
+      border-radius: var(--radius);
+      color: var(--white);
+      font-family: var(--font-text);
+      font-size: 16px; /* 16px evita zoom automático no iOS */
+    }
+    .filtros-grid select option { background: var(--graphite); color: var(--white); }
+
+    .filtros-actions { margin-top: 16px; display: flex; gap: 10px; }
+    .filtros-actions > * { flex: 1; min-height: 46px; }
+
+    .estoque-contagem {
+      margin-bottom: 6px;
+      font-size: 13px;
+      color: var(--silver);
+    }
+    .estoque-contagem strong { color: var(--white); }
+
+    .estoque-aviso {
+      font-size: 12px;
+      color: rgba(168,173,181,0.85);
+      margin-bottom: 20px;
+      padding-left: 12px;
+      border-left: 2px solid var(--blue);
+    }
+
+    /* =========================================
+       CARDS DE VEÍCULO
+       ========================================= */
+    .estoque-grid {
+      display: grid;
+      grid-template-columns: 1fr;
+      gap: 20px;
+    }
+    @media (min-width: 600px) { .estoque-grid { grid-template-columns: repeat(2, 1fr); } }
+    @media (min-width: 1024px) { .estoque-grid { grid-template-columns: repeat(3, 1fr); gap: 24px; } }
+
+    .vehicle-card {
+      background: var(--graphite);
+      border: 1px solid rgba(168,173,181,0.08);
+      border-radius: var(--radius);
+      overflow: hidden;
+      transition: border-color var(--transition);
+      display: flex;
+      flex-direction: column;
+    }
+    .vehicle-card:hover { border-color: rgba(168,173,181,0.18); }
+
+    .vehicle-image {
+      position: relative;
+      height: 190px;
+      overflow: hidden;
+      background: var(--black);
+    }
+    @media (min-width: 640px) { .vehicle-image { height: 210px; } }
+    @media (min-width: 1024px) { .vehicle-image { height: 220px; } }
+
+    .vehicle-image img {
+      width: 100%; height: 100%;
+      object-fit: cover;
+      transition: transform 0.5s ease;
+    }
+    .vehicle-card:hover .vehicle-image img { transform: scale(1.03); }
+
+    .featured-badge {
+      position: absolute;
+      top: 10px; left: 10px;
+      background: var(--red);
+      color: var(--white);
+      font-family: var(--font-title);
+      font-weight: 800;
+      font-size: 10px;
+      text-transform: uppercase;
+      padding: 4px 10px;
+      border-radius: var(--radius);
+      letter-spacing: 0.5px;
+    }
+
+    .vehicle-price-badge {
+      position: absolute;
+      bottom: 10px; left: 10px;
+      background: rgba(11,11,13,0.85);
+      color: var(--white);
+      font-family: var(--font-title);
+      font-weight: 800;
+      font-size: 13px;
+      padding: 5px 10px;
+      border-radius: var(--radius);
+    }
+
+    .foto-pendente-badge {
+      position: absolute;
+      top: 10px; right: 10px;
+      background: rgba(11,11,13,0.85);
+      color: var(--silver);
+      font-family: var(--font-title);
+      font-weight: 700;
+      font-size: 9.5px;
+      text-transform: uppercase;
+      padding: 4px 8px;
+      border-radius: var(--radius);
+      letter-spacing: 0.5px;
+      border: 1px solid rgba(168,173,181,0.2);
+    }
+
+    .vehicle-info {
+      padding: 18px;
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+      flex: 1;
+    }
+    @media (min-width: 640px) { .vehicle-info { padding: 20px; } }
+
+    .vehicle-brand {
+      font-family: var(--font-title);
+      font-weight: 800;
+      font-size: 12px;
+      color: var(--silver);
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+    }
+    .vehicle-model {
+      font-size: 16px;
+      font-weight: 800;
+      color: var(--white);
+      line-height: 1.25;
+    }
+    .vehicle-version { font-size: 13px; color: var(--silver); margin-top: -8px; }
+
+    .vehicle-specs {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 8px 14px;
+    }
+    .spec-item {
+      font-size: 13px;
+      color: var(--silver);
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+    .spec-item::before {
+      content: '';
+      width: 4px; height: 4px;
+      background: var(--blue);
+      border-radius: 50%;
+      flex-shrink: 0;
+    }
+
+    .vehicle-footer {
+      margin-top: auto;
+      padding-top: 14px;
+      border-top: 1px solid rgba(168,173,181,0.06);
+    }
+    .vehicle-price {
+      display: block;
+      font-weight: 700;
+      font-size: 19px;
+      color: var(--white);
+      margin-bottom: 12px;
+    }
+    .vehicle-buttons { display: flex; gap: 8px; }
+    .vehicle-buttons > * { flex: 1; min-height: 44px; }
+
+    .btn-consultar {
+      background: var(--red);
+      color: var(--white);
+      padding: 10px 12px;
+      font-family: var(--font-title);
+      font-weight: 700;
+      font-size: 11px;
+      text-transform: uppercase;
+      border: none;
+      border-radius: var(--radius);
+      cursor: pointer;
+      transition: var(--transition);
+      white-space: nowrap;
+      -webkit-tap-highlight-color: transparent;
+    }
+    .btn-consultar:hover { background: #c50510; }
+
+    .btn-detalhes {
+      background: transparent;
+      border: 1px solid var(--white);
+      color: var(--white);
+      padding: 10px 12px;
+      font-family: var(--font-title);
+      font-weight: 700;
+      font-size: 11px;
+      text-transform: uppercase;
+      border-radius: var(--radius);
+      cursor: pointer;
+      transition: var(--transition);
+      white-space: nowrap;
+      -webkit-tap-highlight-color: transparent;
+    }
+    .btn-detalhes:hover { background: var(--white); color: var(--black); }
+
+    .ver-tudo { text-align: center; margin-top: 36px; }
+    .ver-tudo .btn-secondary { width: 100%; }
+    @media (min-width: 640px) { .ver-tudo .btn-secondary { width: auto; } }
+
+    /* =========================================
+       SERVIÇOS
+       ========================================= */
+    .services-grid {
+      display: grid;
+      grid-template-columns: 1fr;
+      gap: 16px;
+    }
+    @media (min-width: 600px) { .services-grid { grid-template-columns: repeat(2, 1fr); } }
+    @media (min-width: 1024px) { .services-grid { grid-template-columns: repeat(4, 1fr); gap: 20px; } }
+
+    .service-card {
+      text-align: center;
+      padding: 28px 20px;
+      background: var(--graphite);
+      border: 1px solid rgba(168,173,181,0.08);
+      border-radius: var(--radius);
+      transition: var(--transition);
+      display: flex;
+      flex-direction: column;
+    }
+    .service-card:hover { border-color: var(--silver); background: rgba(255,255,255,0.02); }
+
+    .service-icon {
+      width: 48px; height: 48px;
+      border: 2px solid var(--silver);
+      border-radius: var(--radius);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      margin: 0 auto 18px;
+      transition: var(--transition);
+      background: rgba(255,255,255,0.03);
+      flex-shrink: 0;
+    }
+    .service-icon svg {
+      width: 22px; height: 22px;
+      stroke: currentColor;
+      fill: none;
+    }
+
+    .service-card.compra .service-icon { border-color: var(--red); color: var(--red); }
+    .service-card.venda .service-icon { border-color: var(--blue); color: var(--blue); }
+    .service-card.troca .service-icon { border-color: var(--blue); color: var(--blue); }
+    .service-card.financiamento .service-icon { border-color: var(--red); color: var(--red); }
+
+    .service-card.compra .service-icon:hover,
+    .service-card.financiamento .service-icon:hover { background: var(--red); border-color: var(--red); color: var(--white); }
+    .service-card.venda .service-icon:hover,
+    .service-card.troca .service-icon:hover { background: var(--blue); border-color: var(--blue); color: var(--white); }
+
+    .service-icon:hover svg { fill: var(--white) !important; stroke: var(--white) !important; }
+
+    .service-card h3 { font-size: 18px; margin-bottom: 8px; color: var(--white); }
+    .service-card p { color: var(--silver); font-size: 14px; margin-bottom: 20px; font-weight: 400; flex: 1; }
+
+    .service-actions { display: flex; flex-direction: column; gap: 8px; }
+    .service-actions a {
+      flex: 1;
+      min-height: 44px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      border-radius: var(--radius);
+      font-family: var(--font-title);
+      font-weight: 700;
+      font-size: 12px;
+      text-transform: uppercase;
+      transition: var(--transition);
+      -webkit-tap-highlight-color: transparent;
+    }
+    .btn-ver-estoque-serv { background: transparent; border: 1px solid var(--white); color: var(--white); }
+    .btn-ver-estoque-serv:hover { background: var(--white); color: var(--black); }
+    .btn-whatsapp-serv { background: var(--red); color: var(--white); }
+    .btn-whatsapp-serv:hover { background: #c50510; }
+
+    /* =========================================
+       CONFIANÇA
+       ========================================= */
+    .trust-grid {
+      display: grid;
+      grid-template-columns: 1fr;
+      gap: 16px;
+    }
+    @media (min-width: 600px) { .trust-grid { grid-template-columns: repeat(2, 1fr); } }
+    @media (min-width: 1024px) { .trust-grid { grid-template-columns: repeat(3, 1fr); gap: 24px; } }
+
+    .trust-card {
+      text-align: center;
+      padding: 28px 20px;
+      background: var(--graphite);
+      border: 1px solid rgba(168,173,181,0.08);
+      border-radius: var(--radius);
+      transition: var(--transition);
+    }
+    .trust-card:hover { border-color: var(--silver); background: rgba(255,255,255,0.02); }
+
+    .trust-icon {
+      width: 48px; height: 48px;
+      border: 2px solid var(--blue);
+      border-radius: var(--radius);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      margin: 0 auto 18px;
+      transition: var(--transition);
+      background: rgba(255,255,255,0.03);
+      color: var(--blue);
+      flex-shrink: 0;
+    }
+    .trust-icon svg { width: 22px; height: 22px; stroke: currentColor; fill: none; }
+    .trust-card:hover .trust-icon { background: var(--blue); border-color: var(--blue); color: var(--white); }
+    .trust-card:hover .trust-icon path,
+    .trust-card:hover .trust-icon polygon,
+    .trust-card:hover .trust-icon circle,
+    .trust-card:hover .trust-icon line,
+    .trust-card:hover .trust-icon rect { fill: var(--white) !important; stroke: var(--white) !important; }
+
+    .trust-card h3 { font-size: 17px; margin-bottom: 8px; color: var(--white); }
+    .trust-card p { color: var(--silver); font-size: 14px; font-weight: 400; }
+
+    /* =========================================
+       FORMULÁRIOS
+       ========================================= */
+    .form-wrap { max-width: 520px; margin: 0 auto; }
+    @media (min-width: 768px) { .form-wrap { max-width: 620px; } }
+
+    .sell-form {
+      background: var(--graphite);
+      border: 1px solid rgba(168,173,181,0.08);
+      padding: 24px 20px;
+      border-radius: var(--radius);
+    }
+    @media (min-width: 640px) { .sell-form { padding: 32px 28px; } }
+
+    .form-row {
+      display: grid;
+      grid-template-columns: 1fr;
+      gap: 0 16px;
+    }
+    @media (min-width: 560px) { .form-row { grid-template-columns: 1fr 1fr; } }
+
+    .form-group { margin-bottom: 18px; }
+
+    .form-group label {
+      display: block;
+      font-size: 13px;
+      color: var(--silver);
+      margin-bottom: 7px;
+      font-weight: 600;
+    }
+    .form-group label .obrigatorio { color: var(--red); }
+
+    .form-group input,
+    .form-group select,
+    .form-group textarea {
+      width: 100%;
+      min-height: 48px;
+      padding: 13px 14px;
+      background: rgba(255,255,255,0.03);
+      border: 1px solid rgba(168,173,181,0.1);
+      border-radius: var(--radius);
+      color: var(--white);
+      font-family: var(--font-text);
+      font-size: 16px; /* evita zoom no iOS */
+      transition: border-color var(--transition), background var(--transition);
+    }
+    .form-group textarea { min-height: 90px; resize: vertical; }
+
+    .form-group input::placeholder,
+    .form-group textarea::placeholder { color: rgba(168,173,181,0.4); }
+
+    .form-group input:focus,
+    .form-group select:focus,
+    .form-group textarea:focus {
+      outline: none;
+      border-color: var(--blue);
+      background: rgba(255,255,255,0.05);
+    }
+
+    .form-group select {
+      cursor: pointer;
+      appearance: none;
+      -webkit-appearance: none;
+      background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%23A8ADB5' stroke-width='2' stroke-linecap='round'%3E%3Cpath d='M6 9l6 6 6-6'/%3E%3C/svg%3E");
+      background-repeat: no-repeat;
+      background-position: right 14px center;
+      background-size: 16px;
+      padding-right: 42px;
+    }
+    .form-group select option { background: var(--graphite); color: var(--white); }
+
+    /* Estado inválido */
+    .campo-invalido input,
+    .campo-invalido select,
+    .campo-invalido textarea { border-color: var(--red); }
+
+    .campo-erro {
+      font-size: 12px;
+      color: var(--red);
+      margin-top: 6px;
+      display: flex;
+      align-items: center;
+      gap: 5px;
+    }
+
+    .form-error {
+      color: var(--red);
+      font-size: 13px;
+      margin-bottom: 16px;
+      padding: 10px 12px;
+      background: rgba(227,6,19,0.08);
+      border: 1px solid rgba(227,6,19,0.25);
+      border-radius: var(--radius);
+      display: none;
+    }
+
+    .form-note {
+      font-size: 12px;
+      color: rgba(168,173,181,0.85);
+      line-height: 1.6;
+      margin-top: 16px;
+    }
+
+    .form-success {
+      text-align: center;
+      padding: 40px 20px;
+      background: var(--graphite);
+      border: 1px solid rgba(168,173,181,0.08);
+      border-radius: var(--radius);
+    }
+    .form-success h3 { font-size: 20px; color: var(--white); margin-bottom: 10px; }
+    .form-success p { color: var(--silver); margin-bottom: 24px; font-size: 14px; }
+    .form-success .btn-primary { width: 100%; }
+    @media (min-width: 480px) { .form-success .btn-primary { width: auto; } }
+
+    .form-success-icon {
+      width: 48px; height: 48px;
+      border-radius: 50%;
+      background: rgba(34,197,94,0.12);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      margin: 0 auto 18px;
+    }
+    .form-success-icon svg { width: 24px; height: 24px; stroke: #4ade80; fill: none; stroke-width: 2.5; }
+
+    /* Estimativa de financiamento */
+    .estimativa {
+      background: rgba(22,79,229,0.07);
+      border: 1px solid rgba(22,79,229,0.28);
+      border-radius: var(--radius);
+      padding: 18px;
+      margin-bottom: 18px;
+      display: none;
+    }
+    .estimativa.visivel { display: block; }
+    .estimativa-label {
+      font-size: 12px;
+      color: var(--silver);
+      text-transform: uppercase;
+      letter-spacing: 0.8px;
+      margin-bottom: 6px;
+    }
+    .estimativa-valor {
+      font-size: 26px;
+      font-weight: 700;
+      color: var(--white);
+      font-family: var(--font-title);
+      line-height: 1.2;
+    }
+    .estimativa-detalhes {
+      font-size: 12px;
+      color: var(--silver);
+      margin-top: 8px;
+      line-height: 1.6;
+    }
+    .estimativa-aviso {
+      font-size: 11px;
+      color: rgba(168,173,181,0.65);
+      margin-top: 10px;
+      line-height: 1.5;
+    }
+
+    /* =========================================
+       FINANCIAMENTO
+       ========================================= */
+    .finance-content { max-width: 520px; margin: 0 auto; }
+    @media (min-width: 768px) { .finance-content { max-width: 620px; } }
+
+    .finance-steps {
+      background: var(--graphite);
+      border: 1px solid rgba(168,173,181,0.08);
+      padding: 24px 20px;
+      border-radius: var(--radius);
+      margin-bottom: 24px;
+    }
+    .finance-steps h3 { font-size: 18px; color: var(--white); margin-bottom: 18px; }
+    .finance-steps ol {
+      color: var(--silver);
+      font-size: 14px;
+      line-height: 1.7;
+      margin-left: 20px;
+      list-style-position: outside;
+    }
+    .finance-steps ol li { margin-bottom: 12px; padding-left: 4px; }
+    .finance-steps ol li strong { color: var(--white); font-weight: 700; }
+
+    .finance-disclaimer {
+      font-size: 12px;
+      color: rgba(168,173,181,0.6);
+      line-height: 1.6;
+      margin-top: 20px;
+      text-align: center;
+    }
+
+    /* =========================================
+       CONTATO
+       ========================================= */
+    .contato-grid {
+      display: grid;
+      grid-template-columns: 1fr;
+      gap: 12px;
+      margin-bottom: 32px;
+    }
+    @media (min-width: 560px) { .contato-grid { grid-template-columns: repeat(2, 1fr); } }
+    @media (min-width: 1024px) { .contato-grid { grid-template-columns: repeat(4, 1fr); gap: 20px; } }
+
+    .contato-card {
+      background: var(--graphite);
+      border: 1px solid rgba(168,173,181,0.08);
+      border-radius: var(--radius);
+      padding: 22px 18px;
+      display: flex;
+      gap: 12px;
+      align-items: flex-start;
+      transition: var(--transition);
+    }
+    .contato-card:hover { border-color: var(--silver); }
+
+    .contato-card .f-icon { flex-shrink: 0; width: 20px; height: 20px; margin-top: 2px; color: var(--blue); }
+    .contato-card .f-icon svg { width: 20px; height: 20px; fill: none; stroke: currentColor; stroke-width: 2; stroke-linecap: round; stroke-linejoin: round; }
+
+    .contato-card strong {
+      display: block;
+      font-size: 12px;
+      color: var(--silver);
+      text-transform: uppercase;
+      letter-spacing: 0.8px;
+      margin-bottom: 5px;
+      font-weight: 700;
+    }
+    .contato-card p, .contato-card a { font-size: 14px; color: var(--white); font-weight: 400; }
+    .contato-card a {
+      display: inline-block;
+      padding: 4px 0;
+      min-height: 24px;
+    }
+    .contato-card a:hover { color: var(--red); }
+
+    .contato-cta { text-align: center; }
+    .contato-cta .btn-primary { width: 100%; }
+    @media (min-width: 480px) { .contato-cta .btn-primary { width: auto; } }
+
+    /* =========================================
+       RODAPÉ
+       ========================================= */
+    footer { border-top: 1px solid rgba(255,255,255,0.06); background: var(--black); }
+
+    .footer-cta { border-bottom: 1px solid rgba(255,255,255,0.06); background: var(--graphite); }
+    .footer-cta-inner {
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 32px 16px;
+      display: flex;
+      flex-direction: column;
+      gap: 20px;
+      align-items: flex-start;
+    }
+    @media (min-width: 640px) { .footer-cta-inner { padding: 40px 20px; } }
+    @media (min-width: 900px) {
+      .footer-cta-inner { padding: 44px 24px; flex-direction: row; align-items: center; justify-content: space-between; }
+    }
+
+    .footer-cta h2 { font-size: clamp(1.2rem, 4vw, 1.75rem); color: var(--white); margin-bottom: 6px; line-height: 1.25; text-wrap: balance; }
+    .footer-cta p { color: var(--silver); font-size: 14px; font-weight: 400; max-width: 520px; }
+    .footer-cta .btn-primary { width: 100%; }
+    @media (min-width: 900px) { .footer-cta .btn-primary { width: auto; } }
+
+    .footer-main { max-width: 1200px; margin: 0 auto; padding: 40px 16px 32px; }
+    @media (min-width: 640px) { .footer-main { padding: 56px 20px 44px; } }
+    @media (min-width: 1024px) { .footer-main { padding: 56px 24px 44px; } }
+
+    .footer-grid {
+      display: grid;
+      grid-template-columns: 1fr;
+      gap: 32px;
+    }
+    @media (min-width: 600px) { .footer-grid { grid-template-columns: repeat(2, 1fr); } }
+    @media (min-width: 1024px) { .footer-grid { grid-template-columns: 1.4fr 1.2fr 0.9fr 1fr; gap: 48px; } }
+
+    .footer-brand img { height: 46px; width: auto; margin-bottom: 16px; }
+    .footer-brand p { color: var(--silver); font-size: 14px; max-width: 280px; line-height: 1.7; font-weight: 400; }
+
+    .footer-social { margin-top: 20px; display: flex; gap: 10px; }
+    .footer-social a {
+      width: 40px; height: 40px;
+      border: 1px solid rgba(168,173,181,0.12);
+      border-radius: var(--radius);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: var(--silver);
+      transition: var(--transition);
+    }
+    .footer-social a svg { width: 18px; height: 18px; fill: currentColor; }
+    .footer-social a:hover { color: var(--white); border-color: var(--silver); background: rgba(255,255,255,0.04); }
+
+    .footer-col h3 {
+      font-size: 12px;
+      color: var(--white);
+      margin-bottom: 18px;
+      font-weight: 800;
+      text-transform: uppercase;
+      letter-spacing: 1.2px;
+      font-family: var(--font-title);
+    }
+    .footer-col ul { list-style: none; }
+    .footer-col li { margin-bottom: 10px; }
+    .footer-col li a {
+      color: var(--silver);
+      font-size: 14px;
+      font-weight: 400;
+      transition: color var(--transition);
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+    }
+    .footer-col li a::before {
+      content: '';
+      width: 0; height: 1px;
+      background: var(--red);
+      transition: width var(--transition);
+    }
+    .footer-col li a:hover { color: var(--white); }
+    .footer-col li a:hover::before { width: 12px; }
+
+    .footer-contato-item {
+      display: flex;
+      gap: 11px;
+      align-items: flex-start;
+      margin-bottom: 14px;
+      color: var(--silver);
+      font-size: 14px;
+      line-height: 1.6;
+    }
+    .footer-contato-item .f-icon { flex-shrink: 0; width: 18px; height: 18px; margin-top: 2px; color: var(--blue); }
+    .footer-contato-item .f-icon svg { width: 18px; height: 18px; fill: none; stroke: currentColor; stroke-width: 2; stroke-linecap: round; stroke-linejoin: round; }
+    .footer-contato-item a {
+      color: var(--white);
+      display: inline-block;
+      padding: 4px 0;
+      min-height: 24px;
+      transition: color var(--transition);
+    }
+    .footer-contato-item a:hover { color: var(--red); }
+
+    .footer-bottom { border-top: 1px solid rgba(255,255,255,0.06); }
+    .footer-bottom-inner {
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 20px 16px calc(24px + var(--safe-b));
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+      align-items: center;
+      text-align: center;
+    }
+    @media (min-width: 768px) {
+      .footer-bottom-inner { padding: 22px 20px 28px; flex-direction: row; justify-content: space-between; text-align: left; }
+    }
+    .footer-bottom p { color: rgba(168,173,181,0.82); font-size: 12px; font-weight: 400; }
+    .footer-legal { display: flex; gap: 16px; flex-wrap: wrap; justify-content: center; }
+    .footer-legal a {
+      color: rgba(168,173,181,0.82);
+      font-size: 12px;
+      display: inline-block;
+      padding: 4px 0;
+      min-height: 24px;
+      transition: color var(--transition);
+    }
+    .footer-legal a:hover { color: var(--white); }
+
+    /* =========================================
+       WHATSAPP FLUTUANTE — mobile safe
+       ========================================= */
+    .whatsapp-float {
+      position: fixed;
+      bottom: calc(16px + var(--safe-b));
+      right: calc(16px + var(--safe-r));
+      z-index: 10000;
+    }
+    @media (min-width: 1024px) { .whatsapp-float { bottom: 26px; right: 26px; } }
+
+    .whatsapp-btn {
+      width: 52px; height: 52px;
+      background: #25D366;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: var(--white);
+      box-shadow: 0 4px 18px rgba(37,211,102,0.35);
+      transition: var(--transition);
+    }
+    .whatsapp-btn svg { width: 26px; height: 26px; fill: var(--white); }
+    .whatsapp-btn:hover { background: #1eb653; transform: scale(1.05); }
+
+    .whatsapp-label {
+      position: absolute;
+      bottom: 50%;
+      right: 68px;
+      transform: translateY(50%);
+      background: var(--black);
+      color: var(--white);
+      padding: 7px 12px;
+      border-radius: var(--radius);
+      font-size: 12px;
+      font-weight: 600;
+      white-space: nowrap;
+      opacity: 0;
+      pointer-events: none;
+      transition: var(--transition);
+      border: 1px solid rgba(168,173,181,0.15);
+    }
+    .whatsapp-btn:hover + .whatsapp-label { opacity: 1; right: 64px; }
+
+    /* =========================================
+       UTILITÁRIOS
+       ========================================= */
+    ::-webkit-scrollbar { width: 8px; height: 8px; }
+    ::-webkit-scrollbar-track { background: var(--black); }
+    ::-webkit-scrollbar-thumb { background: var(--silver); border-radius: var(--radius); }
+    ::-webkit-scrollbar-thumb:hover { background: var(--red); }
+
+    .sr-only {
+      position: absolute; width: 1px; height: 1px;
+      padding: 0; margin: -1px;
+      overflow: hidden; clip: rect(0,0,0,0);
+      border: 0;
+    }
+
+    .no-scroll { overflow: hidden; }
+  </style>
+</head>
+<body>
+
+  <!-- Header -->
+  <header id="header">
+    <div class="nav-wrapper">
+      <a href="#inicio" class="logo" id="logoLink">
+        <div class="logo-wrap">
+          <img src="images/logo.png" alt="SV Multimarcas" width="140" height="48">
+        </div>
+      </a>
+
+      <ul class="nav-menu" id="navMenu">
+        <li><a href="#inicio">Início</a></li>
+        <li><a href="#estoque">Estoque</a></li>
+        <li><a href="#servicos">Serviços</a></li>
+        <li><a href="#vender">Vender ou trocar</a></li>
+        <li><a href="#financiamento">Financiamento</a></li>
+        <li><a href="#contato">Contato</a></li>
+      </ul>
+
+      <a href="#estoque" class="btn-ver-veiculos">Ver veículos</a>
+
+      <button class="menu-toggle" id="menuToggle" aria-label="Abrir menu" aria-expanded="false" aria-controls="mobileMenu">
+        <span></span><span></span><span></span>
+      </button>
+    </div>
+  </header>
+
+  <!-- Menu mobile -->
+  <div class="mobile-menu" id="mobileMenu" aria-hidden="true" inert>
+    <button class="mobile-menu-close" id="mobileMenuClose" aria-label="Fechar menu">✕</button>
+    <ul>
+      <li><a href="#inicio">Início</a></li>
+      <li><a href="#estoque">Estoque</a></li>
+      <li><a href="#servicos">Serviços</a></li>
+      <li><a href="#vender">Vender ou trocar</a></li>
+      <li><a href="#financiamento">Financiamento</a></li>
+      <li><a href="#contato">Contato</a></li>
+    </ul>
+    <div class="mobile-cta">
+      <a href="#estoque" class="btn-primary">Ver veículos</a>
+      <a href="#" class="btn-secondary js-wa-consultor">Falar com um consultor</a>
+    </div>
+    <p class="mobile-contact">
+      <a href="tel:11999754932" class="js-telefone">(11) 99975-4932</a>
+    </p>
+  </div>
+
+  <!-- Hero -->
+  <main>
+  <section class="hero" id="inicio">
+    <img src="images/hero.jfif" alt="Veículo premium SV Multimarcas" class="hero-bg" fetchpriority="high">
+    <div class="hero-overlay"></div>
+    <div class="hero-content">
+      <h1 id="heroH1">Seu próximo carro está aqui.</h1>
+      <p id="heroSub">Encontre o veículo ideal para você com atendimento próximo e opções para diferentes necessidades.</p>
+      <div class="hero-actions">
+        <a href="#estoque" class="btn-primary" id="heroCta1">Ver estoque</a>
+        <a href="#" class="btn-secondary js-wa-consultor" id="heroCta2">Falar com um consultor</a>
+      </div>
+    </div>
+  </section>
+
+  <!-- Estoque -->
+  <section id="estoque">
+    <div class="container">
+      <div class="section-header">
+        <h2 id="estoqueH2">Estoque de veículos</h2>
+        <p id="estoqueSub">Carros selecionados, informações transparentes e acesso rápido às oportunidades disponíveis.</p>
+      </div>
+
+      <div class="filtros">
+        <button class="btn-filtros" id="btnFiltros" aria-expanded="false" aria-controls="filtrosPanel">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><polygon points="22 3 2 3 10 12.46 10 19 14 21 14 12.46 22 3"/></svg>
+          Filtros
+        </button>
+        <div class="filtros-panel" id="filtrosPanel">
+          <h3>Filtrar veículos</h3>
+          <div class="filtros-grid">
+            <select id="filtroMarca" aria-label="Marca"></select>
+            <select id="filtroAno" aria-label="Ano"></select>
+            <input type="number" id="filtroPrecoMin" placeholder="Preço mínimo" aria-label="Preço mínimo" inputmode="numeric">
+            <input type="number" id="filtroPrecoMax" placeholder="Preço máximo" aria-label="Preço máximo" inputmode="numeric">
+          </div>
+          <div class="filtros-actions">
+            <button class="btn-secondary" id="btnLimparFiltros" style="min-height:46px;">Limpar</button>
+            <button class="btn-primary" id="btnAplicarFiltros" style="min-height:46px;">Aplicar</button>
+          </div>
+        </div>
+      </div>
+
+      <p class="estoque-contagem" id="estoqueContagem"></p>
+      <p class="estoque-aviso" id="estoqueAviso">Estoque atualizado diariamente. Preços e disponibilidade sujeitos a confirmação com a loja.</p>
+      <div class="estoque-grid" id="estoqueGrid"></div>
+
+      <div class="ver-tudo">
+        <a href="#estoque" class="btn-secondary" id="estoqueCta">Ver todo o estoque</a>
+      </div>
+    </div>
+  </section>
+
+  <!-- Serviços -->
+  <section id="servicos" style="background: var(--graphite);">
+    <div class="container">
+      <div class="section-header">
+        <h2 id="servicosH2">Serviços</h2>
+        <p id="servicosSub">Compra, venda, troca e financiamento com a transparência e o suporte que você precisa.</p>
+      </div>
+
+      <div class="services-grid">
+        <article class="service-card compra">
+          <div class="service-icon">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M5 17h14"></path>
+              <circle cx="7.5" cy="17.5" r="1.5"></circle>
+              <circle cx="16.5" cy="17.5" r="1.5"></circle>
+              <path d="M3 17v-4.2a2 2 0 0 1 .2-.9L5 6h14l1.8 5.9a2 2 0 0 1 .2.9V17"></path>
+              <path d="M3.5 12h17"></path>
+            </svg>
+          </div>
+          <h3 id="svcCompraT">Compra</h3>
+          <p id="svcCompraD">Encontre seu próximo carro.</p>
+          <div class="service-actions">
+            <a href="#estoque" class="btn-ver-estoque-serv" id="svcCompraCta">Ver estoque</a>
+            <a href="#" class="btn-whatsapp-serv js-wa-compra">WhatsApp</a>
+          </div>
+        </article>
+
+        <article class="service-card venda">
+          <div class="service-icon">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M20.59 13.41l-7.17 7.17a2 2 0 0 1-2.83 0L2 12V2h10l8.59 8.59a2 2 0 0 1 0 2.82z"></path>
+              <circle cx="7" cy="7" r="1.2"></circle>
+            </svg>
+          </div>
+          <h3 id="svcVendaT">Venda</h3>
+          <p id="svcVendaD">Consulte possibilidades para vender seu veículo.</p>
+          <div class="service-actions">
+            <a href="#vender" class="btn-ver-estoque-serv" id="svcVendaCta">Vender meu carro</a>
+            <a href="#" class="btn-whatsapp-serv js-wa-venda">WhatsApp</a>
+          </div>
+        </article>
+
+        <article class="service-card troca">
+          <div class="service-icon">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <polyline points="16 3 21 8 16 13"></polyline>
+              <path d="M21 8H8a5 5 0 0 0-5 5v1"></path>
+              <polyline points="8 21 3 16 8 11"></polyline>
+              <path d="M3 16h13a5 5 0 0 0 5-5v-1"></path>
+            </svg>
+          </div>
+          <h3 id="svcTrocaT">Troca</h3>
+          <p id="svcTrocaD">Considere trocar seu veículo por outro do nosso estoque.</p>
+          <div class="service-actions">
+            <a href="#vender" class="btn-ver-estoque-serv" id="svcTrocaCta">Fazer troca</a>
+            <a href="#" class="btn-whatsapp-serv js-wa-troca">WhatsApp</a>
+          </div>
+        </article>
+
+        <article class="service-card financiamento">
+          <div class="service-icon">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <rect x="1" y="4" width="22" height="16" rx="2" ry="2"></rect>
+              <line x1="1" y1="10" x2="23" y2="10"></line>
+              <line x1="6" y1="15" x2="10" y2="15"></line>
+            </svg>
+          </div>
+          <h3 id="svcFinT">Financiamento</h3>
+          <p id="svcFinD">Consulte condições disponíveis para financiar seu carro.</p>
+          <div class="service-actions">
+            <a href="#financiamento" class="btn-ver-estoque-serv" id="svcFinCta">Simular</a>
+            <a href="#" class="btn-whatsapp-serv js-wa-financiamento">WhatsApp</a>
+          </div>
+        </article>
+      </div>
+    </div>
+  </section>
+
+  <!-- Por que escolher -->
+  <section id="confianca">
+    <div class="container">
+      <div class="section-header">
+        <h2 id="confiancaH2">Por que escolher a SV Multimarcas?</h2>
+        <p id="confiancaSub">Mais confiança para escolher seu próximo carro. Atendimento personalizado, informações claras e suporte durante a negociação.</p>
+      </div>
+
+      <div class="trust-grid">
+        <div class="trust-card">
+          <div class="trust-icon">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path>
+              <circle cx="12" cy="7" r="4"></circle>
+            </svg>
+          </div>
+          <h3 id="cfAtendimentoT">Atendimento personalizado</h3>
+          <p id="cfAtendimentoD">Um consultor dedicado para entender sua necessidade e indicar o veículo ideal.</p>
+        </div>
+
+        <div class="trust-card">
+          <div class="trust-icon">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path>
+              <polyline points="14 2 14 8 20 8"></polyline>
+              <line x1="16" y1="13" x2="8" y2="13"></line>
+              <line x1="16" y1="17" x2="8" y2="17"></line>
+            </svg>
+          </div>
+          <h3 id="cfTransparenciaT">Informações transparentes</h3>
+          <p id="cfTransparenciaD">Preço, ano, quilometragem, câmbio e combustível detalhados em cada anúncio.</p>
+        </div>
+
+        <div class="trust-card">
+          <div class="trust-icon">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M3 18v-6a9 9 0 0 1 18 0v6"></path>
+              <path d="M21 19a2 2 0 0 1-2 2h-1a2 2 0 0 1-2-2v-3a2 2 0 0 1 2-2h3z"></path>
+              <path d="M3 19a2 2 0 0 0 2 2h1a2 2 0 0 0 2-2v-3a2 2 0 0 0-2-2H3z"></path>
+            </svg>
+          </div>
+          <h3 id="cfNegociacaoT">Suporte na negociação</h3>
+          <p id="cfNegociacaoD">Acompanhamos você desde o primeiro contato até a entrega do veículo.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Venda / troca -->
+  <section id="vender">
+    <div class="container">
+      <div class="section-header">
+        <h2 id="vendaH2">Venda ou troque seu carro</h2>
+        <p id="vendaSub">Preencha os dados abaixo e nossa equipe avaliará seu veículo. Sem compromisso, com total transparência.</p>
+      </div>
+
+      <div class="form-wrap">
+        <div id="formVender">
+          <form class="sell-form" id="formVendaTroca" novalidate>
+            <div class="form-row">
+              <div class="form-group">
+                <label for="nome">Nome completo <span class="obrigatorio">*</span></label>
+                <input type="text" id="nome" name="nome" placeholder="Seu nome" autocomplete="name" required>
+              </div>
+              <div class="form-group">
+                <label for="telefone">Telefone (WhatsApp) <span class="obrigatorio">*</span></label>
+                <input type="tel" id="telefone" name="telefone" placeholder="(11) 99999-9999" autocomplete="tel" inputmode="tel" required>
+              </div>
+            </div>
+
+            <div class="form-group">
+              <label for="email">E-mail (opcional)</label>
+              <input type="email" id="email" name="email" placeholder="seu@email.com" autocomplete="email" inputmode="email">
+            </div>
+
+            <div class="form-group">
+              <label for="veiculo">Veículo (marca, modelo, ano) <span class="obrigatorio">*</span></label>
+              <input type="text" id="veiculo" name="veiculo" placeholder="Ex: Volkswagen Golf GTI 2022" required>
+            </div>
+
+            <div class="form-group">
+              <label for="observacoes">Observações (opcional)</label>
+              <textarea id="observacoes" name="observacoes" rows="3" placeholder="Quilometragem, estado de conservação, valor pretendido..."></textarea>
+            </div>
+
+            <div class="form-error" id="formErro"></div>
+
+            <button type="submit" class="btn-primary" id="btnEnviarVenda" style="width:100%;">Solicitar avaliação</button>
+          </form>
+        </div>
+
+        <div id="formSucesso" class="form-success" style="display:none;">
+          <div class="form-success-icon">
+            <svg viewBox="0 0 24 24" fill="none" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>
+          </div>
+          <h3>Recebemos seu contato!</h3>
+          <p id="sucessoVendaTexto">Nossa equipe vai entrar em contato para avaliar seu veículo.</p>
+          <a href="#" class="btn-primary js-wa-venda" id="btnSucessoVenda">Continuar pelo WhatsApp</a>
+          <button type="button" class="btn-secondary" onclick="SV.resetarFormVenda()" style="width:100%; margin-top:10px;">Enviar outro veículo</button>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Financiamento -->
+  <section id="financiamento" style="background: var(--graphite);">
+    <div class="container">
+      <div class="section-header">
+        <h2 id="financiamentoH2">Financiamento</h2>
+        <p id="financiamentoSub">Preencha os dados abaixo e receba uma simulação. Nossa equipe analisa as melhores opções para o seu perfil.</p>
+      </div>
+
+      <div class="finance-content">
+        <div class="finance-steps">
+          <h3>Como funciona</h3>
+          <ol>
+            <li><strong>Escolha o veículo</strong> — Navegue pelo estoque e escolha o carro ideal.</li>
+            <li><strong>Envie seus dados</strong> — Informe renda e entrada para a simulação.</li>
+            <li><strong>Simulação e aprovação</strong> — Receba as parcelas no WhatsApp. A aprovação está sujeita à análise de crédito.</li>
+          </ol>
+        </div>
+
+        <form class="sell-form" id="formFinanciamento" novalidate>
+          <div class="form-row">
+            <div class="form-group">
+              <label for="finNome">Nome completo <span class="obrigatorio">*</span></label>
+              <input type="text" id="finNome" name="nome" placeholder="Seu nome" autocomplete="name" required>
+            </div>
+            <div class="form-group">
+              <label for="finTelefone">Telefone (WhatsApp) <span class="obrigatorio">*</span></label>
+              <input type="tel" id="finTelefone" name="telefone" placeholder="(11) 99999-9999" autocomplete="tel" inputmode="tel" required>
+            </div>
+          </div>
+
+          <div class="form-group">
+            <label for="finEmail">E-mail (opcional)</label>
+            <input type="email" id="finEmail" name="email" placeholder="seu@email.com" autocomplete="email" inputmode="email">
+          </div>
+
+          <div class="form-group">
+            <label for="finVeiculo">Veículo de interesse <span class="obrigatorio">*</span></label>
+            <input type="text" id="finVeiculo" name="veiculo" placeholder="Ex: Volkswagen Golf GTI 2022" list="listaVeiculos" required>
+            <datalist id="listaVeiculos"></datalist>
+          </div>
+
+          <div class="form-row">
+            <div class="form-group">
+              <label for="finPreco">Valor do veículo (R$) <span class="obrigatorio">*</span></label>
+              <input type="text" id="finPreco" name="preco" placeholder="R$ 150.000,00" inputmode="decimal" required>
+            </div>
+            <div class="form-group">
+              <label for="finEntrada">Entrada (R$)</label>
+              <input type="text" id="finEntrada" name="entrada" placeholder="R$ 30.000,00" inputmode="decimal">
+            </div>
+          </div>
+
+          <div class="form-row">
+            <div class="form-group">
+              <label for="finRenda">Renda mensal (R$) <span class="obrigatorio">*</span></label>
+              <input type="text" id="finRenda" name="renda" placeholder="R$ 5.000,00" inputmode="decimal" required>
+            </div>
+            <div class="form-group">
+              <label for="finParcelas">Parcelas <span class="obrigatorio">*</span></label>
+              <select id="finParcelas" name="prazo" required>
+                <option value="">Selecione</option>
+                <option value="12">12x</option>
+                <option value="18">18x</option>
+                <option value="24">24x</option>
+                <option value="36">36x</option>
+                <option value="48">48x</option>
+                <option value="60">60x</option>
+              </select>
+            </div>
+          </div>
+
+          <div class="estimativa" id="estimativa">
+            <div class="estimativa-label">Parcela estimada</div>
+            <div class="estimativa-valor" id="estimativaValor">—</div>
+            <div class="estimativa-detalhes" id="estimativaDetalhes"></div>
+            <div class="estimativa-aviso">Estimativa automática e ilustrativa, baseada em condição geral de mercado. Não representa uma proposta ou garantia de aprovação de crédito.</div>
+          </div>
+
+          <div class="form-group">
+            <label for="finObservacoes">Observações (opcional)</label>
+            <textarea id="finObservacoes" name="observacoes" rows="2" placeholder="Alguma informação adicional"></textarea>
+          </div>
+
+          <div class="form-error" id="formErroFin"></div>
+
+          <button type="submit" class="btn-primary" id="btnEnviarFin" style="width:100%;">Receber simulação no WhatsApp</button>
+
+          <p class="form-note" id="financiamentoNota">
+            Ao enviar, seus dados serão usados apenas para simular o financiamento.
+            A SV Multimarcas não garante aprovação de crédito — as condições estão sujeitas
+            à análise das instituições financeiras parceiras.
+          </p>
+        </form>
+
+        <div id="finSucesso" class="form-success" style="display:none; margin-top:20px;">
+          <div class="form-success-icon">
+            <svg viewBox="0 0 24 24" fill="none" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>
+          </div>
+          <h3>Solicitação registrada!</h3>
+          <p id="finSucessoTexto">Nossa equipe entra em contato com a simulação de parcelas.</p>
+          <a href="#" class="btn-primary" id="btnSucessoFin" target="_blank" rel="noopener noreferrer">Enviar pelo WhatsApp</a>
+          <button type="button" class="btn-secondary" onclick="SV.resetarFormFin()" style="width:100%; margin-top:10px;">Fazer nova simulação</button>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Contato -->
+  <section id="contato">
+    <div class="container">
+      <div class="section-header">
+        <h2 id="contatoH2">Fale conosco</h2>
+        <p id="contatoSub">Temos interesse em ajudar você a comprar, vender, trocar ou financiar seu veículo.</p>
+      </div>
+
+      <div class="contato-grid">
+        <div class="contato-card">
+          <span class="f-icon">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"></path>
+              <circle cx="12" cy="10" r="3"></circle>
+            </svg>
+          </span>
+          <div>
+            <strong>Endereço</strong>
+            <p id="enderecoTexto">Av. dos Automobilistas, nº 000<br>São Paulo / SP</p>
+          </div>
+        </div>
+
+        <div class="contato-card">
+          <span class="f-icon">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6A19.79 19.79 0 0 1 2.12 4.18 2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72c.13.96.36 1.9.7 2.81a2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45c.9.34 1.85.57 2.81.7A2 2 0 0 1 22 16.92z"></path>
+            </svg>
+          </span>
+          <div>
+            <strong>WhatsApp e telefone</strong>
+            <p>
+              <a href="#" class="js-wa-consultor" id="telWhatsapp">(11) 99975-4932</a><br>
+              <a href="tel:1136512783" id="telFixo">(11) 3651-2783</a>
+            </p>
+          </div>
+        </div>
+
+        <div class="contato-card">
+          <span class="f-icon">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <circle cx="12" cy="12" r="10"></circle>
+              <polyline points="12 6 12 12 16 14"></polyline>
+            </svg>
+          </span>
+          <div>
+            <strong>Atendimento</strong>
+            <p id="horarioTexto">Seg a Sex: 9h às 18h<br>Sáb: 9h às 14h</p>
+          </div>
+        </div>
+
+        <div class="contato-card">
+          <span class="f-icon">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"></path>
+              <polyline points="22,6 12,13 2,6"></polyline>
+            </svg>
+          </span>
+          <div>
+            <strong>E-mail</strong>
+            <p><a href="mailto:contato@svmultimarcas.com.br" id="emailContato">contato@svmultimarcas.com.br</a></p>
+          </div>
+        </div>
+      </div>
+
+      <div class="contato-cta">
+        <a href="#" class="btn-primary js-wa-consultor">Falar com um consultor</a>
+      </div>
+    </div>
+  </section>
+  </main>
+
+  <!-- RODAPÉ -->
+  <footer>
+    <div class="footer-cta">
+      <div class="footer-cta-inner">
+        <div>
+          <h2 id="rodapeCtaH2">Seu próximo veículo está a uma conversa de distância.</h2>
+          <p id="rodapeCtaTexto">Fale com um consultor da SV Multimarcas e encontre a melhor opção para o seu perfil.</p>
+        </div>
+        <a href="#" class="btn-primary js-wa-consultor">Falar pelo WhatsApp</a>
+      </div>
+    </div>
+
+    <div class="footer-main">
+      <div class="footer-grid">
+        <div class="footer-brand">
+          <img src="images/logo.png" alt="SV Multimargas" width="140" height="46">
+          <p id="rodapeDescricao">Loja de veículos multimarcas com atendimento profissional e experiência premium. Seu próximo carro está aqui.</p>
+          <div class="footer-social">
+            <a href="https://www.instagram.com/sv26anos/" target="_blank" rel="noopener noreferrer" aria-label="Instagram">
+              <svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M12 2.16c3.2 0 3.58.01 4.85.07 1.17.05 1.8.25 2.23.41.56.22.96.48 1.38.9.42.42.68.82.9 1.38.16.42.36 1.06.41 2.23.06 1.27.07 1.65.07 4.85s-.01 3.58-.07 4.85c-.05 1.17-.25 1.8-.41 2.23-.22.56-.48.96-.9 1.38-.42.42-.82.68-1.38.9-.42.16-1.06.36-2.23.41-1.27.06-1.65.07-4.85.07s-3.58-.01-4.85-.07c-1.17-.05-1.8-.25-2.23-.41-.56-.22-.96-.48-1.38-.9-.42-.42-.68-.82-.9-1.38-.16-.42-.36-1.06-.41-2.23-.06-1.27-.07-1.65-.07-4.85s.01-3.58.07-4.85c.05-1.17.25-1.8.41-2.23.22-.56.48-.96.9-1.38.42-.42.82-.68 1.38-.9.42-.16 1.06-.36 2.23-.41C8.42 2.17 8.8 2.16 12 2.16zM12 0C8.74 0 8.33.01 7.05.07 5.78.13 4.9.33 4.14.63c-.79.3-1.46.71-2.13 1.38C1.34 2.68.93 3.35.63 4.14.33 4.9.13 5.78.07 7.05.01 8.33 0 8.74 0 12s.01 3.67.07 4.95c.06 1.27.26 2.15.56 2.91.3.79.71 1.46 1.38 2.13.67.67 1.34 1.08 2.13 1.38.76.3 1.64.5 2.91.56C8.33 23.99 8.74 24 12 24s3.67-.01 4.95-.07c1.27-.06 2.15-.26 2.91-.56.79-.3 1.46-.71 2.13-1.38.67-.67 1.08-1.34 1.38-2.13.3-.76.5-1.64.56-2.91.06-1.28.07-1.69.07-4.95s-.01-3.67-.07-4.95c-.06-1.27-.26-2.15-.56-2.91-.3-.79-.71-1.46-1.38-2.13C21.32 1.34 20.65.93 19.86.63c-.76-.3-1.64-.5-2.91-.56C15.33.01 14.92 0 12 0zm0 5.84a6.16 6.16 0 1 0 0 12.32 6.16 6.16 0 0 0 0-12.32zM12 16a4 4 0 1 1 0-8 4 4 0 0 1 0 8zm7.85-10.4a1.44 1.44 0 1 1-2.88 0 1.44 1.44 0 0 1 2.88 0z"/></svg>
+            </a>
+            <a href="https://www.facebook.com/SouzaVeiculosMultimarcas/?locale=pt_BR" target="_blank" rel="noopener noreferrer" aria-label="Facebook">
+              <svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M24 12.073c0-6.627-5.373-12-12-12s-12 5.373-12 12c0 5.99 4.388 10.954 10.125 11.854v-8.385H7.078v-3.47h3.047V9.43c0-3.007 1.792-4.669 4.533-4.669 1.312 0 2.686.235 2.686.235v2.953H15.83c-1.491 0-1.956.925-1.956 1.874v2.25h3.328l-.532 3.47h-2.796v8.385C19.612 23.027 24 18.062 24 12.073z"/></svg>
+            </a>
+            <a href="#" class="js-wa-consultor" aria-label="WhatsApp">
+              <svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.347-.347.52-.52.174-.174.232-.298.347-.497.115-.198.057-.371-.029-.52-.087-.148-.669-1.611-.916-2.207-.242-.579-.487-.5-.669-.51a12.8 12.8 0 0 0-.57-.01c-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.872.118.571-.085 1.758-.719 2.006-1.414.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 0 1-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 0 1-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884a9.82 9.82 0 0 1 6.988 2.896 9.83 9.83 0 0 1 2.893 6.994c-.003 5.45-4.437 9.885-9.885 9.885M20.52 3.449C18.24 1.245 15.24 0 12.045 0 5.463 0 .104 5.358.101 11.945c0 2.096.548 4.142 1.588 5.945L.057 24l6.305-1.654a11.9 11.9 0 0 0 5.683 1.448h.005c6.585 0 11.946-5.358 11.949-11.945a11.87 11.87 0 0 0-3.479-8.4"/></svg>
+            </a>
+          </div>
+        </div>
+
+        <div class="footer-col">
+          <h3>Contato</h3>
+          <div class="footer-contato-item">
+            <span class="f-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/></svg></span>
+            <div id="footerEndereco">Av. dos Automobilistas, nº 000<br>São Paulo / SP</div>
+          </div>
+          <div class="footer-contato-item">
+            <span class="f-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6A19.79 19.79 0 0 1 2.12 4.18 2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72c.13.96.36 1.9.7 2.81a2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45c.9.34 1.85.57 2.81.7A2 2 0 0 1 22 16.92z"/></svg></span>
+            <div>
+              <a href="#" class="js-wa-consultor">(11) 99975-4932</a><br>
+              <a href="tel:1136512783">(11) 3651-2783</a>
+            </div>
+          </div>
+          <div class="footer-contato-item">
+            <span class="f-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg></span>
+            <div><a href="mailto:contato@svmultimarcas.com.br">contato@svmultimarcas.com.br</a></div>
+          </div>
+          <div class="footer-contato-item">
+            <span class="f-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg></span>
+            <div>Seg a Sex: 9h às 18h<br>Sáb: 9h às 14h</div>
+          </div>
+        </div>
+
+        <div class="footer-col">
+          <h3>Navegação</h3>
+          <ul>
+            <li><a href="#inicio">Início</a></li>
+            <li><a href="#estoque">Estoque</a></li>
+            <li><a href="#servicos">Serviços</a></li>
+            <li><a href="#confianca">Por que escolher a SV</a></li>
+            <li><a href="#contato">Contato</a></li>
+          </ul>
+        </div>
+
+        <div class="footer-col">
+          <h3>Serviços</h3>
+          <ul>
+            <li><a href="#estoque">Comprar veículo</a></li>
+            <li><a href="#vender">Vender ou trocar</a></li>
+            <li><a href="#financiamento">Financiamento</a></li>
+            <li><a href="#financiamento">Simular parcelas</a></li>
+          </ul>
+        </div>
+      </div>
+    </div>
+
+    <div class="footer-bottom">
+      <div class="footer-bottom-inner">
+        <p>© <span id="anoAtual"></span> SV Multimarcas — Todos os direitos reservados.</p>
+        <div class="footer-legal">
+          <a href="#">Política de privacidade</a>
+          <a href="#">Termos de uso</a>
+          <a href="#">Política de cookies</a>
+        </div>
+      </div>
+    </div>
+  </footer>
+
+  <!-- WhatsApp flutuante -->
+  <div class="whatsapp-float">
+    <a href="#" class="whatsapp-btn js-wa-flutuante" aria-label="Fale pelo WhatsApp">
+      <svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.347-.347.52-.52.174-.174.232-.298.347-.497.115-.198.057-.371-.029-.52-.087-.148-.669-1.611-.916-2.207-.242-.579-.487-.5-.669-.51a12.8 12.8 0 0 0-.57-.01c-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.872.118.571-.085 1.758-.719 2.006-1.414.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 0 1-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 0 1-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884a9.82 9.82 0 0 1 6.988 2.896 9.83 9.83 0 0 1 2.893 6.994c-.003 5.45-4.437 9.885-9.885 9.885M20.52 3.449C18.24 1.245 15.24 0 12.045 0 5.463 0 .104 5.358.101 11.945c0 2.096.548 4.142 1.588 5.945L.057 24l6.305-1.654a11.9 11.9 0 0 0 5.683 1.448h.005c6.585 0 11.946-5.358 11.949-11.945a11.87 11.87 0 0 0-3.479-8.4"/></svg>
+    </a>
+    <span class="whatsapp-label">WhatsApp</span>
+  </div>
+
+  <!-- Configuração, conteúdo e dados -->
+  <script src="data/config.js"></script>
+  <script src="data/content.js"></script>
+  <script src="data/vehicles.js"></script>
+  <script src="lib/ui.js"></script>
+
+  <script>
+    (function () {
+      'use strict';
+
+      const CFG = window.SV_CONFIG;
+      const VEICULOS = window.SV_VEHICLES || [];
+      const CONTEUDO = window.SV_CONTENT || {};
+
+      /* ======================================================
+         CONTEÚDO EDITÁVEL
+         O HTML já traz o texto padrão (SEO). O JS aplica
+         o texto editado no painel admin (data/content.js).
+         ====================================================== */
+      (function aplicarConteudo() {
+        const set = (id, texto) => {
+          if (!texto) return;
+          const el = document.getElementById(id);
+          if (el) el.textContent = texto;
+        };
+
+        // Metadados
+        if (CONTEUDO.meta) {
+          if (CONTEUDO.meta.title) document.title = CONTEUDO.meta.title;
+          const md = document.querySelector('meta[name="description"]');
+          if (md && CONTEUDO.meta.description) md.setAttribute('content', CONTEUDO.meta.description);
+          const ogT = document.querySelector('meta[property="og:title"]');
+          if (ogT && CONTEUDO.meta.ogTitle) ogT.setAttribute('content', CONTEUDO.meta.ogTitle);
+          const ogD = document.querySelector('meta[property="og:description"]');
+          if (ogD && CONTEUDO.meta.ogDescription) ogD.setAttribute('content', CONTEUDO.meta.ogDescription);
+        }
+
+        // Hero
+        if (CONTEUDO.hero) {
+          set('heroH1', CONTEUDO.hero.h1);
+          set('heroSub', CONTEUDO.hero.subtitulo);
+          set('heroCta1', CONTEUDO.hero.ctaPrincipal);
+          set('heroCta2', CONTEUDO.hero.ctaSecundario);
+        }
+
+        // Estoque
+        if (CONTEUDO.estoque) {
+          set('estoqueH2', CONTEUDO.estoque.h2);
+          set('estoqueSub', CONTEUDO.estoque.subtitulo);
+          set('estoqueAviso', CONTEUDO.estoque.aviso);
+          set('estoqueCta', CONTEUDO.estoque.textoBotao);
+        }
+
+        // Serviços
+        if (CONTEUDO.servicos) {
+          set('servicosH2', CONTEUDO.servicos.h2);
+          set('servicosSub', CONTEUDO.servicos.subtitulo);
+          const mapa = { compra: 'Compra', venda: 'Venda', troca: 'Troca', financiamento: 'Financiamento' };
+          (CONTEUDO.servicos.itens || []).forEach(item => {
+            const p = mapa[item.id];
+            if (!p) return;
+            set('svc' + p + 'T', item.titulo);
+            set('svc' + p + 'D', item.descricao);
+            set('svc' + p + 'Cta', item.cta);
+          });
+        }
+
+        // Confiança
+        if (CONTEUDO.confianca) {
+          set('confiancaH2', CONTEUDO.confianca.h2);
+          set('confiancaSub', CONTEUDO.confianca.subtitulo);
+          const mapa = { atendimento: 'Atendimento', transparencia: 'Transparencia', negociacao: 'Negociacao' };
+          (CONTEUDO.confianca.itens || []).forEach(item => {
+            const p = mapa[item.id];
+            if (!p) return;
+            set('cf' + p + 'T', item.titulo);
+            set('cf' + p + 'D', item.descricao);
+          });
+        }
+
+        // Venda
+        if (CONTEUDO.venda) {
+          set('vendaH2', CONTEUDO.venda.h2);
+          set('vendaSub', CONTEUDO.venda.subtitulo);
+        }
+
+        // Financiamento
+        if (CONTEUDO.financiamento) {
+          set('financiamentoH2', CONTEUDO.financiamento.h2);
+          set('financiamentoSub', CONTEUDO.financiamento.subtitulo);
+          set('financiamentoNota', CONTEUDO.financiamento.nota);
+        }
+
+        // Contato
+        if (CONTEUDO.contato) {
+          set('contatoH2', CONTEUDO.contato.h2);
+          set('contatoSub', CONTEUDO.contato.subtitulo);
+        }
+
+        // Rodapé
+        if (CONTEUDO.rodape) {
+          set('rodapeCtaH2', CONTEUDO.rodape.ctaH2);
+          set('rodapeCtaTexto', CONTEUDO.rodape.ctaTexto);
+          set('rodapeDescricao', CONTEUDO.rodape.descricao);
+        }
+      })();
+
+      /* ======================================================
+         WHATSAPP — links dinâmicos
+         ====================================================== */
+      const MENSAGENS = {
+        consultor: 'Olá SV Multimarcas, vim pelo site e gostaria de falar com um consultor.',
+        compra:   'Olá SV Multimarcas, vim pelo site e gostaria de consultar os veículos disponíveis para compra.',
+        venda:    'Olá SV Multimarcas, vim pelo site e tenho interesse em vender meu veículo.',
+        troca:    'Olá SV Multimarcas, vim pelo site e gostaria de fazer a troca do meu veículo.',
+        financiamento: 'Olá SV Multimarcas, vim pelo site e gostaria de consultar condições de financiamento.'
+      };
+
+      SV.$$('.js-wa-consultor').forEach(a => { a.href = SV.linkWhatsApp(MENSAGENS.consultor); });
+      SV.$$('.js-wa-compra').forEach(a => { a.href = SV.linkWhatsApp(MENSAGENS.compra); });
+      SV.$$('.js-wa-venda').forEach(a => { a.href = SV.linkWhatsApp(MENSAGENS.venda); });
+      SV.$$('.js-wa-troca').forEach(a => { a.href = SV.linkWhatsApp(MENSAGENS.troca); });
+      SV.$$('.js-wa-financiamento').forEach(a => { a.href = SV.linkWhatsApp(MENSAGENS.financiamento); });
+      SV.$$('.js-wa-flutuante').forEach(a => { a.href = SV.linkWhatsApp(MENSAGENS.consultor); });
+
+      /* ======================================================
+         DADOS DA LOJA — preenche a partir do config
+         ====================================================== */
+      const elEndereco = SV.$('#enderecoTexto');
+      if (elEndereco) {
+        elEndereco.innerHTML = SV.escapeHtml(CFG.endereco.logradouro) + '<br>' +
+          SV.escapeHtml(CFG.endereco.cidade) + '/' + SV.escapeHtml(CFG.endereco.uf);
+      }
+      const elFooterEndereco = SV.$('#footerEndereco');
+      if (elFooterEndereco) {
+        elFooterEndereco.innerHTML = SV.escapeHtml(CFG.endereco.logradouro) + '<br>' +
+          SV.escapeHtml(CFG.endereco.cidade) + '/' + SV.escapeHtml(CFG.endereco.uf) +
+          ' — CEP ' + SV.escapeHtml(CFG.endereco.cep);
+      }
+      SV.$$('.js-telefone').forEach(el => { el.textContent = SV.fmt.telefone(CFG.telefone); });
+      const elHorario = SV.$('#horarioTexto');
+      if (elHorario) {
+        elHorario.innerHTML = SV.escapeHtml(CFG.horario.semana) + '<br>' + SV.escapeHtml(CFG.horario.sabado);
+      }
+      const elEmail = SV.$('#emailContato');
+      if (elEmail) { elEmail.textContent = CFG.email; elEmail.href = 'mailto:' + CFG.email; }
+      const elAno = SV.$('#anoAtual');
+      if (elAno) elAno.textContent = new Date().getFullYear();
+
+      /* ======================================================
+         ESTOQUE
+         ====================================================== */
+      const grid = SV.$('#estoqueGrid');
+      const contagem = SV.$('#estoqueContagem');
+
+      function cardVeiculo(v) {
+        const img = SV.fotoCapa(v);
+        const pendentes = SV.fotosPendentes(v);
+        const msg = `Olá SV Multimarcas, tenho interesse no ${v.marca} ${v.modelo} ${v.versao || ''} ${v.ano} (${SV.fmt.preco(v.preco)}) anunciado no site.`;
+        return `
+          <article class="vehicle-card">
+            <a href="veiculo.html?id=${v.id}">
+              <div class="vehicle-image">
+                <img src="${img}" alt="${SV.escapeHtml(v.marca + ' ' + v.modelo + ' ' + v.ano)}" loading="lazy" decoding="async" width="600" height="400">
+                ${v.destaque ? '<span class="featured-badge">Em destaque</span>' : ''}
+                ${pendentes.length ? '<span class="foto-pendente-badge" title="Falta: ' + SV.escapeHtml(pendentes.join(', ')) + '">Fotos pendentes</span>' : ''}
+                <span class="vehicle-price-badge">${SV.fmt.preco(v.preco)}</span>
+              </div>
+            </a>
+            <div class="vehicle-info">
+              <div class="vehicle-brand">${SV.escapeHtml(v.marca)}</div>
+              <div class="vehicle-model">${SV.escapeHtml(v.modelo)} ${v.ano}</div>
+              ${v.versao ? '<div class="vehicle-version">' + SV.escapeHtml(v.versao) + '</div>' : ''}
+              <div class="vehicle-specs">
+                <div class="spec-item">${SV.escapeHtml(v.cambio)}</div>
+                <div class="spec-item">${SV.escapeHtml(v.combustivel)}</div>
+                <div class="spec-item">${SV.fmt.km(v.km)}</div>
+                <div class="spec-item">${v.ano}</div>
+              </div>
+              <div class="vehicle-footer">
+                <span class="vehicle-price">${SV.fmt.preco(v.preco)}</span>
+                <div class="vehicle-buttons">
+                  <a href="veiculo.html?id=${v.id}" class="btn-detalhes">Ver detalhes</a>
+                  <a href="${SV.linkWhatsApp(msg)}" target="_blank" rel="noopener noreferrer" class="btn-consultar">Consultar</a>
+                </div>
+              </div>
+            </div>
+          </article>
+        `;
+      }
+
+      function renderEstoque(lista) {
+        if (!lista.length) {
+          grid.innerHTML = '<p style="grid-column:1/-1; text-align:center; color:var(--silver); padding:48px 16px;">Nenhum veículo encontrado com os filtros selecionados.</p>';
+        } else {
+          grid.innerHTML = lista.map(cardVeiculo).join('');
+        }
+        if (contagem) {
+          contagem.innerHTML = '<strong>' + lista.length + '</strong> veículo' +
+            (lista.length !== 1 ? 's' : '') + ' disponíve' + (lista.length !== 1 ? 'is' : 'l');
+        }
+
+        // Data da última atualização do estoque
+        const datas = VEICULOS.map(v => v.atualizado_em).filter(Boolean).sort();
+        if (datas.length) {
+          const d = new Date(datas[datas.length - 1]);
+          if (!isNaN(d) && contagem) {
+            contagem.innerHTML += ' · <span style="color:var(--silver);">atualizado em ' +
+              d.toLocaleDateString('pt-BR', { day: '2-digit', month: '2-digit', year: 'numeric' }) +
+              '</span>';
+          }
+        }
+      }
+
+      // Popula selects de filtro
+      const selMarca = SV.$('#filtroMarca');
+      const selAno = SV.$('#filtroAno');
+      const marcas = [...new Set(VEICULOS.map(v => v.marca))].sort();
+      const anos = [...new Set(VEICULOS.map(v => v.ano))].sort((a, b) => b - a);
+
+      selMarca.innerHTML = '<option value="">Todas as marcas</option>' +
+        marcas.map(m => '<option value="' + SV.escapeHtml(m) + '">' + SV.escapeHtml(m) + '</option>').join('');
+      selAno.innerHTML = '<option value="">Todos os anos</option>' +
+        anos.map(a => '<option value="' + a + '">' + a + '</option>').join('');
+
+      // Datalist com veículos para o form de financiamento
+      const dl = SV.$('#listaVeiculos');
+      if (dl) {
+        dl.innerHTML = VEICULOS.map(v =>
+          '<option value="' + SV.escapeHtml(v.marca + ' ' + v.modelo + ' ' + (v.versao || '') + ' ' + v.ano) + '">'
+        ).join('');
+      }
+
+      function aplicarFiltros() {
+        const marca = selMarca.value;
+        const ano = selAno.value;
+        const pmin = SV.$('#filtroPrecoMin').value;
+        const pmax = SV.$('#filtroPrecoMax').value;
+
+        const resultado = VEICULOS.filter(v => {
+          if (marca && v.marca !== marca) return false;
+          if (ano && v.ano !== Number(ano)) return false;
+          if (pmin && v.preco < Number(pmin)) return false;
+          if (pmax && v.preco > Number(pmax)) return false;
+          return true;
+        });
+
+        renderEstoque(resultado);
+
+        // Sincroniza com a URL (link compartilhável / indexável)
+        const params = new URLSearchParams();
+        if (marca) params.set('marca', marca);
+        if (ano) params.set('ano', ano);
+        if (pmin) params.set('precoMin', pmin);
+        if (pmax) params.set('precoMax', pmax);
+        const q = params.toString();
+        history.replaceState(null, '', q ? '#estoque?' + q : location.pathname + location.hash);
+      }
+
+      // Aplica filtros da URL ao carregar
+      (function aplicarFiltrosDaURL() {
+        const hash = location.hash;
+        if (hash.indexOf('#estoque?') !== 0) return;
+        const params = new URLSearchParams(hash.slice('#estoque?'.length));
+        if (params.get('marca')) selMarca.value = params.get('marca');
+        if (params.get('ano')) selAno.value = params.get('ano');
+        if (params.get('precoMin')) SV.$('#filtroPrecoMin').value = params.get('precoMin');
+        if (params.get('precoMax')) SV.$('#filtroPrecoMax').value = params.get('precoMax');
+        aplicarFiltros();
+      })();
+
+      renderEstoque(VEICULOS);
+
+      // Painel de filtros
+      const btnFiltros = SV.$('#btnFiltros');
+      const painelFiltros = SV.$('#filtrosPanel');
+      btnFiltros.addEventListener('click', () => {
+        const aberto = painelFiltros.classList.toggle('open');
+        btnFiltros.setAttribute('aria-expanded', aberto);
+      });
+      SV.$('#btnAplicarFiltros').addEventListener('click', () => {
+        aplicarFiltros();
+        painelFiltros.classList.remove('open');
+        btnFiltros.setAttribute('aria-expanded', 'false');
+      });
+      SV.$('#btnLimparFiltros').addEventListener('click', () => {
+        selMarca.value = ''; selAno.value = '';
+        SV.$('#filtroPrecoMin').value = ''; SV.$('#filtroPrecoMax').value = '';
+        aplicarFiltros();
+        painelFiltros.classList.remove('open');
+        btnFiltros.setAttribute('aria-expanded', 'false');
+      });
+
+      /* ======================================================
+         HEADER — scroll
+         ====================================================== */
+      const header = SV.$('#header');
+      let ticking = false;
+      window.addEventListener('scroll', () => {
+        if (ticking) return;
+        ticking = true;
+        requestAnimationFrame(() => {
+          header.classList.toggle('scrolled', window.scrollY > 20);
+          ticking = false;
+        });
+      }, { passive: true });
+
+      /* ======================================================
+         MENU MOBILE
+         ====================================================== */
+      const menuToggle = SV.$('#menuToggle');
+      const mobileMenu = SV.$('#mobileMenu');
+      const menuClose = SV.$('#mobileMenuClose');
+
+      function abrirMenu() {
+        mobileMenu.classList.add('open');
+        mobileMenu.setAttribute('aria-hidden', 'false');
+        mobileMenu.removeAttribute('inert');
+        menuToggle.setAttribute('aria-expanded', 'true');
+        document.body.classList.add('menu-aberto');
+        SV.lockScroll(true);
+        menuClose.focus();
+      }
+      function fecharMenu() {
+        mobileMenu.classList.remove('open');
+        mobileMenu.setAttribute('aria-hidden', 'true');
+        mobileMenu.setAttribute('inert', '');
+        menuToggle.setAttribute('aria-expanded', 'false');
+        document.body.classList.remove('menu-aberto');
+        SV.lockScroll(false);
+      }
+
+      menuToggle.addEventListener('click', abrirMenu);
+      menuClose.addEventListener('click', fecharMenu);
+      SV.$$('#mobileMenu a').forEach(a => a.addEventListener('click', fecharMenu));
+      document.addEventListener('keydown', e => {
+        if (e.key === 'Escape' && mobileMenu.classList.contains('open')) fecharMenu();
+      });
+      window.addEventListener('resize', SV.debounce(() => {
+        if (window.innerWidth >= 1024 && mobileMenu.classList.contains('open')) fecharMenu();
+      }, 150));
+
+      /* ======================================================
+         NAVEGAÇÃO SUAVE
+         ====================================================== */
+      SV.$$('a[href^="#"]').forEach(anchor => {
+        anchor.addEventListener('click', function (e) {
+          const href = this.getAttribute('href');
+          if (!href || href === '#') return;
+          const alvo = href.split('?')[0];
+          const el = document.querySelector(alvo);
+          if (!el) return;
+          e.preventDefault();
+          const offset = header.offsetHeight + 8;
+          const y = el.getBoundingClientRect().top + window.scrollY - offset;
+          window.scrollTo({ top: y, behavior: 'smooth' });
+        });
+      });
+
+      /* ======================================================
+         FORMULÁRIO — VENDA / TROCA
+         ====================================================== */
+      const formVenda = SV.$('#formVendaTroca');
+      const formErroVenda = SV.$('#formErro');
+      const boxVender = SV.$('#formVender');
+      const boxSucesso = SV.$('#formSucesso');
+      const btnEnviarVenda = SV.$('#btnEnviarVenda');
+
+      SV.mask.telefone(SV.$('#telefone'));
+
+      formVenda.addEventListener('submit', async function (e) {
+        e.preventDefault();
+
+        const ok = SV.validarFormulario(formVenda, {
+          nome: 'nome', telefone: 'telefone', email: 'email', veiculo: 'veiculo'
+        });
+        if (!ok) { formErroVenda.style.display = 'none'; return; }
+
+        const dados = {
+          nome: SV.$('#nome').value.trim(),
+          telefone: SV.$('#telefone').value.trim(),
+          email: SV.$('#email').value.trim(),
+          veiculo: SV.$('#veiculo').value.trim(),
+          mensagem: SV.$('#observacoes').value.trim(),
+          tipo: 'sell',
+          origem: 'site-venda-troca'
+        };
+
+        btnEnviarVenda.disabled = true;
+        btnEnviarVenda.textContent = 'Enviando...';
+
+        let salvo = false;
+        try {
+          const r = await SV.enviarLead(dados);
+          salvo = r.salvo;
+        } catch (err) {
+          formErroVenda.textContent = 'Não foi possível enviar agora. Tente pelo WhatsApp.';
+          formErroVenda.style.display = 'block';
+          btnEnviarVenda.disabled = false;
+          btnEnviarVenda.textContent = 'Solicitar avaliação';
+          return;
+        }
+
+        const texto = salvo
+          ? 'Nossa equipe vai entrar em contato para avaliar seu veículo.'
+          : 'Toque no botão abaixo para concluirmos pelo WhatsApp.';
+
+        SV.$('#sucessoVendaTexto').textContent = texto;
+
+        const msg = `Olá SV Multimarcas, quero avaliar meu veículo para venda/troca.\n\n` +
+          `Nome: ${dados.nome}\nTelefone: ${dados.telefone}\n` +
+          (dados.email ? `E-mail: ${dados.email}\n` : '') +
+          `Veículo: ${dados.veiculo}\n` +
+          (dados.mensagem ? `Observações: ${dados.mensagem}` : '');
+        SV.$('#btnSucessoVenda').href = SV.linkWhatsApp(msg);
+
+        boxVender.style.display = 'none';
+        boxSucesso.style.display = 'block';
+        boxSucesso.scrollIntoView({ behavior: 'smooth', block: 'center' });
+      });
+
+      window.SV.resetarFormVenda = function () {
+        formVenda.reset();
+        SV.$$('.campo-invalido', formVenda).forEach(c => c.classList.remove('campo-invalido'));
+        SV.$$('.campo-erro', formVenda).forEach(e => e.remove());
+        boxVender.style.display = 'block';
+        boxSucesso.style.display = 'none';
+        btnEnviarVenda.disabled = false;
+        btnEnviarVenda.textContent = 'Solicitar avaliação';
+      };
+
+      /* ======================================================
+         FORMULÁRIO — FINANCIAMENTO
+         ====================================================== */
+      const formFin = SV.$('#formFinanciamento');
+      const formErroFin = SV.$('#formErroFin');
+      const btnEnviarFin = SV.$('#btnEnviarFin');
+      const boxEst = SV.$('#estimativa');
+
+      SV.mask.telefone(SV.$('#finTelefone'));
+      SV.mask.moeda(SV.$('#finPreco'));
+      SV.mask.moeda(SV.$('#finEntrada'));
+      SV.mask.moeda(SV.$('#finRenda'));
+
+      function numeroDeMoeda(v) {
+        const n = Number(String(v || '').replace(/[^\d,.-]/g, '').replace(/\./g, '').replace(',', '.'));
+        return isNaN(n) ? 0 : n;
+      }
+
+      function atualizarEstimativa() {
+        const preco = numeroDeMoeda(SV.$('#finPreco').value);
+        const entrada = numeroDeMoeda(SV.$('#finEntrada').value);
+        const renda = numeroDeMoeda(SV.$('#finRenda').value);
+        const prazo = Number(SV.$('#finParcelas').value);
+
+        const est = SV.estimarParcela({ preco, entrada, renda, prazo });
+        if (!est || !est.parcela) { boxEst.classList.remove('visivel'); return; }
+
+        SV.$('#estimativaValor').textContent = SV.fmt.preco(est.parcela) + ' x ' + prazo;
+
+        let det = 'Valor financiado: ' + SV.fmt.preco(est.valorFinanciado) + ' · Total: ' + SV.fmt.preco(est.total);
+        if (est.comprometimento) {
+          det += ' · Comprometimento da renda: ' + est.comprometimento + '%';
+        }
+        SV.$('#estimativaDetalhes').textContent = det;
+        boxEst.classList.add('visivel');
+      }
+
+      ['finPreco', 'finEntrada', 'finRenda', 'finParcelas'].forEach(id => {
+        const el = SV.$('#' + id);
+        if (el) el.addEventListener('input', atualizarEstimativa);
+        if (el) el.addEventListener('change', atualizarEstimativa);
+      });
+
+      formFin.addEventListener('submit', async function (e) {
+        e.preventDefault();
+
+        const ok = SV.validarFormulario(formFin, {
+          finNome: 'nome', finTelefone: 'telefone', finEmail: 'email',
+          finVeiculo: 'veiculo', finPreco: 'moeda', finRenda: 'moeda'
+        });
+        if (!ok) { formErroFin.style.display = 'none'; return; }
+
+        if (!SV.$('#finParcelas').value) {
+          SV.marcarCampo(SV.$('#finParcelas'), 'Selecione a quantidade de parcelas.');
+          return;
+        }
+        SV.marcarCampo(SV.$('#finParcelas'), '');
+
+        const est = atualizarEstimativa();
+        const preco = numeroDeMoeda(SV.$('#finPreco').value);
+        const entrada = numeroDeMoeda(SV.$('#finEntrada').value);
+        const renda = numeroDeMoeda(SV.$('#finRenda').value);
+        const prazo = SV.$('#finParcelas').value;
+        const sim = SV.estimarParcela({ preco, entrada, renda, prazo });
+
+        const dados = {
+          nome: SV.$('#finNome').value.trim(),
+          telefone: SV.$('#finTelefone').value.trim(),
+          email: SV.$('#finEmail').value.trim(),
+          veiculo: SV.$('#finVeiculo').value.trim(),
+          mensagem: [
+            'Quero simular financiamento.',
+            'Valor do veículo: ' + SV.fmt.preco(preco),
+            entrada ? 'Entrada: ' + SV.fmt.preco(entrada) : '',
+            'Renda mensal: ' + SV.fmt.preco(renda),
+            'Parcelas desejadas: ' + prazo + 'x',
+            sim ? 'Parcela estimada: ' + SV.fmt.preco(sim.parcela) : '',
+            'Observações: ' + (SV.$('#finObservacoes').value.trim() || '—')
+          ].filter(Boolean).join('\n'),
+          tipo: 'financing',
+          origem: 'site-financiamento'
+        };
+
+        btnEnviarFin.disabled = true;
+        btnEnviarFin.textContent = 'Enviando...';
+
+        let salvo = false;
+        try {
+          const r = await SV.enviarLead(dados);
+          salvo = r.salvo;
+        } catch (err) {
+          formErroFin.textContent = 'Não foi possível enviar agora. Tente pelo WhatsApp.';
+          formErroFin.style.display = 'block';
+          btnEnviarFin.disabled = false;
+          btnEnviarFin.textContent = 'Receber simulação no WhatsApp';
+          return;
+        }
+
+        const msg = `Olá SV Multimarcas, gostaria de simular um financiamento.\n\n` +
+          `Nome: ${dados.nome}\nTelefone: ${dados.telefone}\n` +
+          (dados.email ? `E-mail: ${dados.email}\n` : '') +
+          `Veículo de interesse: ${dados.veiculo}\n` +
+          `Valor do veículo: ${SV.fmt.preco(preco)}\n` +
+          (entrada ? `Entrada desejada: ${SV.fmt.preco(entrada)}\n` : '') +
+          `Renda mensal: ${SV.fmt.preco(renda)}\n` +
+          `Parcelas desejadas: ${prazo}x\n` +
+          (sim ? `Parcela estimada: ${SV.fmt.preco(sim.parcela)}\n` : '') +
+          (SV.$('#finObservacoes').value.trim()
+            ? `Observações: ${SV.$('#finObservacoes').value.trim()}\n` : '');
+
+        const url = SV.linkWhatsApp(msg);
+
+        if (salvo) {
+          SV.$('#finSucessoTexto').textContent = 'Solicitação registrada! Nossa equipe entra em contato com a simulação.';
+        } else {
+          SV.$('#finSucessoTexto').textContent = 'Toque abaixo para enviar seus dados e receber a simulação.';
+        }
+        SV.$('#btnSucessoFin').href = url;
+
+        boxEst.classList.remove('visivel');
+        formFin.style.display = 'none';
+        const finSucesso = SV.$('#finSucesso');
+        finSucesso.style.display = 'block';
+        finSucesso.scrollIntoView({ behavior: 'smooth', block: 'center' });
+      });
+
+      window.SV.resetarFormFin = function () {
+        formFin.reset();
+        SV.$$('.campo-invalido', formFin).forEach(c => c.classList.remove('campo-invalido'));
+        SV.$$('.campo-erro', formFin).forEach(e => e.remove());
+        formErroFin.style.display = 'none';
+        formFin.style.display = '';
+        SV.$('#finSucesso').style.display = 'none';
+        boxEst.classList.remove('visivel');
+        btnEnviarFin.disabled = false;
+        btnEnviarFin.textContent = 'Receber simulação no WhatsApp';
+        formFin.scrollIntoView({ behavior: 'smooth', block: 'center' });
+      };
+
+      /* Preenche o veículo no form de financiamento se veio de uma página de veículo */
+      (function preencherVeiculoVeio() {
+        const params = new URLSearchParams(window.location.search);
+        const ref = params.get('ref');
+        if (!ref) return;
+        const v = VEICULOS.find(x => String(x.id) === ref);
+        if (!v) return;
+        const campoVeiculo = SV.$('#finVeiculo');
+        const campoPreco = SV.$('#finPreco');
+        if (campoVeiculo) campoVeiculo.value = v.marca + ' ' + v.modelo + ' ' + (v.versao || '') + ' ' + v.ano;
+        if (campoPreco) campoPreco.value = SV.fmt.preco(v.preco);
+        atualizarEstimativa();
+      })();
+
+    })();
+  </script>
+</body>
+</html>
