@@ -4,8 +4,9 @@
  * O Neon cuida do banco; as fotos vao para o Vercel Blob, que e o
  * storage nativo da Vercel (mesma conta, mesmo deploy, CDN global).
  *
- * Variavel de ambiente:
- *   BLOB_READ_WRITE_TOKEN  gerado ao criar um Blob store no dashboard
+ * Variaveis de ambiente (criadas ao conectar o store ao projeto):
+ *   BLOB_READ_WRITE_TOKEN  token de escrita (criar no dashboard)
+ *   BLOB_STORE_ID          id do store
  *
  * Sem token, o upload cai no fallback (GitHub).
  */
@@ -13,7 +14,7 @@
 import { put } from '@vercel/blob';
 
 export function temBlob() {
-  return !!process.env.BLOB_READ_WRITE_TOKEN;
+  return !!(process.env.BLOB_READ_WRITE_TOKEN && process.env.BLOB_STORE_ID);
 }
 
 /**

@@ -40,3 +40,4 @@ nextjs/
 # images/carros/*.jpg
 
 .vercel
+.env*
