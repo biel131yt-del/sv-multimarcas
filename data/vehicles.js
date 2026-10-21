@@ -26,7 +26,7 @@ window.SV_VEHICLES = [
     "fotos": {
       "frente": "images/placeholder-veiculo.svg",
       "interior": "images/placeholder-veiculo.svg",
-      "traseira": "images/carros/1-traseira-costas-golf-gti-2022.jpg",
+      "traseira": "/api/foto?pathname=carros%2F1-traseira-costas-golf-gti-2022.jpg",
       "extras": []
     },
     "destaque": true,
@@ -47,7 +47,7 @@ window.SV_VEHICLES = [
       "Chave reserva",
       "Nota fiscal"
     ],
-    "atualizado_em": "2026-10-21T20:05:00.643Z"
+    "atualizado_em": "2026-10-21T23:01:46.546Z"
   },
   {
     "id": 2,
@@ -82,7 +82,7 @@ window.SV_VEHICLES = [
       "Manual do proprietário",
       "Chave reserva"
     ],
-    "atualizado_em": "2026-10-21T20:05:00.762Z"
+    "atualizado_em": "2026-10-21T22:36:23.406Z"
   },
   {
     "id": 3,
@@ -116,7 +116,7 @@ window.SV_VEHICLES = [
       "IPTV quitado",
       "Manual do proprietário"
     ],
-    "atualizado_em": "2026-10-21T20:05:00.881Z"
+    "atualizado_em": "2026-10-21T22:36:23.523Z"
   },
   {
     "id": 4,
@@ -153,7 +153,7 @@ window.SV_VEHICLES = [
       "Chave reserva",
       "Nota fiscal"
     ],
-    "atualizado_em": "2026-10-21T20:05:00.999Z"
+    "atualizado_em": "2026-10-21T22:36:23.639Z"
   },
   {
     "id": 5,
@@ -188,7 +188,7 @@ window.SV_VEHICLES = [
       "Manual do proprietário",
       "Chave reserva"
     ],
-    "atualizado_em": "2026-10-21T20:05:01.118Z"
+    "atualizado_em": "2026-10-21T22:36:23.756Z"
   },
   {
     "id": 6,
@@ -222,7 +222,7 @@ window.SV_VEHICLES = [
       "IPTV quitado",
       "Manual do proprietário"
     ],
-    "atualizado_em": "2026-10-21T20:05:01.237Z"
+    "atualizado_em": "2026-10-21T22:36:23.872Z"
   },
   {
     "id": 7,
@@ -256,7 +256,7 @@ window.SV_VEHICLES = [
       "IPTV quitado",
       "Chave reserva"
     ],
-    "atualizado_em": "2026-10-21T20:05:01.355Z"
+    "atualizado_em": "2026-10-21T22:36:23.989Z"
   },
   {
     "id": 8,
@@ -289,7 +289,7 @@ window.SV_VEHICLES = [
       "Freios ok",
       "IPTV quitado"
     ],
-    "atualizado_em": "2026-10-21T20:05:01.473Z"
+    "atualizado_em": "2026-10-21T22:36:24.105Z"
   },
   {
     "id": 9,
@@ -324,6 +324,6 @@ window.SV_VEHICLES = [
       "Manual do proprietário",
       "Chave reserva"
     ],
-    "atualizado_em": "2026-10-21T20:05:01.592Z"
+    "atualizado_em": "2026-10-21T22:36:24.222Z"
   }
 ];

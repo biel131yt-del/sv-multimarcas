@@ -91,18 +91,31 @@ for (const nome of arquivos) {
   );
   const binario = Buffer.from(raw.replace(/\s/g, ''), 'base64');
 
-  // Sobe pro Blob (nome estavel, sem suffix aleatorio)
+  // Sobe pro Blob. Store privado exige access:'private'.
   const destino = 'carros/' + nome;
-  const resultado = await put(destino, binario, {
-    access: 'public',
+  const opcoes = {
     contentType: 'image/jpeg',
     addRandomSuffix: false,
     cacheControlMaxAge: 31536000,
     token: tokenBlob
-  });
+  };
 
-  feito.set(caminhoAntigo, resultado.url);
-  console.log(`  ${nome} -> ${resultado.url} (${(binario.length / 1024).toFixed(0)}KB)`);
+  let resultado;
+  let privado = false;
+  try {
+    resultado = await put(destino, binario, { ...opcoes, access: 'public' });
+  } catch (e) {
+    if (!/private store/i.test(String(e && e.message))) throw e;
+    resultado = await put(destino, binario, { ...opcoes, access: 'private' });
+    privado = true;
+  }
+
+  const url = privado
+    ? '/api/foto?pathname=' + encodeURIComponent(resultado.pathname)
+    : resultado.url;
+
+  feito.set(caminhoAntigo, url);
+  console.log(`  ${nome} -> ${url} (${(binario.length / 1024).toFixed(0)}KB${privado ? ', privado' : ''})`);
 }
 
 /* ---------- Atualiza o banco ---------- */
