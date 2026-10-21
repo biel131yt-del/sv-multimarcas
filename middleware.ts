@@ -106,6 +106,8 @@ export default async function middleware(request) {
   }
 
   const destino = new URL('/login', url.origin);
-  destino.searchParams.set('next', url.pathname);
+  // Mantem a query string: sem isso, o functoolsario perde o veiculo que
+  // estava editando (ex.: /admin/veiculo-editar?id=3 virava /admin/veiculo-editar).
+  destino.searchParams.set('next', url.pathname + url.search);
   return Response.redirect(destino.toString(), 302);
 }
