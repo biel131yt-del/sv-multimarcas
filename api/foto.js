@@ -37,8 +37,8 @@ export default async function handler(req, res) {
       return res.status(404).json({ error: 'Foto nao encontrada' });
     }
 
-    // O runtime Node exige Buffer (nao aceita ReadableStream direto)
-    const buffer = Buffer.from(await blob.stream.arrayBuffer());
+    // O stream e um ReadableStream web: converte via Response (padrao do Node 18+)
+    const buffer = Buffer.from(await new Response(blob.stream).arrayBuffer());
 
     res.setHeader('Content-Type', blob.contentType || 'image/jpeg');
     res.setHeader('Content-Length', buffer.length);
