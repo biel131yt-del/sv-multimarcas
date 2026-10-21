@@ -554,6 +554,11 @@
 
       /* ---------- Renderizacao ---------- */
       function renderizar() {
+      /* ---------- Limpa o que pode ter sido renderizado antes ---------- */
+      document.getElementById('galleryThumbs').innerHTML = '';
+      document.getElementById('checklistContainer').innerHTML = '';
+      document.querySelectorAll('script[data-dinamico]').forEach(s => s.remove());
+
       /* ---------- SEO dinâmico ---------- */
       const titulo = veiculo.marca + ' ' + veiculo.modelo + ' ' + veiculo.ano + ' — SV Multimarcas';
       document.title = titulo;
@@ -567,6 +572,7 @@
       /* ---------- Schema.org Product/Offer ---------- */
       const schema = document.createElement('script');
       schema.type = 'application/ld+json';
+      schema.setAttribute('data-dinamico', '1');
       schema.textContent = JSON.stringify({
         '@context': 'https://schema.org',
         '@type': 'Product',
