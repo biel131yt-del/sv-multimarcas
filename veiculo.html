@@ -658,13 +658,16 @@
 
       if (galeria.length) mostrarFoto(0);
 
-      // Aviso de fotos faltantes
+      // Aviso de fotos faltantes (recalculado a cada render)
       const pendentes = SV.fotosPendentes(veiculo);
+      const avisoEl = document.getElementById('fotoAviso');
       if (pendentes.length) {
         document.getElementById('fotoAvisoTexto').textContent =
           'Fotos ainda não enviadas: ' + pendentes.join(', ') + '. ' +
           'Consulte a loja para ver o veículo ao vivo.';
-        document.getElementById('fotoAviso').style.display = 'flex';
+        avisoEl.style.display = 'flex';
+      } else {
+        avisoEl.style.display = 'none';
       }
 
       /* ---------- WhatsApp ---------- */
