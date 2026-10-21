@@ -37,8 +37,11 @@ export default async function handler(req, res) {
       return res.status(404).json({ error: 'Foto nao encontrada' });
     }
 
+    // O runtime Node exige Buffer (nao aceita ReadableStream direto)
+    const buffer = Buffer.from(await blob.stream.arrayBuffer());
+
     res.setHeader('Content-Type', blob.contentType || 'image/jpeg');
-    if (blob.size) res.setHeader('Content-Length', blob.size);
+    res.setHeader('Content-Length', buffer.length);
     res.setHeader('Cache-Control', 'public, max-age=31536000, immutable');
     res.setHeader('X-Content-Type-Options', 'nosniff');
     if (blob.etag) res.setHeader('ETag', blob.etag);
@@ -49,7 +52,7 @@ export default async function handler(req, res) {
       return res.status(304).end();
     }
 
-    return res.status(200).end(blob.stream);
+    return res.status(200).end(buffer);
   } catch (e) {
     console.error('[foto] erro:', e.message);
     return res.status(500).json({ error: 'Nao foi possivel servir a foto' });
