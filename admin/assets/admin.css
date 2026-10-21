@@ -258,7 +258,11 @@ button { font-family: inherit; }
 
 .grid-2 { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; }
 .grid-3 { display: grid; grid-template-columns: repeat(3, 1fr); gap: 20px; }
-@media (max-width: 1180px) { .grid-2, .grid-3 { grid-template-columns: 1fr; } }
+.grid-4 { display: grid; grid-template-columns: repeat(4, 1fr); gap: 20px; }
+@media (max-width: 1180px) { .grid-2, .grid-3, .grid-4 { grid-template-columns: 1fr; } }
+@media (min-width: 1181px) and (max-width: 1440px) {
+  .grid-4 { grid-template-columns: repeat(2, 1fr); }
+}
 
 /* ============================================================
    TABELA
@@ -283,7 +287,18 @@ button { font-family: inherit; }
 .search-box input:focus { outline: none; border-color: var(--blue); }
 .search-box input::placeholder { color: rgba(168,173,181,0.4); }
 
-table { width: 100%; border-collapse: collapse; }
+/* Rolagem horizontal quando a tabela não cabe */
+.table-scroll {
+  overflow-x: auto;
+  -webkit-overflow-scrolling: touch;
+  scrollbar-width: thin;
+}
+.table-scroll::-webkit-scrollbar { height: 8px; }
+.table-scroll::-webkit-scrollbar-track { background: var(--black); }
+.table-scroll::-webkit-scrollbar-thumb { background: #2A2A30; border-radius: 4px; }
+.table-scroll::-webkit-scrollbar-thumb:hover { background: var(--silver); }
+
+table { width: 100%; border-collapse: collapse; min-width: 680px; }
 thead th {
   background: rgba(255,255,255,0.02);
   padding: 11px 16px; text-align: left;
