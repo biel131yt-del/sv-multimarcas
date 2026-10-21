@@ -1816,6 +1816,7 @@
   <script src="data/config.js"></script>
   <script src="data/content.js"></script>
   <script src="data/vehicles.js"></script>
+  <script src="data/estoque.js"></script>
   <script src="lib/ui.js"></script>
 
   <script>
@@ -1823,7 +1824,7 @@
       'use strict';
 
       const CFG = window.SV_CONFIG;
-      const VEICULOS = window.SV_VEHICLES || [];
+      let VEICULOS = window.SV_VEHICLES || [];
       const CONTEUDO = window.SV_CONTENT || {};
 
       /* ======================================================
@@ -2030,21 +2031,31 @@
       // Popula selects de filtro
       const selMarca = SV.$('#filtroMarca');
       const selAno = SV.$('#filtroAno');
-      const marcas = [...new Set(VEICULOS.map(v => v.marca))].sort();
-      const anos = [...new Set(VEICULOS.map(v => v.ano))].sort((a, b) => b - a);
 
-      selMarca.innerHTML = '<option value="">Todas as marcas</option>' +
-        marcas.map(m => '<option value="' + SV.escapeHtml(m) + '">' + SV.escapeHtml(m) + '</option>').join('');
-      selAno.innerHTML = '<option value="">Todos os anos</option>' +
-        anos.map(a => '<option value="' + a + '">' + a + '</option>').join('');
+      function atualizarFiltros() {
+        const marcas = [...new Set(VEICULOS.map(v => v.marca))].sort();
+        const anos = [...new Set(VEICULOS.map(v => v.ano))].sort((a, b) => b - a);
+        const marcaAtual = selMarca.value;
+        const anoAtual = selAno.value;
 
-      // Datalist com veículos para o form de financiamento
-      const dl = SV.$('#listaVeiculos');
-      if (dl) {
-        dl.innerHTML = VEICULOS.map(v =>
-          '<option value="' + SV.escapeHtml(v.marca + ' ' + v.modelo + ' ' + (v.versao || '') + ' ' + v.ano) + '">'
-        ).join('');
+        selMarca.innerHTML = '<option value="">Todas as marcas</option>' +
+          marcas.map(m => '<option value="' + SV.escapeHtml(m) + '">' + SV.escapeHtml(m) + '</option>').join('');
+        selAno.innerHTML = '<option value="">Todos os anos</option>' +
+          anos.map(a => '<option value="' + a + '">' + a + '</option>').join('');
+
+        if (marcaAtual) selMarca.value = marcaAtual;
+        if (anoAtual) selAno.value = anoAtual;
+
+        // Datalist com veículos para o form de financiamento
+        const dl = SV.$('#listaVeiculos');
+        if (dl) {
+          dl.innerHTML = VEICULOS.map(v =>
+            '<option value="' + SV.escapeHtml(v.marca + ' ' + v.modelo + ' ' + (v.versao || '') + ' ' + v.ano) + '">'
+          ).join('');
+        }
       }
+
+      atualizarFiltros();
 
       function aplicarFiltros() {
         const marca = selMarca.value;
@@ -2085,6 +2096,18 @@
       })();
 
       renderEstoque(VEICULOS);
+
+      // Atualiza o estoque com a versao mais recente (Supabase/GitHub).
+      // A renderizacao inicial ja usou o seed local, entao nao ha espera.
+      if (window.SV_ESTOQUE) {
+        window.SV_ESTOQUE.carregar(true).then(lista => {
+          if (Array.isArray(lista) && lista.length && lista.length !== VEICULOS.length) {
+            VEICULOS = lista;
+            renderEstoque(VEICULOS);
+            atualizarFiltros();
+          }
+        }).catch(() => {});
+      }
 
       // Painel de filtros
       const btnFiltros = SV.$('#btnFiltros');

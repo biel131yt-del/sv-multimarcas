@@ -4,14 +4,14 @@
  * POST /api/upload
  * Body: { nome: '1-frente.jpg', dados: 'data:image/jpeg;base64,...' }
  *
- * Grava a imagem no repositorio (images/carros/) e devolve o caminho
- * para ser usado no cadastro do veiculo. O push dispara o deploy
- * automatico da Vercel.
+ * Prioridade: Supabase Storage > GitHub (images/carros/).
+ * O site passa a exibir a foto assim que o deploy automatico conclui.
  */
 
 import { salvarArquivo, temToken, erro } from './_github.js';
+import { temSupabase, subirFoto } from './_supabase.js';
 
-const PASTA = 'images/carros';
+const PASTA_GIT = 'images/carros';
 const TAMANHO_MAX = 8 * 1024 * 1024; // 8 MB
 
 export default async function handler(req, res) {
@@ -25,9 +25,9 @@ export default async function handler(req, res) {
     return erro(res, 405, 'Metodo nao permitido');
   }
 
-  if (!temToken()) {
-    return erro(res, 503, 'Upload desabilitado: configure GITHUB_TOKEN no projeto.', {
-      dica: 'Sem o token, use "Baixar vehicles.js" e envie as fotos em images/carros/.'
+  if (!temSupabase() && !temToken()) {
+    return erro(res, 503, 'Upload desabilitado: configure o Supabase ou o GITHUB_TOKEN.', {
+      dica: 'Sem backend, use "Baixar vehicles.js" e envie as fotos em images/carros/.'
     });
   }
 
@@ -49,7 +49,9 @@ export default async function handler(req, res) {
     return erro(res, 400, 'Formato invalido. Envie uma imagem PNG, JPEG ou WebP.');
   }
 
+  const tipo = match[1].toLowerCase() === 'image/jpg' ? 'image/jpeg' : match[1].toLowerCase();
   const binario = Buffer.from(match[3], 'base64');
+
   if (binario.length > TAMANHO_MAX) {
     return erro(res, 413, 'Imagem muito grande (maximo 8 MB).');
   }
@@ -65,23 +67,40 @@ export default async function handler(req, res) {
     return erro(res, 400, 'Extensao invalida. Use .jpg, .jpeg, .png ou .webp.');
   }
 
-  const caminho = `${PASTA}/${seguro}`;
-
-  try {
-    await salvarArquivo(
-      caminho,
-      binario,
-      `Foto: ${seguro}`
-    );
-  } catch (e) {
-    console.error('[upload] erro ao gravar no GitHub:', e.message);
-    return erro(res, 502, 'Nao foi possivel enviar a foto: ' + e.message);
+  /* --- Preferencia 1: Supabase Storage --- */
+  if (temSupabase()) {
+    try {
+      const url = await subirFoto(binario, seguro, tipo);
+      return res.status(200).json({
+        ok: true,
+        origem: 'supabase',
+        caminho: url,
+        url,
+        bytes: binario.length
+      });
+    } catch (e) {
+      console.error('[upload] erro no Supabase Storage:', e.message);
+      return erro(res, 502, 'Nao foi possivel enviar a foto: ' + e.message);
+    }
   }
 
-  return res.status(200).json({
-    ok: true,
-    caminho,
-    url: '/' + caminho,
-    bytes: binario.length
-  });
+  /* --- Preferencia 2: GitHub --- */
+  if (temToken()) {
+    const caminho = `${PASTA_GIT}/${seguro}`;
+    try {
+      await salvarArquivo(caminho, binario, `Foto: ${seguro}`);
+      return res.status(200).json({
+        ok: true,
+        origem: 'github',
+        caminho,
+        url: '/' + caminho,
+        bytes: binario.length
+      });
+    } catch (e) {
+      console.error('[upload] erro ao gravar no GitHub:', e.message);
+      return erro(res, 502, 'Nao foi possivel enviar a foto: ' + e.message);
+    }
+  }
+
+  return erro(res, 503, 'Upload indisponivel.');
 }

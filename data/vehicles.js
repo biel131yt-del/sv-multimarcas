@@ -12,7 +12,7 @@
  *
  * Gerado pelo painel administrativo em 21/10/2026, 19:37:09
  */
-window.SV_VEHICLES = [
+window.SV_VEHICLES = window.SV_VEHICLES = window.SV_VEHICLES = [
   {
     "id": 1,
     "marca": "Volkswagen",

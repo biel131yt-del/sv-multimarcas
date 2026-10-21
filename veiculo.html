@@ -505,6 +505,7 @@
 
   <script src="data/config.js"></script>
   <script src="data/vehicles.js"></script>
+  <script src="data/estoque.js"></script>
   <script src="lib/ui.js"></script>
 
   <script>
@@ -518,14 +519,32 @@
       const id = Number(params.get('id'));
       const veiculo = VEICULOS.find(v => v.id === id);
 
+      /* ---------- Veículo não encontrado no seed local ---------- */
       if (!veiculo) {
+        // Pode estar no Supabase (veiculo recem-cadastrado pelo painel).
+        if (window.SV_ESTOQUE) {
+          window.SV_ESTOQUE.carregar(true).then(lista => {
+            const v = (lista || []).find(x => x.id === id);
+            if (v) {
+              // Recarrega: agora o seed local ja esta atualizado pelo cache
+              location.reload();
+              return;
+            }
+            mostrarNaoEncontrado();
+          }).catch(() => mostrarNaoEncontrado());
+          return;
+        }
+        mostrarNaoEncontrado();
+        return;
+      }
+
+      function mostrarNaoEncontrado() {
         document.body.innerHTML =
           '<div style="padding:80px 20px; text-align:center;">' +
           '<h1 style="color:var(--white); font-family:Montserrat,sans-serif; font-size:1.8rem; margin-bottom:12px;">Veículo não encontrado</h1>' +
           '<p style="color:var(--silver); margin-bottom:28px;">O veículo solicitado não está disponível.</p>' +
           '<a href="index.html#estoque" style="display:inline-block; background:var(--red); color:#fff; padding:14px 28px; text-decoration:none; font-family:Montserrat,sans-serif; font-weight:700; text-transform:uppercase; font-size:13px;">Ver estoque</a>' +
           '</div>';
-        return;
       }
 
       /* ---------- SEO dinâmico ---------- */

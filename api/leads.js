@@ -1,15 +1,16 @@
 /**
- * SV Multimarcas - API de Leads (Vercel Serverless Function)
+ * SV Multimarcas — API de contatos (leads)
  *
- * POST /api/leads  -> cria um lead
+ * POST /api/leads  -> cria um contato
  *   Body: { nome, telefone, email?, veiculo?, mensagem?, tipo, origem? }
+ * GET  /api/leads  -> lista os contatos (painel admin)
  *
- * GET  /api/leads  -> lista os leads (painel admin)
- *
- * Salva no Supabase quando SUPABASE_URL e SUPABASE_SERVICE_ROLE_KEY estão
- * configurados. Sem credenciais, funciona em modo demonstracao: valida e
- * responde OK (o lead ainda chega pelo WhatsApp, aberto pelo site).
+ * Salva no Supabase quando configurado. Sem credenciais, funciona em
+ * modo demonstracao: valida e registra no log do servidor — o cliente
+ * ainda chega pelo WhatsApp, aberto pelo proprio site.
  */
+
+import { temSupabase, lerLeads, salvarLead } from './_supabase.js';
 
 const TIPOS_VALIDOS = ['interest', 'sell', 'trade', 'financing'];
 
@@ -32,53 +33,25 @@ function emailValido(email) {
 }
 
 export default async function handler(req, res) {
-  // CORS
   res.setHeader('Access-Control-Allow-Origin', '*');
   res.setHeader('Access-Control-Allow-Methods', 'GET, POST, OPTIONS');
   res.setHeader('Access-Control-Allow-Headers', 'Content-Type');
 
-  if (req.method === 'OPTIONS') {
-    return res.status(204).end();
-  }
-
-  const supabaseUrl = process.env.SUPABASE_URL || process.env.NEXT_PUBLIC_SUPABASE_URL;
-  const serviceKey = process.env.SUPABASE_SERVICE_ROLE_KEY;
+  if (req.method === 'OPTIONS') return res.status(204).end();
 
   /* -------------------------------------------------------------
-     GET - lista de leads (painel admin)
+     GET — lista contatos
      ------------------------------------------------------------- */
   if (req.method === 'GET') {
-    if (!supabaseUrl || !serviceKey) {
+    if (!temSupabase()) {
       return res.status(200).json({ leads: [], mensagem: 'Banco de dados nao configurado.' });
     }
-
-    try {
-      const resposta = await fetch(
-        `${supabaseUrl}/rest/v1/leads?select=*&order=created_at.desc&limit=200`,
-        {
-          headers: {
-            apikey: serviceKey,
-            Authorization: `Bearer ${serviceKey}`
-          }
-        }
-      );
-
-      if (!resposta.ok) {
-        const detalhe = await resposta.text();
-        console.error('[leads] Erro ao listar:', resposta.status, detalhe);
-        return res.status(502).json({ error: 'Falha ao buscar leads.' });
-      }
-
-      const leads = await resposta.json();
-      return res.status(200).json({ leads });
-    } catch (err) {
-      console.error('[leads] Excecao ao listar:', err);
-      return res.status(502).json({ error: 'Falha ao buscar leads.' });
-    }
+    const leads = await lerLeads();
+    return res.status(200).json({ leads });
   }
 
   /* -------------------------------------------------------------
-     POST - cria lead
+     POST — cria contato
      ------------------------------------------------------------- */
   if (req.method !== 'POST') {
     res.setHeader('Allow', 'GET, POST');
@@ -87,11 +60,7 @@ export default async function handler(req, res) {
 
   let body = req.body;
   if (typeof body === 'string') {
-    try {
-      body = JSON.parse(body);
-    } catch {
-      return res.status(400).json({ error: 'JSON invalido' });
-    }
+    try { body = JSON.parse(body); } catch { return res.status(400).json({ error: 'JSON invalido' }); }
   }
   body = body || {};
 
@@ -124,34 +93,17 @@ export default async function handler(req, res) {
     created_at: new Date().toISOString()
   };
 
-  // Persistencia (Supabase)
-  if (supabaseUrl && serviceKey) {
+  if (temSupabase()) {
     try {
-      const resposta = await fetch(`${supabaseUrl}/rest/v1/leads`, {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-          apikey: serviceKey,
-          Authorization: `Bearer ${serviceKey}`,
-          Prefer: 'return=minimal'
-        },
-        body: JSON.stringify(registro)
-      });
-
-      if (!resposta.ok) {
-        const detalhe = await resposta.text();
-        console.error('[leads] Erro Supabase:', resposta.status, detalhe);
-        return res.status(502).json({ error: 'Falha ao registrar lead.' });
-      }
-
+      await salvarLead(registro);
       return res.status(201).json({ ok: true, salvo: true });
-    } catch (err) {
-      console.error('[leads] Excecao Supabase:', err);
-      return res.status(502).json({ error: 'Falha ao registrar lead.' });
+    } catch (e) {
+      console.error('[leads] erro no Supabase:', e.message);
+      return res.status(502).json({ error: 'Falha ao registrar contato.' });
     }
   }
 
-  // Sem credenciais: registra no log e responde OK
-  console.log('[leads] Lead recebido (sem persistencia):', registro);
+  // Modo demonstracao
+  console.log('[leads] Contato recebido (sem persistencia):', registro);
   return res.status(200).json({ ok: true, salvo: false });
 }
