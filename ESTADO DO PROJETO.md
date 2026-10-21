@@ -48,28 +48,43 @@ Fotos: **Vercel Blob** (prioridade) → GitHub `images/carros/` → placeholder 
 ### Estado atual
 - ✅ Neon criado e conectado — `GET /api/veiculos` → `origem: "neon"`
 - ✅ 9 veículos no banco
-- ✅ Fotos reais já publicadas por meio do painel
-- ⏳ **Vercel Blob ainda não criado** — as fotos estão indo para o GitHub (`images/carros/`), o que funciona
+- ✅ **Vercel Blob ativo** — store `sv-multimarcas-blob` (privado)
+- ✅ 1 foto real publicada e servindo do Blob (traseira do Golf)
 
-### Para ativar o Vercel Blob (opcional, mas recomendado)
-Fotos grandes no GitHub inflam o repositório. O Blob resolve:
-1. Vercel → projeto `sv-multimarcas` → **Storage** → **Create Blob Store** (público)
-2. Copiar o token e rodar:
-   ```bash
-   vercel env add BLOB_READ_WRITE_TOKEN production --value "vercel_blob_rw_..." --sensitive
-   ```
-3. Pronto: o upload passa a ir para o Blob automaticamente (prioridade sobre o GitHub)
+### Como o Blob funciona aqui
+
+O store é **privado** (padrão da Vercel). Isso significa:
+- o blob é gravado com `access: 'private'`
+- o site usa `/api/foto?pathname=carros%2F...` para exibir
+- a API entrega pelo CDN com `Cache-Control: public, max-age=31536000, immutable`
+
+Se o store for virado para **público** no dashboard, o código passa a usar a URL
+diretamente (mais rápido, sem passar pela function). Ele decide sozinho.
+
+### Para ativar o Vercel Blob
+1. Vercel → projeto `sv-multimarcas` → **Storage** → `sv-multimarcas-blob` → **Tokens** → **Create Token**
+2. `vercel env add BLOB_READ_WRITE_TOKEN production --value "vercel_blob_rw_..." --sensitive`
+3. (opcional) `vercel blob create-store --access public` para URL direta
 
 ### Variáveis de ambiente na Vercel (status)
 
 | Variável | Estado |
 |---|---|
 | `DATABASE_URL` | ✅ Neon (pooled) |
+| `BLOB_STORE_ID` | ✅ (auto pela Vercel) |
+| `BLOB_READ_WRITE_TOKEN` | ✅ `vercel_blob_rw_...` |
 | `ADMIN_PASSWORD` | ✅ `Teste12345` |
 | `ADMIN_SECRET` | ✅ assinatura do cookie |
 | `GITHUB_TOKEN` | ✅ fallback — **trocar por token dedicado** |
 | `GITHUB_OWNER` / `GITHUB_REPO` | ✅ |
-| `BLOB_READ_WRITE_TOKEN` | ⏳ falta (opcional) |
+
+### ⚠️ Detalhes técnicos do Blob (não repetir)
+
+- `@vercel/blob` **precisa ser 1.x**: a 0.27 rejeita os dois modos de acesso
+  (`public` em store privado e `private` com "access must be public")
+- O `get()` da 1.x devolve um `ReadableStream` **web**: converter com
+  `Buffer.from(await new Response(stream).arrayBuffer())` — `res.end(stream)` não funciona no runtime Node
+- `srcset` deve ignorar URLs de API (não têm variantes locais)
 
 ### Scripts de linha de comando
 
@@ -78,6 +93,7 @@ cd scripts
 node aplicar-sql.mjs          # aplica o SQL no Neon
 node publicar-estoque.mjs     # publica o estoque (le do Neon)
 node sincronizar-fotos.mjs    # casa as fotos do banco com os arquivos existentes
+node migrar-para-blob.mjs     # migra fotos do GitHub para o Blob
 node corrigir-fotos.mjs       # repara registros com data URL
 node marcar-fotos.mjs 1 images/carros/1-frente.jpg   # aponta fotos
 node otimizar-imagens.mjs     # converte fotos para WebP + srcset
