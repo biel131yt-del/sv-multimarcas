@@ -1,20 +1,22 @@
 /**
  * SV Multimarcas — Estoque publicado
  *
- * GET  /api/veiculos  -> lista o estoque (Supabase > GitHub > seed local)
- * POST /api/veiculos  -> grava o estoque (Supabase > fallback GitHub)
+ * GET    /api/veiculos  -> lista o estoque (Neon > GitHub > seed local)
+ * POST   /api/veiculos  -> grava o estoque (Neon > fallback GitHub)
+ * DELETE /api/veiculos  -> remove um veiculo (Neon)
  *
- * A fonte de verdade e o Supabase quando configurado. Sem ele, o
- * sistema usa a Contents API do GitHub (mesmo fluxo, outra origem).
+ * A fonte de verdade e o Neon (PostgreSQL). A connection string e
+ * PRIVADA: so estas functions fala com o banco.
  */
 
 import { salvarArquivo, temToken, erro } from './_github.js';
 import {
-  temSupabase,
+  temBanco,
   lerVeiculos,
   salvarVeiculo,
-  removerVeiculo
-} from './_supabase.js';
+  removerVeiculo,
+  garantirTabelas
+} from './_db.js';
 
 const CAMINHO = 'data/vehicles.js';
 
@@ -34,10 +36,6 @@ const CABECALHO = `/**
  */
 `;
 
-function cabecalho() {
-  return CABECALHO;
-}
-
 export default async function handler(req, res) {
   res.setHeader('Access-Control-Allow-Origin', '*');
   res.setHeader('Access-Control-Allow-Methods', 'GET, POST, DELETE, OPTIONS');
@@ -49,20 +47,29 @@ export default async function handler(req, res) {
      GET — lista o estoque
      ------------------------------------------------------------- */
   if (req.method === 'GET') {
-    const doSupabase = await lerVeiculos();
-    const origem = doSupabase ? 'supabase' : 'seed';
+    let veiculos = null;
+    let origem = 'seed';
 
-    // Cache curto no CDN: o site nao fica lento e o estoque
-    // aparece no maximo 1 minuto depois da mudanca.
+    if (temBanco()) {
+      try {
+        veiculos = await lerVeiculos();
+        if (veiculos && veiculos.length) origem = 'neon';
+      } catch (e) {
+        console.warn('[veiculos] Neon indisponivel:', e.message);
+      }
+    }
+
+    // Cache curto no CDN: rapido e o estoque aparece no maximo
+    // 1 minuto depois da mudanca.
     res.setHeader('Cache-Control', 'public, s-maxage=60, stale-while-revalidate=300');
 
     return res.status(200).json({
       ok: true,
       origem,
-      publicavel: temSupabase() || temToken(),
-      veiculos: doSupabase || undefined,
-      mensagem: temSupabase()
-        ? 'Supabase conectado: o estoque vem do banco em tempo real.'
+      publicavel: temBanco() || temToken(),
+      veiculos: veiculos || undefined,
+      mensagem: temBanco()
+        ? 'Neon conectado: o estoque vem do banco em tempo real.'
         : temToken()
           ? 'Publicacao via GitHub: cada alteracao dispara um deploy.'
           : 'Modo local: baixe o vehicles.js e substitua em data/vehicles.js.'
@@ -76,16 +83,17 @@ export default async function handler(req, res) {
     const id = Number(req.query?.id || req.body?.id);
     if (!id) return erro(res, 400, 'Informe o id do veiculo.');
 
-    if (temSupabase()) {
-      try {
-        await removerVeiculo(id);
-        return res.status(200).json({ ok: true, mensagem: 'Veiculo removido.' });
-      } catch (e) {
-        return erro(res, 502, 'Nao foi possivel remover: ' + e.message);
-      }
+    if (!temBanco()) {
+      return erro(res, 503, 'Remocao automatica disponivel apenas com o Neon configurado.');
     }
 
-    return erro(res, 503, 'Remocao automatica disponivel apenas com Supabase ou GitHub configurados.');
+    try {
+      await removerVeiculo(id);
+      return res.status(200).json({ ok: true, mensagem: 'Veiculo removido do estoque.' });
+    } catch (e) {
+      console.error('[veiculos] erro ao remover:', e.message);
+      return erro(res, 502, 'Nao foi possivel remover: ' + e.message);
+    }
   }
 
   /* -------------------------------------------------------------
@@ -113,19 +121,20 @@ export default async function handler(req, res) {
 
   const mensagem = String(body.mensagem || 'Atualiza o estoque publicado no site').slice(0, 120);
 
-  /* --- Preferencia 1: Supabase --- */
-  if (temSupabase()) {
+  /* --- Preferencia 1: Neon --- */
+  if (temBanco()) {
     try {
+      await garantirTabelas();
       for (const v of veiculos) {
         await salvarVeiculo(v);
       }
       return res.status(200).json({
         ok: true,
-        origem: 'supabase',
+        origem: 'neon',
         mensagem: 'Estoque salvo no banco. O site atualiza em instantes.'
       });
     } catch (e) {
-      console.error('[veiculos] erro no Supabase:', e.message);
+      console.error('[veiculos] erro no Neon:', e.message);
       return erro(res, 502, 'Nao foi possivel salvar no banco: ' + e.message);
     }
   }
@@ -133,7 +142,7 @@ export default async function handler(req, res) {
   /* --- Preferencia 2: GitHub --- */
   if (temToken()) {
     const conteudo =
-      cabecalho() +
+      CABECALHO +
       'window.SV_VEHICLES = ' +
       JSON.stringify(veiculos, null, 2) +
       ';\n';
@@ -155,6 +164,6 @@ export default async function handler(req, res) {
 
   /* --- Sem backend: orienta o fluxo manual --- */
   return erro(res, 503, 'Publicacao automatica desabilitada.', {
-    dica: 'Configure SUPABASE_URL e SUPABASE_SERVICE_ROLE_KEY (recomendado) ou GITHUB_TOKEN. Sem eles, baixe o vehicles.js e substitua em data/vehicles.js.'
+    dica: 'Configure DATABASE_URL (Neon) ou GITHUB_TOKEN. Sem eles, baixe o vehicles.js e substitua em data/vehicles.js.'
   });
 }

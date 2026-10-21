@@ -1,0 +1,15 @@
+{
+  "name": "sv-multimarcas",
+  "version": "1.0.0",
+  "private": true,
+  "description": "Site de divulgacao do estoque + painel de gestao - SV Multimarcas",
+  "scripts": {
+    "otimizar": "node scripts/otimizar-imagens.mjs",
+    "publicar": "node scripts/publicar-estoque.mjs",
+    "marcar-fotos": "node scripts/marcar-fotos.mjs"
+  },
+  "dependencies": {
+    "@vercel/blob": "^0.27.3",
+    "pg": "^8.13.1"
+  }
+}

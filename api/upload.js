@@ -4,14 +4,15 @@
  * POST /api/upload
  * Body: { nome: '1-frente.jpg', dados: 'data:image/jpeg;base64,...' }
  *
- * Prioridade: Supabase Storage > GitHub (images/carros/).
+ * Prioridade: Vercel Blob > GitHub (images/carros/).
  * O site passa a exibir a foto assim que o deploy automatico conclui.
  */
 
 import { salvarArquivo, temToken, erro } from './_github.js';
-import { temSupabase, subirFoto } from './_supabase.js';
+import { temBlob, subirFoto } from './_blob.js';
 
 const PASTA_GIT = 'images/carros';
+const PASTA_BLOB = 'carros';
 const TAMANHO_MAX = 8 * 1024 * 1024; // 8 MB
 
 export default async function handler(req, res) {
@@ -25,8 +26,8 @@ export default async function handler(req, res) {
     return erro(res, 405, 'Metodo nao permitido');
   }
 
-  if (!temSupabase() && !temToken()) {
-    return erro(res, 503, 'Upload desabilitado: configure o Supabase ou o GITHUB_TOKEN.', {
+  if (!temBlob() && !temToken()) {
+    return erro(res, 503, 'Upload desabilitado: configure o Vercel Blob ou o GITHUB_TOKEN.', {
       dica: 'Sem backend, use "Baixar vehicles.js" e envie as fotos em images/carros/.'
     });
   }
@@ -67,19 +68,19 @@ export default async function handler(req, res) {
     return erro(res, 400, 'Extensao invalida. Use .jpg, .jpeg, .png ou .webp.');
   }
 
-  /* --- Preferencia 1: Supabase Storage --- */
-  if (temSupabase()) {
+  /* --- Preferencia 1: Vercel Blob --- */
+  if (temBlob()) {
     try {
-      const url = await subirFoto(binario, seguro, tipo);
+      const url = await subirFoto(binario, `${PASTA_BLOB}/${seguro}`, tipo);
       return res.status(200).json({
         ok: true,
-        origem: 'supabase',
+        origem: 'blob',
         caminho: url,
         url,
         bytes: binario.length
       });
     } catch (e) {
-      console.error('[upload] erro no Supabase Storage:', e.message);
+      console.error('[upload] erro no Vercel Blob:', e.message);
       return erro(res, 502, 'Nao foi possivel enviar a foto: ' + e.message);
     }
   }

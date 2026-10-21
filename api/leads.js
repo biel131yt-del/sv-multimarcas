@@ -5,12 +5,12 @@
  *   Body: { nome, telefone, email?, veiculo?, mensagem?, tipo, origem? }
  * GET  /api/leads  -> lista os contatos (painel admin)
  *
- * Salva no Supabase quando configurado. Sem credenciais, funciona em
- * modo demonstracao: valida e registra no log do servidor — o cliente
- * ainda chega pelo WhatsApp, aberto pelo proprio site.
+ * Grava no Neon (PostgreSQL). Sem DATABASE_URL, funciona em modo
+ * demonstracao: valida e registra no log — o cliente ainda chega
+ * pelo WhatsApp, aberto pelo proprio site.
  */
 
-import { temSupabase, lerLeads, salvarLead } from './_supabase.js';
+import { temBanco, lerLeads, salvarLead } from './_db.js';
 
 const TIPOS_VALIDOS = ['interest', 'sell', 'trade', 'financing'];
 
@@ -43,11 +43,16 @@ export default async function handler(req, res) {
      GET — lista contatos
      ------------------------------------------------------------- */
   if (req.method === 'GET') {
-    if (!temSupabase()) {
+    if (!temBanco()) {
       return res.status(200).json({ leads: [], mensagem: 'Banco de dados nao configurado.' });
     }
-    const leads = await lerLeads();
-    return res.status(200).json({ leads });
+    try {
+      const leads = await lerLeads();
+      return res.status(200).json({ leads });
+    } catch (e) {
+      console.error('[leads] erro ao listar:', e.message);
+      return res.status(200).json({ leads: [], mensagem: 'Nao foi possivel ler os contatos.' });
+    }
   }
 
   /* -------------------------------------------------------------
@@ -89,16 +94,15 @@ export default async function handler(req, res) {
     vehicle: veiculo || null,
     message: mensagem || null,
     type: tipo,
-    source: origem || 'site',
-    created_at: new Date().toISOString()
+    source: origem || 'site'
   };
 
-  if (temSupabase()) {
+  if (temBanco()) {
     try {
       await salvarLead(registro);
       return res.status(201).json({ ok: true, salvo: true });
     } catch (e) {
-      console.error('[leads] erro no Supabase:', e.message);
+      console.error('[leads] erro no banco:', e.message);
       return res.status(502).json({ error: 'Falha ao registrar contato.' });
     }
   }
