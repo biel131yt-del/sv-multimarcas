@@ -22,64 +22,72 @@ são reais e verificáveis.
 
 ---
 
-## 🗄️ Fonte de verdade do estoque (Supabase)
+## 🗄️ Fonte de verdade do estoque — Neon (PostgreSQL) ✅ ATIVO
 
 O site público lê o estoque do banco, com **fallback automático**:
 
 ```
-1º  Supabase   → tabela vehicles + Storage (fotos) + tabela leads
-2º  GitHub     → Contents API (fallback, já configurado e testado)
-3º  Seed local → data/vehicles.js embutido (sempre funciona)
+1º  Neon (DATABASE_URL) → tabelas vehicles + leads
+2º  GitHub              → Contents API (fallback, configurado)
+3º  Seed local          → data/vehicles.js embutido (sempre funciona)
 ```
+
+Fotos: **Vercel Blob** (prioridade) → GitHub `images/carros/` → placeholder SVG.
 
 | Arquivo | Função |
 |---|---|
-| `api/_supabase.js` | Helper PostgREST + Storage |
-| `api/veiculos.js` | `GET`/`POST`/`DELETE` do estoque (Supabase > GitHub) |
-| `api/upload.js` | Upload de foto (Supabase Storage > GitHub) |
-| `api/leads.js` | Contatos gravados no Supabase |
+| `api/_db.js` | Helper PostgreSQL (`pg`) com pool para serverless |
+| `api/_blob.js` | Helper Vercel Blob |
+| `api/veiculos.js` | `GET`/`POST`/`DELETE` do estoque (Neon > GitHub) |
+| `api/upload.js` | Upload de foto (Blob > GitHub) |
+| `api/leads.js` | Contatos gravados no Neon |
 | `api/_github.js` | Fallback via Contents API do GitHub |
 | `data/estoque.js` | Resolução no front (cache CDN + sessionStorage + seed) |
-| `supabase-setup.sql` | **SQL completo** — tabelas, índices, RLS, bucket |
+| `neon-setup.sql` | **SQL completo** — tabelas, índices |
 
-### ⚠️ Pendência: ativar o Supabase
+### Estado atual
+- ✅ Neon criado e conectado — `GET /api/veiculos` → `origem: "neon"`
+- ✅ 9 veículos no banco
+- ✅ Fotos reais já publicadas por meio do painel
+- ⏳ **Vercel Blob ainda não criado** — as fotos estão indo para o GitHub (`images/carros/`), o que funciona
 
-1. Criar projeto em https://supabase.com
-2. **SQL Editor** → colar `supabase-setup.sql` → **Run**
-3. Pegar em **Project Settings → API**: `Project URL`, `anon key`, `service_role key`
-4. Na Vercel, adicionar:
+### Para ativar o Vercel Blob (opcional, mas recomendado)
+Fotos grandes no GitHub inflam o repositório. O Blob resolve:
+1. Vercel → projeto `sv-multimarcas` → **Storage** → **Create Blob Store** (público)
+2. Copiar o token e rodar:
    ```bash
-   vercel env add SUPABASE_URL production --value "https://xxx.supabase.co"
-   vercel env add SUPABASE_ANON_KEY production --value "eyJ..." --sensitive
-   vercel env add SUPABASE_SERVICE_ROLE_KEY production --value "eyJ..." --sensitive
+   vercel env add BLOB_READ_WRITE_TOKEN production --value "vercel_blob_rw_..." --sensitive
    ```
-5. Storage → criar bucket `veiculos` com **public** (o SQL já faz isso)
-
-Enquanto o Supabase não estiver configurado, o GitHub já funciona (token `GITHUB_TOKEN`
-já está na Vercel) — cada alteração dispara um deploy.
+3. Pronto: o upload passa a ir para o Blob automaticamente (prioridade sobre o GitHub)
 
 ### Variáveis de ambiente na Vercel (status)
 
 | Variável | Estado |
 |---|---|
+| `DATABASE_URL` | ✅ Neon (pooled) |
 | `ADMIN_PASSWORD` | ✅ `Teste12345` |
-| `ADMIN_SECRET` | ✅ (assinatura do cookie) |
-| `GITHUB_TOKEN` | ✅ (fallback — **trocar por token dedicado**) |
+| `ADMIN_SECRET` | ✅ assinatura do cookie |
+| `GITHUB_TOKEN` | ✅ fallback — **trocar por token dedicado** |
 | `GITHUB_OWNER` / `GITHUB_REPO` | ✅ |
-| `SUPABASE_URL` | ⏳ falta |
-| `SUPABASE_ANON_KEY` | ⏳ falta |
-| `SUPABASE_SERVICE_ROLE_KEY` | ⏳ falta |
+| `BLOB_READ_WRITE_TOKEN` | ⏳ falta (opcional) |
 
 ### Scripts de linha de comando
 
 ```bash
 cd scripts
-node otimizar-imagens.mjs      # converte fotos para WebP + srcset
-node marcar-fotos.mjs 1 images/carros/1-frente.jpg   # aponta fotos por veículo
-node publicar-estoque.mjs      # publica o estoque local pela API
-node testar-publicacao.mjs     # valida o payload
-node testar-auth.mjs           # testa o login localmente
+node aplicar-sql.mjs          # aplica o SQL no Neon
+node publicar-estoque.mjs     # publica o estoque (le do Neon)
+node sincronizar-fotos.mjs    # casa as fotos do banco com os arquivos existentes
+node corrigir-fotos.mjs       # repara registros com data URL
+node marcar-fotos.mjs 1 images/carros/1-frente.jpg   # aponta fotos
+node otimizar-imagens.mjs     # converte fotos para WebP + srcset
+node testar-publicacao.mjs    # valida o payload
+node testar-auth.mjs          # testa o login localmente
 ```
+
+> ⚠️ **Nunca** use `Set-Content -Encoding UTF8` do PowerShell 5.1 para editar
+> arquivos do projeto: **corrompe acentos**. Use `[System.IO.File]::ReadAllText/
+> WriteAllText` com UTF8 explícito, o VS Code, ou os scripts Node.
 
 ---
 
