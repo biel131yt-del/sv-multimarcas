@@ -22,6 +22,67 @@ são reais e verificáveis.
 
 ---
 
+## 🗄️ Fonte de verdade do estoque (Supabase)
+
+O site público lê o estoque do banco, com **fallback automático**:
+
+```
+1º  Supabase   → tabela vehicles + Storage (fotos) + tabela leads
+2º  GitHub     → Contents API (fallback, já configurado e testado)
+3º  Seed local → data/vehicles.js embutido (sempre funciona)
+```
+
+| Arquivo | Função |
+|---|---|
+| `api/_supabase.js` | Helper PostgREST + Storage |
+| `api/veiculos.js` | `GET`/`POST`/`DELETE` do estoque (Supabase > GitHub) |
+| `api/upload.js` | Upload de foto (Supabase Storage > GitHub) |
+| `api/leads.js` | Contatos gravados no Supabase |
+| `api/_github.js` | Fallback via Contents API do GitHub |
+| `data/estoque.js` | Resolução no front (cache CDN + sessionStorage + seed) |
+| `supabase-setup.sql` | **SQL completo** — tabelas, índices, RLS, bucket |
+
+### ⚠️ Pendência: ativar o Supabase
+
+1. Criar projeto em https://supabase.com
+2. **SQL Editor** → colar `supabase-setup.sql` → **Run**
+3. Pegar em **Project Settings → API**: `Project URL`, `anon key`, `service_role key`
+4. Na Vercel, adicionar:
+   ```bash
+   vercel env add SUPABASE_URL production --value "https://xxx.supabase.co"
+   vercel env add SUPABASE_ANON_KEY production --value "eyJ..." --sensitive
+   vercel env add SUPABASE_SERVICE_ROLE_KEY production --value "eyJ..." --sensitive
+   ```
+5. Storage → criar bucket `veiculos` com **public** (o SQL já faz isso)
+
+Enquanto o Supabase não estiver configurado, o GitHub já funciona (token `GITHUB_TOKEN`
+já está na Vercel) — cada alteração dispara um deploy.
+
+### Variáveis de ambiente na Vercel (status)
+
+| Variável | Estado |
+|---|---|
+| `ADMIN_PASSWORD` | ✅ `Teste12345` |
+| `ADMIN_SECRET` | ✅ (assinatura do cookie) |
+| `GITHUB_TOKEN` | ✅ (fallback — **trocar por token dedicado**) |
+| `GITHUB_OWNER` / `GITHUB_REPO` | ✅ |
+| `SUPABASE_URL` | ⏳ falta |
+| `SUPABASE_ANON_KEY` | ⏳ falta |
+| `SUPABASE_SERVICE_ROLE_KEY` | ⏳ falta |
+
+### Scripts de linha de comando
+
+```bash
+cd scripts
+node otimizar-imagens.mjs      # converte fotos para WebP + srcset
+node marcar-fotos.mjs 1 images/carros/1-frente.jpg   # aponta fotos por veículo
+node publicar-estoque.mjs      # publica o estoque local pela API
+node testar-publicacao.mjs     # valida o payload
+node testar-auth.mjs           # testa o login localmente
+```
+
+---
+
 ## 🔐 Acesso ao painel (NOVO nesta sessão)
 
 O painel **agora exige senha**. Implementado com Routing Middleware da Vercel
