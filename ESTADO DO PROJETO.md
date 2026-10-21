@@ -132,8 +132,10 @@ node otimizar-imagens.mjs    # converte o que estiver em ../images/
 
 ### 🔑 Pendência: deploy automático (GitHub → Vercel)
 
-**Causa:** a Vercel GitHub App foi instalada de **outro PC**, com seleção de
-repos limited. O repo `biel131yt-del/sv-multimarcas` (novo) não está liberado.
+**Causa raiz:** a Vercel GitHub App está instalada na conta GitHub
+`gabrielaguiar1230` (instalada em outro PC). O repo novo
+`biel131yt-del/sv-multimarcas` está em **outra conta**, então o token de
+instalação da Vercel não enxerga esse repo.
 
 **Erro exato:**
 ```
@@ -142,24 +144,19 @@ POST /v9/projects/prj_RrHH3O4uzkk1TMtXdQaoUgJqHcXT/link
    "message":"You need admin or write access to the repository \"sv-multimarcas\" to link it."}}
 ```
 
-**Como resolver (2 opções):**
+**Solução (2 cliques):** instalar a Vercel GitHub App na conta `biel131yt-del`
+→ https://github.com/apps/vercel/installations/new
+→ *Install on* → **biel131yt-del** → *All repositories* → **Install**
 
-*Opção A — liberar o repo na instalação existente (mais rápido):*
-1. GitHub → Settings → Applications → **Installed GitHub Apps** → **Vercel** → **Configure**
-2. Em *Repository access*: **Only select repositories** → marque `sv-multimarcas`
-   (ou troque para *All repositories*)
-3. Salvar
+Depois: `vercel git connect https://github.com/biel131yt-del/sv-multimarcas`
 
-*Opção B — instalar a app neste repo:*
-1. Abrir https://github.com/apps/vercel/installations/new
-2. Selecionar a conta `biel131yt-del` → repositório `sv-multimarcas` → Install
+**Alternativa que já funciona:** `PUBLICAR.bat` (commit + push + deploy em
+1 comando, ~30s). Não depende do link automático.
 
-**Depois de resolver, rodar:**
-```bash
-cd "C:\Users\gabriel aguiar\OneDrive\Sv Multimarca GA PROJETOS\sv-multimarcas"
-vercel git connect https://github.com/biel131yt-del/sv-multimarcas
-# (responder "y")
-```
+**Contas deste ambiente:**
+- GitHub CLI: `biel131yt-del` (repo do projeto)
+- Vercel: `gabrielaguiardev1231@gmail.com` → team `ga-dev-system-account-2`
+- Vercel GitHub App: instalada em `gabrielaguiar1230` (PC anterior)
 
 **IDs úteis:**
 - Project ID: `prj_RrHH3O4uzkk1TMtXdQaoUgJqHcXT`
