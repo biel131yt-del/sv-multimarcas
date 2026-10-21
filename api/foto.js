@@ -37,15 +37,15 @@ export default async function handler(req, res) {
       return res.status(404).json({ error: 'Foto nao encontrada' });
     }
 
-    res.setHeader('Content-Type', blob.blob.contentType || 'image/jpeg');
-    res.setHeader('Content-Length', blob.blob.size);
+    res.setHeader('Content-Type', blob.contentType || 'image/jpeg');
+    if (blob.size) res.setHeader('Content-Length', blob.size);
     res.setHeader('Cache-Control', 'public, max-age=31536000, immutable');
     res.setHeader('X-Content-Type-Options', 'nosniff');
-    res.setHeader('ETag', blob.blob.etag || '');
+    if (blob.etag) res.setHeader('ETag', blob.etag);
 
     // 304 quando o browser ja tem a versao em cache
     const ifNoneMatch = req.headers['if-none-match'];
-    if (ifNoneMatch && blob.blob.etag && ifNoneMatch === blob.blob.etag) {
+    if (ifNoneMatch && blob.etag && ifNoneMatch === blob.etag) {
       return res.status(304).end();
     }
 

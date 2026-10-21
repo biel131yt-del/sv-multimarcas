@@ -15,7 +15,7 @@
  * Sem token, o upload cai no fallback (GitHub).
  */
 
-import { put, get } from '@vercel/blob';
+import { put, getDownloadUrl, head } from '@vercel/blob';
 
 export function temBlob() {
   return !!(process.env.BLOB_READ_WRITE_TOKEN && process.env.BLOB_STORE_ID);
@@ -63,17 +63,38 @@ export async function subirFoto(binario, nome, tipo) {
 }
 
 /**
- * Le um blob privado e devolve o stream.
+ * Le um blob privado e devolve os metadados + o stream.
+ *
+ * Usa getDownloadUrl (URL assinada temporaria) + fetch, que e o
+ * caminho suportado pelas versoes 0.x do @vercel/blob.
+ *
  * @param {string} pathname  ex.: 'carros/1-frente.jpg'
  */
 export async function lerFoto(pathname) {
   if (!pathname) return null;
-  const resultado = await get(pathname, {
+
+  const opcoes = {
     access: 'private',
     token: process.env.BLOB_READ_WRITE_TOKEN
-  });
-  if (!resultado || resultado.statusCode !== 200) return null;
-  return resultado;
+  };
+
+  // Metadados
+  let meta = null;
+  try {
+    meta = await head(pathname, opcoes);
+  } catch { /* segue sem metadados */ }
+
+  // URL assinada temporaria
+  const url = await getDownloadUrl(pathname, opcoes);
+  const res = await fetch(url);
+  if (!res.ok) return null;
+
+  return {
+    stream: res.body,
+    contentType: (meta && meta.contentType) || res.headers.get('content-type') || 'image/jpeg',
+    size: (meta && meta.size) || res.headers.get('content-length'),
+    etag: (meta && meta.etag) || res.headers.get('etag')
+  };
 }
 
 /**
