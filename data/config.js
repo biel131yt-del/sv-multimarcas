@@ -27,12 +27,5 @@ window.SV_CONFIG = {
     sabado: 'Sábado: 9h às 14h'
   },
 
-  // Backend
-  // Em produção, defina NEXT_PUBLIC_SUPABASE_URL e NEXT_PUBLIC_SUPABASE_ANON_KEY
-  // (Vercel → Settings → Environment Variables). Vazio = modo local, usa apenas o WhatsApp.
-  supabaseUrl: '',
-  supabaseAnonKey: '',
-
-  // Endpoint que recebe os leads (Vercel Function em /api/leads)
-  endpointLeads: '/api/leads'
+  // Backend: configurado no servidor (Vercel). Não precisa mexer aqui.
 };

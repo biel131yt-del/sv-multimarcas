@@ -178,35 +178,26 @@
 
         <aside>
           <div class="panel">
-            <div class="panel-head"><h2>Conexão com banco de dados</h2></div>
+            <div class="panel-head"><h2>Como está o site</h2></div>
             <div class="panel-body">
-              <div class="field" style="margin-bottom:14px;">
-                <label for="supabaseUrl">SUPABASE_URL</label>
-                <input type="text" id="supabaseUrl" placeholder="https://xxxx.supabase.co">
-              </div>
-              <div class="field" style="margin-bottom:14px;">
-                <label for="supabaseKey">SUPABASE_ANON_KEY</label>
-                <input type="password" id="supabaseKey" placeholder="eyJhbGciOi...">
-              </div>
-              <div class="field">
-                <label for="endpoint">Endpoint de leads</label>
-                <input type="text" id="endpoint" placeholder="/api/leads">
-              </div>
+              <ul class="status-list">
+                <li>Estoque e contatos salvos no servidor</li>
+                <li>Fotos guardadas e mostradas no site</li>
+                <li>Formulários encaminhados para o WhatsApp</li>
+              </ul>
               <p style="font-size:11.5px; color:var(--silver); line-height:1.6; margin-top:14px;">
-                Sem credenciais, o site funciona em modo demonstração: os leads são
-                registrados apenas no log do servidor e o contato chega pelo WhatsApp.
-                Para persistir de verdade, configure as variáveis de ambiente na Vercel.
+                Se algo estiver errado, fale com quem cuida do site.
               </p>
             </div>
           </div>
 
           <div class="panel" style="margin-top:16px;">
-            <div class="panel-head"><h2>Onde alterar</h2></div>
+            <div class="panel-head"><h2>Onde estes dados aparecem</h2></div>
             <div class="panel-body">
               <p style="font-size:12.5px; color:var(--silver); line-height:1.7;">
-                Estes valores são gravados em
-                <code style="color:var(--white); background:rgba(255,255,255,0.07); padding:1px 5px; border-radius:3px;">data/config.js</code>
-                e aplicados em todo o site automaticamente.
+                Telefone, endereço e horário aparecem no rodapé, na seção de
+                contato e no botão do WhatsApp do site. O slogan aparece no
+                topo da página inicial.
               </p>
             </div>
           </div>
@@ -245,9 +236,6 @@
   $('#horarioSemana').value = (CFG.horario && CFG.horario.semana) || '';
   $('#horarioSabado').value = (CFG.horario && CFG.horario.sabado) || '';
   $('#slogan').value = CFG.slogan || '';
-  $('#supabaseUrl').value = CFG.supabaseUrl || '';
-  $('#supabaseKey').value = CFG.supabaseAnonKey || '';
-  $('#endpoint').value = CFG.endpointLeads || '/api/leads';
 
   $('#btnSalvarConfig').addEventListener('click', () => {
     const novos = {
@@ -268,17 +256,14 @@
         semana: $('#horarioSemana').value.trim(),
         sabado: $('#horarioSabado').value.trim()
       },
-      slogan: $('#slogan').value.trim(),
-      supabaseUrl: $('#supabaseUrl').value.trim(),
-      supabaseAnonKey: $('#supabaseKey').value.trim(),
-      endpointLeads: $('#endpoint').value.trim() || '/api/leads'
+      slogan: $('#slogan').value.trim()
     };
 
     Object.assign(CFG, novos);
     console.log('[SV] Configurações salvas:', novos);
 
     const t = $('#toast');
-    $('#toastMsg').textContent = 'Configurações salvas em data/config.js';
+    $('#toastMsg').textContent = 'Dados da loja salvos';
     t.classList.add('visivel');
     setTimeout(() => t.classList.remove('visivel'), 3200);
   });

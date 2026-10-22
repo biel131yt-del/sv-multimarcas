@@ -65,14 +65,10 @@
       <div class="topbar-left">
         <div>
           <h1 id="tituloPagina">Novo veículo</h1>
-          <div class="topbar-sub">Preencha os dados — eles aparecem no site automaticamente</div>
+          <div class="topbar-sub">Preencha e publique — o site atualiza na hora</div>
         </div>
       </div>
       <div class="topbar-right">
-        <button type="button" class="btn btn-secondary" id="btnExportar">
-          <svg viewBox="0 0 24 24"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
-          Baixar vehicles.js
-        </button>
         <div class="user-chip"><span class="avatar">AD</span>Administrador</div>
       </div>
     </header>
@@ -225,16 +221,15 @@
                   se imaginar usando o carro antes de vir visitar.
                 </p>
                 <p style="font-size:12px; color:rgba(168,173,181,0.75); margin-bottom:18px; line-height:1.6;">
-                  <strong style="color:var(--silver);">Dica:</strong> use fotos com
-                  <strong style="color:var(--silver);">1200px ou mais</strong> de largura —
-                  abaixo disso a capa fica pixelada no celular. O sistema redimensiona
-                  e converte para WebP automaticamente (peso ~60% menor), então pode
-                  enviar a foto original do celular sem se preocupar.
+                  <strong style="color:var(--silver);">Pode mandar a foto do celular direto.</strong>
+                  O site deixa ela do tamanho ideal sozinha. Só evite fotos muito
+                  pequenas ou muito desfocadas — a capa fica boa quando a foto tem
+                  pelo menos o tamanho de uma tela de celular.
                 </p>
                 <p style="font-size:12px; color:rgba(168,173,181,0.75); margin-bottom:18px; line-height:1.6;">
                   <strong style="color:var(--silver);">Foto de iPhone:</strong> abra este
-                  painel pelo Safari. Se nao aceitar a foto, salve ela como JPEG na
-                  galeria e envie de novo.
+                  painel pelo Safari. Se a foto nao entrar, salve ela como JPEG na
+                  galeria do celular e mande de novo.
                 </p>
 
                 <div id="slotsFotos" style="display:grid; grid-template-columns:repeat(3,1fr); gap:14px;"></div>
@@ -242,8 +237,8 @@
                 <div style="margin-top:20px; padding-top:18px; border-top:1px solid rgba(255,255,255,0.06);">
                   <label class="upload-zone" for="uploadExtras" style="padding:20px;">
                     <svg viewBox="0 0 24 24"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="17 8 12 3 7 8"/><line x1="12" y1="3" x2="12" y2="15"/></svg>
-                    <strong>Adicionar fotos extras (opcional)</strong>
-                    <span>Detalhes, painel, roda — qualquer outro ângulo</span>
+                    <strong>Adicionar outras fotos (opcional)</strong>
+                    <span>Roda, porta, detalhes — qualquer outro ângulo</span>
                     <input type="file" id="uploadExtras" accept="image/*" multiple>
                   </label>
                   <div class="preview-grid" id="previewExtras" style="grid-template-columns:repeat(auto-fill,minmax(120px,1fr));"></div>
@@ -279,7 +274,7 @@
               </button>
               <button type="button" class="btn btn-primary" id="btnSalvar">
                 <svg viewBox="0 0 24 24"><path d="M19 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11l5 5v11a2 2 0 0 1-2 2z"/><polyline points="17 21 17 13 7 13 7 21"/><polyline points="7 3 7 8 15 8"/></svg>
-                Salvar veículo
+                Publicar no site
               </button>
             </div>
           </div>
@@ -417,7 +412,7 @@
         '<div class="preview-item" style="position:relative; aspect-ratio:4/3; border-radius:4px; overflow:hidden; border:1px solid rgba(255,255,255,0.08); background:var(--black);">' +
           '<img src="' + imgPath(src) + '" alt="">' +
           (real ? '' : '<span style="position:absolute;top:5px;left:5px;background:rgba(245,158,11,0.9);color:#1a1a1e;font-size:9.5px;font-weight:700;padding:2px 6px;border-radius:3px;text-transform:uppercase;letter-spacing:.5px;">pendente</span>') +
-          '<label class="remover" style="opacity:1; background:rgba(11,11,13,0.85); cursor:pointer; font-size:11px; font-weight:700;">Trocar</label>' +
+          '<label class="trocar">Trocar foto</label>' +
           '<input type="file" accept="image/*" data-slot="' + a.chave + '" style="position:absolute;inset:0;opacity:0;cursor:pointer;">' +
         '</div>' +
         '<div style="margin-top:7px; font-size:12px; font-weight:700; color:var(--white);">' + a.label + '</div>' +
@@ -431,7 +426,7 @@
       '<div class="preview-item"><img src="' + imgPath(f) + '" alt="">' +
       '<button type="button" class="remover" data-remover-extra="' + i + '">&times;</button>' +
       '<span class="drag">extra ' + (i + 1) + '</span></div>'
-    ).join('') || '<p style="grid-column:1/-1; font-size:12px; color:var(--silver);">Nenhuma foto extra.</p>';
+    ).join('') || '<p class="vazio">Nenhuma foto extra.</p>';
   }
 
   document.getElementById('slotsFotos').addEventListener('change', async e => {
@@ -476,19 +471,11 @@
         fotos[slot] = json.caminho;
         // Se trocou a capa, o preview lateral ja mostra a foto nova
         if (slot === 'frente') atualizarPreview();
-        const antes = (arquivo.size / 1024).toFixed(0);
-        const depois = (json.bytes / 1024).toFixed(0);
-        const detalhes = [];
-        if (processada.redimiu) {
-          detalhes.push(processada.origem.largura + 'x' + processada.origem.altura + ' -> ' + processada.largura + 'x' + processada.altura);
-        }
-        detalhes.push(processada.webp ? 'WebP' : 'JPEG');
-        detalhes.push(antes + 'KB -> ' + depois + 'KB');
-        toast('Foto enviada (' + detalhes.join(' · ') + '). O site atualiza em instantes.');
+        toast('Foto enviada. O site ja mostra ela.');
 
         // Aviso se a foto original era pequena demais para capa
-        if (processada.origem.largura < 1200) {
-          toast('Atencao: a foto original tinha apenas ' + processada.origem.largura + 'px de largura. Para capa, o ideal e 1200px ou mais.', true);
+        if (processada.origem.largura < 900) {
+          toast('Essa foto ficou pequena e pode sair pixelada. Se der, mande uma foto maior ou tire mais perto do carro.', true);
         }
       } else {
         // Mantem a foto anterior: falhar no upload nao pode apagar o que ja estava
@@ -687,7 +674,7 @@
           VEICULOS = veiculos;
           veiculo = VEICULOS.find(v => v.id === dados.id) || veiculo;
         }
-        toast('Veículo publicado. O site atualiza em instantes.');
+        toast('Pronto! O site já está mostrando este veículo.');
         return;
       }
       if (json.dica) {
@@ -703,30 +690,6 @@
     toast('Salvo so neste navegador. Fale com o responsavel pelo site para publicar.', true);
   });
 
-  /* ---------- Exportar vehicles.js ---------- */
-  $('#btnExportar').addEventListener('click', () => {
-    // Garante que o veículo em edição está aplicado antes de exportar
-    const idx = veiculo ? VEICULOS.findIndex(v => v.id === veiculo.id) : -1;
-    if (idx > -1) {
-      VEICULOS[idx] = Object.assign({}, VEICULOS[idx], coletarDados());
-    }
-
-    const corpo = '/**\n * SV Multimarcas — Estoque publicado no site\n * Gerado pelo painel admin em ' +
-      new Date().toLocaleString('pt-BR') + '\n * Substitua este arquivo em data/vehicles.js\n */\n' +
-      'window.SV_VEHICLES = ' + JSON.stringify(VEICULOS, null, 2) + ';\n';
-
-    const blob = new Blob([corpo], { type: 'text/javascript;charset=utf-8' });
-    const url = URL.createObjectURL(blob);
-    const a = document.createElement('a');
-    a.href = url;
-    a.download = 'vehicles.js';
-    document.body.appendChild(a);
-    a.click();
-    document.body.removeChild(a);
-    setTimeout(() => URL.revokeObjectURL(url), 1000);
-
-    toast('Arquivo vehicles.js baixado. Substitua em data/vehicles.js.');
-  });
 
   function toast(msg, erro) {
     const t = $('#toast');

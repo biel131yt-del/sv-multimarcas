@@ -65,10 +65,6 @@
         </div>
       </div>
       <div class="topbar-right">
-        <button class="btn btn-secondary" id="btnExportar">
-          <svg viewBox="0 0 24 24"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
-          Baixar vehicles.js
-        </button>
         <a href="/admin/veiculo-editar.html" class="btn btn-primary">
           <svg viewBox="0 0 24 24"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
           Novo veículo
@@ -241,7 +237,7 @@
   async function publicar(mensagem) {
     const { ok, json } = await SV_ESTOQUE_ADMIN.salvar(VEICULOS, mensagem);
     if (ok) {
-      toast(json.mensagem || 'Publicado. O site atualiza em instantes.');
+      toast(json.mensagem || 'Pronto! O site já está mostrando essa alteração.');
     } else {
       toast(json.dica || json.error || 'Nao foi possivel publicar agora.', true);
     }
@@ -284,7 +280,7 @@
         box.classList.add('ok');
         txt.textContent = 'Publicação automática ativa — editar, enviar fotos ou mudar o status atualiza o site em instantes.';
       } else {
-        txt.textContent = 'Modo manual: baixe o vehicles.js e substitua em data/vehicles.js, depois envie ao GitHub.';
+        txt.textContent = 'Nao foi possivel publicar agora. Tente de novo em instantes.';
       }
     } catch (e) {
       txt.textContent = 'Não foi possível verificar o status de publicação.';
@@ -321,23 +317,6 @@
     setTimeout(() => t.classList.remove('visivel'), 2800);
   }
 
-  /* ---------- Exportar vehicles.js ---------- */
-  document.getElementById('btnExportar').addEventListener('click', () => {
-    const corpo = '/**\n * SV Multimarcas — Estoque publicado no site\n * Gerado pelo painel admin em ' +
-      new Date().toLocaleString('pt-BR') + '\n * Substitua este arquivo em data/vehicles.js\n */\n' +
-      'window.SV_VEHICLES = ' + JSON.stringify(VEICULOS, null, 2) + ';\n';
-
-    const blob = new Blob([corpo], { type: 'text/javascript;charset=utf-8' });
-    const url = URL.createObjectURL(blob);
-    const a = document.createElement('a');
-    a.href = url;
-    a.download = 'vehicles.js';
-    document.body.appendChild(a);
-    a.click();
-    document.body.removeChild(a);
-    setTimeout(() => URL.revokeObjectURL(url), 1000);
-    toast('Arquivo vehicles.js baixado. Substitua em data/vehicles.js.');
-  });
 
   /* Carrega do banco: o painel precisa mostrar o que esta no ar */
   SV_ESTOQUE_ADMIN.carregar().then(({ veiculos }) => {
