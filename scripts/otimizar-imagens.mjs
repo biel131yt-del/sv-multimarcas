@@ -119,6 +119,10 @@ async function main() {
       `  Total: ${(totalAntes / 1024).toFixed(0)}KB -> ${(totalDepois / 1024).toFixed(0)}KB (-${economia}%)\n`
     );
   }
+  // Atualiza o mapa de variantes (data/img-variantes.js) para o srcset
+  // so apontar para arquivos que existem de verdade (evita 404).
+  console.log('  Atualizando mapa de variantes...');
+  await import('./gerar-mapa-variantes.mjs');
 }
 
 main().catch(err => {
