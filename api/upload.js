@@ -83,9 +83,11 @@ export default async function handler(req, res) {
           antigo = decodeURIComponent(antigo.split('pathname=')[1].split('&')[0]);
         } catch { antigo = ''; }
       }
+      let apagouAntigo = false;
       if (antigo && antigo.startsWith(PASTA_BLOB + '/') && antigo !== r.pathname) {
         try {
           await removerFoto(antigo);
+          apagouAntigo = true;
         } catch (e) {
           // Falha ao limpar o antigo nao impede o upload novo
           console.warn('[upload] nao foi possivel apagar a foto anterior:', e.message);
@@ -99,7 +101,8 @@ export default async function handler(req, res) {
         url: r.url,
         pathname: r.pathname,
         privado: r.privado,
-        bytes: r.bytes
+        bytes: r.bytes,
+        apagouAntigo
       });
     } catch (e) {
       console.error('[upload] erro no Vercel Blob:', e.message);
