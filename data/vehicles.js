@@ -24,8 +24,8 @@ window.SV_VEHICLES = [
     "combustivel": "Gasolina",
     "preco": 149900,
     "fotos": {
-      "frente": "images/placeholder-veiculo.svg",
-      "interior": "images/placeholder-veiculo.svg",
+      "frente": "/api/foto?pathname=carros%2F1-frente-mviv77g6.webp",
+      "interior": "/api/foto?pathname=carros%2F1-interior.webp",
       "traseira": "/api/foto?pathname=carros%2F1-traseira-costas-golf-gti-2022.jpg",
       "extras": []
     },
@@ -47,7 +47,7 @@ window.SV_VEHICLES = [
       "Chave reserva",
       "Nota fiscal"
     ],
-    "atualizado_em": "2026-10-21T23:01:46.546Z"
+    "atualizado_em": "2026-10-22T02:13:51.704Z"
   },
   {
     "id": 2,
@@ -60,9 +60,9 @@ window.SV_VEHICLES = [
     "combustivel": "Gasolina",
     "preco": 189900,
     "fotos": {
-      "frente": "images/placeholder-veiculo.svg",
-      "interior": "images/placeholder-veiculo.svg",
-      "traseira": "images/placeholder-veiculo.svg",
+      "frente": "/api/foto?pathname=carros%2F2-frente-mvivctit.webp",
+      "interior": "/api/foto?pathname=carros%2F2-interior-mvive7yl.webp",
+      "traseira": "/api/foto?pathname=carros%2F2-traseira-mvivef87.webp",
       "extras": []
     },
     "destaque": true,
@@ -82,7 +82,7 @@ window.SV_VEHICLES = [
       "Manual do proprietário",
       "Chave reserva"
     ],
-    "atualizado_em": "2026-10-21T22:36:23.406Z"
+    "atualizado_em": "2026-10-22T02:13:51.820Z"
   },
   {
     "id": 3,
@@ -95,9 +95,9 @@ window.SV_VEHICLES = [
     "combustivel": "Gasolina",
     "preco": 159900,
     "fotos": {
-      "frente": "images/placeholder-veiculo.svg",
-      "interior": "images/placeholder-veiculo.svg",
-      "traseira": "images/placeholder-veiculo.svg",
+      "frente": "/api/foto?pathname=carros%2F3-frente-mvivtvii.webp",
+      "interior": "/api/foto?pathname=carros%2F3-interior-mvivwk7l.webp",
+      "traseira": "/api/foto?pathname=carros%2F3-traseira-mvivui2t.webp",
       "extras": []
     },
     "destaque": false,
@@ -116,7 +116,7 @@ window.SV_VEHICLES = [
       "IPTV quitado",
       "Manual do proprietário"
     ],
-    "atualizado_em": "2026-10-21T22:36:23.523Z"
+    "atualizado_em": "2026-10-22T02:13:52.053Z"
   },
   {
     "id": 4,
@@ -129,9 +129,9 @@ window.SV_VEHICLES = [
     "combustivel": "Gasolina",
     "preco": 219900,
     "fotos": {
-      "frente": "images/placeholder-veiculo.svg",
-      "interior": "images/placeholder-veiculo.svg",
-      "traseira": "images/placeholder-veiculo.svg",
+      "frente": "/api/foto?pathname=carros%2F4-frente-mvivn77w.webp",
+      "interior": "/api/foto?pathname=carros%2F4-interior-mvivnquw.webp",
+      "traseira": "/api/foto?pathname=carros%2F4-traseira-mvivnvqb.webp",
       "extras": []
     },
     "destaque": true,
@@ -153,7 +153,7 @@ window.SV_VEHICLES = [
       "Chave reserva",
       "Nota fiscal"
     ],
-    "atualizado_em": "2026-10-21T22:36:23.639Z"
+    "atualizado_em": "2026-10-22T02:13:51.936Z"
   },
   {
     "id": 5,
@@ -166,9 +166,9 @@ window.SV_VEHICLES = [
     "combustivel": "Flex",
     "preco": 119900,
     "fotos": {
-      "frente": "images/placeholder-veiculo.svg",
-      "interior": "images/placeholder-veiculo.svg",
-      "traseira": "images/placeholder-veiculo.svg",
+      "frente": "/api/foto?pathname=carros%2F5-frente-mviw35rr.webp",
+      "interior": "/api/foto?pathname=carros%2F5-interior-mviw4s6t.webp",
+      "traseira": "/api/foto?pathname=carros%2F5-traseira-mviw3h6g.webp",
       "extras": []
     },
     "destaque": false,
@@ -188,7 +188,7 @@ window.SV_VEHICLES = [
       "Manual do proprietário",
       "Chave reserva"
     ],
-    "atualizado_em": "2026-10-21T22:36:23.756Z"
+    "atualizado_em": "2026-10-22T02:13:52.168Z"
   },
   {
     "id": 6,
@@ -201,9 +201,9 @@ window.SV_VEHICLES = [
     "combustivel": "Gasolina",
     "preco": 249900,
     "fotos": {
-      "frente": "images/placeholder-veiculo.svg",
-      "interior": "images/placeholder-veiculo.svg",
-      "traseira": "images/placeholder-veiculo.svg",
+      "frente": "/api/foto?pathname=carros%2F6-frente-mviwbp4a.webp",
+      "interior": "/api/foto?pathname=carros%2F6-interior-mviwbxdu.webp",
+      "traseira": "/api/foto?pathname=carros%2F6-traseira-mviwc11f.webp",
       "extras": []
     },
     "destaque": false,
@@ -222,7 +222,7 @@ window.SV_VEHICLES = [
       "IPTV quitado",
       "Manual do proprietário"
     ],
-    "atualizado_em": "2026-10-21T22:36:23.872Z"
+    "atualizado_em": "2026-10-22T02:13:52.284Z"
   },
   {
     "id": 7,
@@ -235,9 +235,9 @@ window.SV_VEHICLES = [
     "combustivel": "Flex",
     "preco": 89900,
     "fotos": {
-      "frente": "images/placeholder-veiculo.svg",
-      "interior": "images/placeholder-veiculo.svg",
-      "traseira": "images/placeholder-veiculo.svg",
+      "frente": "/api/foto?pathname=carros%2F7-frente-mviwg92g.webp",
+      "interior": "/api/foto?pathname=carros%2F7-interior-mviwgnsm.webp",
+      "traseira": "/api/foto?pathname=carros%2F7-traseira-mviwgle7.webp",
       "extras": []
     },
     "destaque": false,
@@ -256,7 +256,7 @@ window.SV_VEHICLES = [
       "IPTV quitado",
       "Chave reserva"
     ],
-    "atualizado_em": "2026-10-21T22:36:23.989Z"
+    "atualizado_em": "2026-10-22T02:13:52.400Z"
   },
   {
     "id": 8,
@@ -269,9 +269,9 @@ window.SV_VEHICLES = [
     "combustivel": "Flex",
     "preco": 74900,
     "fotos": {
-      "frente": "images/placeholder-veiculo.svg",
-      "interior": "images/placeholder-veiculo.svg",
-      "traseira": "images/placeholder-veiculo.svg",
+      "frente": "/api/foto?pathname=carros%2F8-frente-mviwk6yg.webp",
+      "interior": "/api/foto?pathname=carros%2F8-interior-mviwkx0s.webp",
+      "traseira": "/api/foto?pathname=carros%2F8-traseira-mviwker3.webp",
       "extras": []
     },
     "destaque": false,
@@ -289,7 +289,7 @@ window.SV_VEHICLES = [
       "Freios ok",
       "IPTV quitado"
     ],
-    "atualizado_em": "2026-10-21T22:36:24.105Z"
+    "atualizado_em": "2026-10-22T02:13:52.516Z"
   },
   {
     "id": 9,
@@ -302,9 +302,9 @@ window.SV_VEHICLES = [
     "combustivel": "Flex",
     "preco": 199900,
     "fotos": {
-      "frente": "images/placeholder-veiculo.svg",
-      "interior": "images/placeholder-veiculo.svg",
-      "traseira": "images/placeholder-veiculo.svg",
+      "frente": "/api/foto?pathname=carros%2F9-frente-mviwog17.webp",
+      "interior": "/api/foto?pathname=carros%2F9-interior-mviwour1.webp",
+      "traseira": "/api/foto?pathname=carros%2F9-traseira-mviwokk3.webp",
       "extras": []
     },
     "destaque": false,
@@ -324,6 +324,6 @@ window.SV_VEHICLES = [
       "Manual do proprietário",
       "Chave reserva"
     ],
-    "atualizado_em": "2026-10-21T22:36:24.222Z"
+    "atualizado_em": "2026-10-22T02:13:52.632Z"
   }
 ];

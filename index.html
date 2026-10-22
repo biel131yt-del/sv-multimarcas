@@ -1250,6 +1250,72 @@
     }
 
     .no-scroll { overflow: hidden; }
+
+    /* =========================================
+       AJUSTES DE CELULAR (nao afetam o PC)
+       ========================================= */
+    @media (max-width: 1023px) {
+
+      /* --- Hero ---
+         A foto ficava esticada e cortada (ratio 1.48 num box alto),
+         virando um borrão escuro sem o carro. Agora ela ocupa so o
+         topo, inteira, e o texto fica sobre fundo solido. */
+      .hero {
+        min-height: 0;
+        padding: calc(var(--header-h) + 12px) 0 36px;
+        align-items: flex-start;
+      }
+      .hero-bg {
+        height: 228px;
+        top: 0;
+        bottom: auto;
+        object-position: center 46%;
+        opacity: .9;
+      }
+      .hero-overlay {
+        background: linear-gradient(to bottom,
+          rgba(11,11,13,0.30) 0%,
+          rgba(11,11,13,0.72) 52%,
+          rgba(11,11,13,0.94) 82%,
+          #0B0B0D 100%);
+      }
+      .hero-content { padding: 0 20px; }
+      .hero h1 {
+        font-size: 2rem;
+        line-height: 1.14;
+        margin-bottom: 10px;
+        letter-spacing: -0.3px;
+      }
+      .hero p {
+        font-size: 0.95rem;
+        line-height: 1.5;
+        margin-bottom: 20px;
+      }
+      .hero-actions { gap: 10px; }
+      .hero-actions > * { min-height: 50px; }
+
+      /* --- Cards do estoque ---
+         O preco aparecia duas vezes (sobre a foto e no rodape). */
+      .vehicle-price-badge { display: none; }
+      .vehicle-info { padding: 16px; gap: 10px; }
+
+      /* Carregando: enquanto a foto real nao chega do banco */
+      .vehicle-image.carregando::after {
+        content: '';
+        position: absolute;
+        inset: 0;
+        background: linear-gradient(100deg,
+          rgba(255,255,255,0) 20%,
+          rgba(255,255,255,0.05) 50%,
+          rgba(255,255,255,0) 80%);
+        background-size: 200% 100%;
+        animation: sv-shimmer 1.3s linear infinite;
+      }
+      @keyframes sv-shimmer {
+        from { background-position: 200% 0; }
+        to   { background-position: -200% 0; }
+      }
+    }
   </style>
 </head>
 <body>
@@ -1969,18 +2035,18 @@
       const grid = SV.$('#estoqueGrid');
       const contagem = SV.$('#estoqueContagem');
 
-      function cardVeiculo(v) {
+      function cardVeiculo(v, doBanco) {
         const img = SV.fotoCapa(v);
         const pendentes = SV.fotosPendentes(v);
         const msg = `Olá SV Multimarcas, tenho interesse no ${v.marca} ${v.modelo} ${v.versao || ''} ${v.ano} (${SV.fmt.preco(v.preco)}) anunciado no site.`;
         return `
           <article class="vehicle-card">
             <a href="veiculo.html?id=${v.id}">
-              <div class="vehicle-image">
+              <div class="vehicle-image${doBanco ? '' : ' carregando'}">
                 <img src="${img}" alt="${SV.escapeHtml(v.marca + ' ' + v.modelo + ' ' + v.ano)}" loading="lazy" decoding="async" width="600" height="400"
                      srcset="${SV.srcset(img)}" sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 33vw">
                 ${v.destaque ? '<span class="featured-badge">Em destaque</span>' : ''}
-                ${pendentes.length ? '<span class="foto-pendente-badge" title="Falta: ' + SV.escapeHtml(pendentes.join(', ')) + '">Fotos pendentes</span>' : ''}
+                ${pendentes.length && doBanco ? '<span class="foto-pendente-badge" title="Falta: ' + SV.escapeHtml(pendentes.join(', ')) + '">Fotos pendentes</span>' : ''}
                 <span class="vehicle-price-badge">${SV.fmt.preco(v.preco)}</span>
               </div>
             </a>
@@ -2006,11 +2072,11 @@
         `;
       }
 
-      function renderEstoque(lista) {
+      function renderEstoque(lista, doBanco) {
         if (!lista.length) {
           grid.innerHTML = '<p style="grid-column:1/-1; text-align:center; color:var(--silver); padding:48px 16px;">Nenhum veículo encontrado com os filtros selecionados.</p>';
         } else {
-          grid.innerHTML = lista.map(cardVeiculo).join('');
+          grid.innerHTML = lista.map(v => cardVeiculo(v, doBanco)).join('');
         }
         if (contagem) {
           contagem.innerHTML = '<strong>' + lista.length + '</strong> veículo' +
@@ -2072,7 +2138,7 @@
           return true;
         });
 
-        renderEstoque(resultado);
+        renderEstoque(resultado, true);
 
         // Sincroniza com a URL (link compartilhável / indexável)
         const params = new URLSearchParams();
@@ -2096,20 +2162,25 @@
         aplicarFiltros();
       })();
 
-      renderEstoque(VEICULOS);
+      // 1a renderizacao: usa o seed local (instantanea). Sem o aviso de
+      // "fotos pendentes" — o seed pode estar velho e o aviso seria falso.
+      renderEstoque(VEICULOS, false);
 
-      // Atualiza o estoque com a versao mais recente (Supabase/GitHub).
-      // A renderizacao inicial ja usou o seed local, entao nao ha espera.
+      // 2a renderizacao: com os dados reais do banco. Aqui sim aparece
+      // o aviso de foto faltando (e some o "carregando").
       if (window.SV_ESTOQUE) {
         window.SV_ESTOQUE.carregar(true).then(lista => {
           if (Array.isArray(lista) && lista.length) {
             // Sempre re-renderiza: a quantidade pode ser a mesma e mesmo
             // assim as fotos e os status podem ter mudado.
             VEICULOS = lista;
-            renderEstoque(VEICULOS);
+            renderEstoque(VEICULOS, true);
             atualizarFiltros();
           }
-        }).catch(() => {});
+        }).catch(() => {
+          // Falhou: mantem o seed, mas sem o aviso de pendente.
+          renderEstoque(VEICULOS, false);
+        });
       }
 
       // Painel de filtros
