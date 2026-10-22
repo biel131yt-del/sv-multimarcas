@@ -106,11 +106,14 @@ diretamente (mais rápido, sem passar pela function). Ele decide sozinho.
 - O `get()` da 1.x devolve um `ReadableStream` **web**: converter com
   `Buffer.from(await new Response(stream).arrayBuffer())` — `res.end(stream)` não funciona no runtime Node
 - `srcset` deve ignorar URLs de API (não têm variantes locais)
-- **`put()` precisa de `allowOverwrite: true`**: o nome do blob é sempre
-  `<id>-<angulo>`, então reenviar a foto do mesmo ângulo falhava com
-  *"This blob already exists"* — e o admin resetava o slot para o placeholder,
-  **apagando a foto que já estava lá**. Corrigido em `api/_blob.js` e nos scripts.
+- **Nome do blob é versionado**: `<id>-<angulo>-<versao>.<ext>` (ex.: `1-frente-mviuyltr.webp`).
+  Motivo: `/api/foto` usa cache de 1 ano com `immutable` — com o nome fixo
+  (`1-frente.webp`), trocar a foto **não mudava a URL** e o navegador/CDN
+  continuavam servindo a foto antiga. O admin manda o caminho anterior em
+  `substituir` e o servidor apaga o blob velho (campo `apagouAntigo` na resposta).
 - Se o upload falhar, o slot **mantém a foto anterior** (não limpa mais)
+- `scripts/limpar-blobs-orfaos.mjs` remove arquivos do Blob sem referência
+  (use `--apagar` para executar)
 
 ### Scripts de linha de comando
 
@@ -121,6 +124,7 @@ node aguardar-deploy.mjs      # espera o deploy automatico ficar no ar
 node aguardar-arquivo.mjs /data/img-variantes.js   # espera um arquivo novo subir
 node medir-atualizacao.mjs    # mede quanto tempo o site leva para refletir
 node limpar-foto.mjs 2 frente # remove uma foto de teste (volta ao placeholder)
+node limpar-blobs-orfaos.mjs --apagar  # limpa arquivos do Blob sem uso
 node publicar-estoque.mjs     # publica o estoque (le do Neon)
 node sincronizar-fotos.mjs    # casa as fotos do banco com os arquivos existentes
 node migrar-para-blob.mjs     # migra fotos do GitHub para o Blob
