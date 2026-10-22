@@ -488,6 +488,25 @@ mostrar a imagem do hero do site no lugar da foto do carro.
 > `SV.fotoCapa(veiculo)` sempre lê `fotos.frente`. Use ela em vez de
 > `(v.imagens && v.imagens[0])`.
 
+### 🏪 Dados da loja (2026/10/22)
+
+| Dado | Valor |
+|---|---|
+| Endereço | Av. Ramiro Barcelos, 700 — Centro, São Jerônimo - RS, 96700-000 |
+| WhatsApp | (51) 99975-4932 → `5519999754932` |
+| Telefone fixo | (51) 3651-2783 → `5136512783` |
+| Google Maps | link oficial da loja (em `data/config.js` → `googleMaps`) |
+
+- O **mapa** fica na seção de Contato (`<iframe>` do Google Maps, tom
+  escuro via filtro CSS). O endereço vem do painel, então se mudar lá, o
+  mapa atualiza.
+- A **CSP** do `vercel.json` precisou de `frame-src https://maps.google.com
+  https://www.google.com` — sem isso o navegador bloqueia o iframe do mapa.
+- O **schema.org** (`LocalBusiness`) do `index.html` tem o endereço e o
+  telefone — é o que o Google usa para o SEO local. **Se mudar o
+  endereço, tem que mudar lá também** (ou passar pelo painel, que preenche
+  só a parte visual).
+
 ---
 
 ## 📁 Estrutura de arquivos
