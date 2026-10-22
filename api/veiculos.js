@@ -43,6 +43,12 @@ export default async function handler(req, res) {
 
   if (req.method === 'OPTIONS') return res.status(204).end();
 
+  // HEAD: same headers as GET, but no body (health check / cache check)
+  if (req.method === 'HEAD') {
+    res.setHeader('Cache-Control', 'public, s-maxage=20, stale-while-revalidate=60');
+    return res.status(200).end();
+  }
+
   /* -------------------------------------------------------------
      GET — lista o estoque
      ------------------------------------------------------------- */
