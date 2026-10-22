@@ -9,9 +9,9 @@ window.SV_CONFIG = {
   slogan: 'Seu próximo carro está aqui.',
 
   // Contato — dados reais da loja
-  whatsapp: '5511999754932',        // (11) 99975-4932
-  telefone: '11999754932',
-  telefone2: '1136512783',          // (11) 3651-2783
+  whatsapp: '5519999754932',        // (51) 99975-4932
+  telefone: '51999754932',
+  telefone2: '5136512783',          // (51) 3651-2783
   email: 'contato@svmultimarcas.com.br',
   instagram: 'https://www.instagram.com/sv26anos/',
   facebook: 'https://www.facebook.com/SouzaVeiculosMultimarcas/?locale=pt_BR',
