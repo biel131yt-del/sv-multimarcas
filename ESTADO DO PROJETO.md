@@ -1,6 +1,6 @@
 # 📌 ESTADO DO PROJETO — ponto de continuação
 
-> **Última atualização:** 21/10/2026 (sessão 2 — pós-deploy)
+> **Última atualização:** 21/10/2026 (sessão 3 — fluxo de fotos e fonte de dados corrigidos)
 > **Este arquivo é o ponto de partida para retomar qualquer tarefa.**
 
 ---
@@ -42,14 +42,35 @@ Fotos: **Vercel Blob** (prioridade) → GitHub `images/carros/` → placeholder 
 | `api/upload.js` | Upload de foto (Blob > GitHub) |
 | `api/leads.js` | Contatos gravados no Neon |
 | `api/_github.js` | Fallback via Contents API do GitHub |
-| `data/estoque.js` | Resolução no front (cache CDN + sessionStorage + seed) |
+| `data/estoque.js` | Resolução no front do site público (cache CDN + sessionStorage + seed) |
+| `data/estoque-admin.js` | Resolução no painel admin (**sempre no banco**, sem cache do CDN) |
 | `neon-setup.sql` | **SQL completo** — tabelas, índices |
+
+### ⚠️ REGRA DE OURO: o banco é a fonte da verdade
+
+> **Nenhum painel e nenhuma página pública pode ler `data/vehicles.js` como
+> fonte de verdade.** O seed local só muda quando alguém faz `git push`.
+
+| Onde | Como lê |
+|---|---|
+| Painel admin (`admin/*.html`) | `SV_ESTOQUE_ADMIN.carregar()` → `GET /api/veiculos?t=<timestamp>` (quebra o cache do CDN) |
+| Site público (`index.html`) | `SV_ESTOQUE.carregar(true)` → `GET /api/veiculos` + **sempre re-renderiza** |
+| Página do veículo (`veiculo.html`) | renderiza com o seed (instantâneo) e **re-renderiza** quando o banco tem fotos diferentes |
+
+**Bugs já corrigidos nesta família (não repetir):**
+1. O admin lia o seed local → a foto "sumia" ao voltar ao painel.
+2. O `index.html` só re-renderizava se a **quantidade** mudasse (9 = 9) → foto nova nunca aparecia.
+3. O `veiculo.html` só buscava no banco se o veículo **não** estivesse no seed → mostrava a versão velha.
+4. O preview lateral do admin rodava **antes** do `inicializar()` (que é assíncrono) → ficava vazio.
+5. O HTML do painel era cacheado → o funcionário via uma versão antiga do painel.
 
 ### Estado atual
 - ✅ Neon criado e conectado — `GET /api/veiculos` → `origem: "neon"`
 - ✅ 9 veículos no banco
 - ✅ **Vercel Blob ativo** — store `sv-multimarcas-blob` (privado)
-- ✅ 1 foto real publicada e servindo do Blob (traseira do Golf)
+- ✅ 3 fotos reais publicadas e servindo do Blob (Golf: frente, interior, traseira)
+- ✅ Upload → Salvar → recarregar → **persiste** (validado no ar)
+- ✅ Painel e site público mostram **o mesmo** estoque
 
 ### Como o Blob funciona aqui
 
@@ -85,18 +106,25 @@ diretamente (mais rápido, sem passar pela function). Ele decide sozinho.
 - O `get()` da 1.x devolve um `ReadableStream` **web**: converter com
   `Buffer.from(await new Response(stream).arrayBuffer())` — `res.end(stream)` não funciona no runtime Node
 - `srcset` deve ignorar URLs de API (não têm variantes locais)
+- **`put()` precisa de `allowOverwrite: true`**: o nome do blob é sempre
+  `<id>-<angulo>`, então reenviar a foto do mesmo ângulo falhava com
+  *"This blob already exists"* — e o admin resetava o slot para o placeholder,
+  **apagando a foto que já estava lá**. Corrigido em `api/_blob.js` e nos scripts.
+- Se o upload falhar, o slot **mantém a foto anterior** (não limpa mais)
 
 ### Scripts de linha de comando
 
 ```bash
 cd scripts
 node aplicar-sql.mjs          # aplica o SQL no Neon
+node aguardar-deploy.mjs      # espera o deploy automatico ficar no ar
 node publicar-estoque.mjs     # publica o estoque (le do Neon)
 node sincronizar-fotos.mjs    # casa as fotos do banco com os arquivos existentes
 node migrar-para-blob.mjs     # migra fotos do GitHub para o Blob
 node corrigir-fotos.mjs       # repara registros com data URL
 node marcar-fotos.mjs 1 images/carros/1-frente.jpg   # aponta fotos
 node otimizar-imagens.mjs     # converte fotos para WebP + srcset
+node restaurar-foto.mjs       # recoloca uma foto no Blob a partir do backup
 node testar-publicacao.mjs    # valida o payload
 node testar-auth.mjs          # testa o login localmente
 ```
@@ -211,25 +239,52 @@ node otimizar-imagens.mjs    # converte o que estiver em ../images/
 |---|---|---|
 | **Site no ar** | ✅ FUNCIONANDO | https://sv-multimarcas.vercel.app |
 | **Repositório GitHub** | ✅ CRIADO e com push | https://github.com/biel131yt-del/sv-multimarcas |
-| **Deploy automático** | ⏳ **PENDENTE** — falta autorizar a Vercel GitHub App neste repo | ver abaixo |
-| **API /api/leads** | ✅ TESTADA no ar | GET → `{"leads":[],"mensagem":"Banco de dados nao configurado."}` / POST → `{"ok":true,"salvo":false}` |
+| **Deploy automático** | ✅ **ATIVO** — push no `main` publica sozinho | ver abaixo |
+| **API /api/veiculos** | ✅ TESTADA no ar | GET → `{"ok":true,"origem":"neon","veiculos":[...]}` · POST → 200 |
 | **Domínio próprio** | ⏳ Pendente | usuário não informou |
 
-### 🔑 Pendência: deploy automático (GitHub → Vercel)
+### ✅ Deploy automático (GitHub → Vercel) — RESOLVIDO
 
-**Causa raiz:** a Vercel GitHub App está instalada na conta GitHub
-`gabrielaguiar1230` (instalada em outro PC). O repo novo
+A Vercel GitHub App foi instalada na conta `biel131yt-del` e o repo foi
+conectado com:
+
+```bash
+vercel git connect https://github.com/biel131yt-del/sv-multimarcas
+```
+
+Agora `git push origin main` → build → site no ar em ~60-90s.
+
+**Como confirmar que o deploy está no ar** (evita testar a versão antiga):
+
+```bash
+cd scripts
+node aguardar-deploy.mjs "/admin/veiculo-editar?id=1"
+```
+
+O script fica em loop até o middleware responder com
+`next=%2Fadmin%2Fveiculo-editar%3Fid%3D1` — sinal de que a versão nova
+está no ar.
+
+> ⚠️ **Erro clássico**: testar logo após o `push` (antes do deploy terminar)
+> faz o navegador carregar o HTML antigo e dar a impressão de que a
+> correção não funcionou. Por isso `/admin/*` e `/login.html` agora têm
+> `Cache-Control: no-store`.
+
+### 🔑 Deploy automático (GitHub → Vercel) — ✅ RESOLVIDO
+
+**Causa raiz que foi corrigida:** a Vercel GitHub App estava instalada na conta
+GitHub `gabrielaguiar1230` (instalada em outro PC). O repo novo
 `biel131yt-del/sv-multimarcas` está em **outra conta**, então o token de
-instalação da Vercel não enxerga esse repo.
+instalação da Vercel não enxergava esse repo.
 
-**Erro exato:**
+**Erro que aparecia:**
 ```
 POST /v9/projects/prj_RrHH3O4uzkk1TMtXdQaoUgJqHcXT/link
 → 400 {"error":{"code":"repo_no_access",
    "message":"You need admin or write access to the repository \"sv-multimarcas\" to link it."}}
 ```
 
-**Solução (2 cliques):** instalar a Vercel GitHub App na conta `biel131yt-del`
+**Solução:** instalar a Vercel GitHub App na conta `biel131yt-del`
 → https://github.com/apps/vercel/installations/new
 → *Install on* → **biel131yt-del** → *All repositories* → **Install**
 
@@ -299,6 +354,11 @@ opencode mcp add vercel --global --url https://mcp.vercel.com
 | Mobile 375px | `scrollWidth 367` — sem overflow horizontal |
 | Admin 1280px | sidebar fixa 248px, 8 colunas, 9/9 imagens |
 | API no ar | GET e POST respondendo 200 |
+| **Upload → Salvar → recarregar** | ✅ persiste (fotos no admin = fotos no banco = fotos no site) |
+| **Preview lateral do admin** | ✅ VOLKSWAGEN / Golf 2022 / R$ 149.900,00 / 100% / 8 itens |
+| **Login → volta pro veículo certo** | ✅ `?id=1` preservado no redirect |
+| **Cache do painel** | ✅ `Cache-Control: no-store` em `/admin/*` e `/login.html` |
+| **Site público** | ✅ card do Golf com a foto real; página com 3 fotos e aviso escondido |
 
 > `robots-txt` é o único alerta do Lighthouse e é **falso positivo**: só ocorre
 > ao testar via `file://` (o `Sitemap:` aponta pro domínio de produção).
@@ -310,16 +370,19 @@ mediante iframe 375px para simular mobile.
 
 ## 🔲 Pendências (em ordem de prioridade)
 
-1. **Deploy automático** — autorizar a Vercel GitHub App no repo (ver acima)
+1. **Fotos reais dos 9 veículos** — pelo painel: `admin/veiculos.html` →
+   editar → enviar **frente, interior e traseira**. (Só o Golf id=1 tem as 3.)
+   Não precisa compilar nada: a foto vai comprimida (WebP, 1600px) direto
+   para o Vercel Blob.
 2. **Trocar a senha do admin** e guardá-la em gerenciador de senhas
-3. **Autenticar o MCP** — `/mcps` no OpenCode → `vercel` → sign in
-4. **Fotos reais** dos 9 veículos → `images/carros/<id>-<angulo>.jpg`
-   (frente, interior, traseira) e rodar `scripts/otimizar-imagens.mjs`
-5. **Dados reais da loja** — endereço, CEP, CNPJ, link do Google Maps, e-mail
-6. **Supabase** — criar as tabelas `vehicles` e `leads` (SQL no `README.md`),
-   configurar `SUPABASE_URL` e `SUPABASE_SERVICE_ROLE_KEY` na Vercel
-7. **Domínio próprio** (ex.: `svmultimarcas.com.br`)
-8. Termos de uso e política de cookies (o placeholder aponta para `#`)
+   (hoje: `Teste12345` — só para teste)
+3. **Dados reais da loja** — endereço, CEP, CNPJ, link do Google Maps, e-mail
+   (`admin/configuracoes.html`)
+4. **Domínio próprio** (ex.: `svmultimarcas.com.br`)
+5. **Termos de uso e política de cookies** (o placeholder aponta para `#`)
+6. **Autenticar o MCP** — `/mcps` no OpenCode → `vercel` → sign in
+7. Rodar `scripts/otimizar-imagens.mjs` se forem placed mais fotos em `images/`
+   (o upload pelo painel já otimiza sozinho)
 
 ---
 
@@ -330,29 +393,40 @@ sv-multimarcas/
 ├── index.html · veiculo.html          # site público
 ├── api/leads.js · api/package.json    # serverless function
 ├── data/config.js · content.js · vehicles.js
+├── data/estoque.js · estoque-admin.js # resolução do estoque (site / painel)
 ├── lib/ui.js
 ├── admin/ (6 páginas + assets/admin.css)
 ├── images/ (logo.png, hero.jfif, placeholder-veiculo.svg, carros/)
-├── vercel.json · robots.txt · sitemap.xml · .env.example
+├── scripts/                           # utilitários de linha de comando
+├── vercel.json · middleware.ts · robots.txt · sitemap.xml · .env.example
 ├── ABRIR SITE.bat · RODAR LOCAL.bat · INSTALAR NODE E RODAR.bat
 ├── README.md                           # documentação completa
-└── nextjs/                             # scaffolding parado (fora do git)
+└── ESTADO DO PROJETO.md                # ponto de continuação
 ```
 
 ---
 
-## 🔁 Fluxo de publicação de conteúdo (site estático)
+## 🔁 Fluxo de publicação do estoque (o de verdade)
 
 ```
-admin/veiculos.html (ou veiculo-editar.html)
-   → editar veículo / marcar checklist / enviar fotos
-   → botão "Baixar vehicles.js"
-   → substituir em data/vehicles.js
-   → git add && git commit && git push
-   → site atualizado (deploy automático, se o item 1 for resolvido)
+admin/veiculo-editar.html
+   → preenche marca/modelo/preço, marca o checklist
+   → envia as 3 fotos (frente, interior, traseira)
+        ↓ (comprime no navegador → WebP 1600px → Vercel Blob)
+   → botão "Salvar / Publicar"
+        ↓ (POST /api/veiculos → Neon)
+   → o site público atualiza em até 20 segundos
 ```
 
-Mesmo fluxo para `data/content.js` (textos) via `admin/conteudo.html`.
+Não é mais preciso baixar `vehicles.js` nem fazer `git push` — o banco é a
+fonte da verdade e o painel já mostra o que está no ar.
+
+**Fluxo antigo (ainda existe, mas é opcional):** "Baixar vehicles.js" →
+substituir em `data/vehicles.js` → `git push`. Útil só para versionar o
+estoque no GitHub.
+
+**Fluxo dos textos** (`admin/conteudo.html`) segue o caminho antigo
+("Baixar content.js"), porque os textos ainda ficam em `data/content.js`.
 
 ---
 

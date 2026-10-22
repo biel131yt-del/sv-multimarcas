@@ -15,7 +15,9 @@
   /** Busca o estoque direto do banco (sem cache do CDN). */
   async function carregar() {
     try {
-      const res = await fetch('/api/veiculos', {
+      // O "t" quebra o cache do CDN: o painel sempre mostra o estado
+      // real do banco, mesmo logo apos salvar.
+      const res = await fetch('/api/veiculos?t=' + Date.now(), {
         headers: { Accept: 'application/json' },
         cache: 'no-store'
       });

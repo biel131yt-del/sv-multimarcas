@@ -60,8 +60,9 @@ export default async function handler(req, res) {
     }
 
     // Cache curto no CDN: rapido e o estoque aparece no maximo
-    // 1 minuto depois da mudanca.
-    res.setHeader('Cache-Control', 'public, s-maxage=60, stale-while-revalidate=300');
+    // 20 segundos depois da mudanca (antes era 60s e o funcionario
+    // achava que o site nao tinha atualizado).
+    res.setHeader('Cache-Control', 'public, s-maxage=20, stale-while-revalidate=60');
 
     return res.status(200).json({
       ok: true,
