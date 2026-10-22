@@ -1072,7 +1072,7 @@
       height: 340px;
       border: 0;
       /* deixa o mapa no tom escuro do site */
-      filter: invert(92%) hue-rotate(180deg) saturate(0.75) brightness(0.92);
+      filter: invert(90%) grayscale(0.9) brightness(1.06) contrast(0.92);
     }
     @media (max-width: 1023px) { .mapa-loja iframe { height: 230px; } }
 
@@ -2037,7 +2037,7 @@
       const elEndereco = SV.$('#enderecoTexto');
       if (elEndereco) {
         elEndereco.innerHTML = SV.escapeHtml(CFG.endereco.logradouro) + '<br>' +
-          SV.escapeHtml(CFG.endereco.cidade) + '/' + SV.escapeHtml(CFG.endereco.uf);
+          SV.escapeHtml(CFG.endereco.cidade) + ' / ' + SV.escapeHtml(CFG.endereco.uf);
       }
       // Mapa: monta a busca com o endereco cadastrado no painel
       const elMapa = document.getElementById('mapaLoja');
@@ -2059,7 +2059,7 @@
       const elFooterEndereco = SV.$('#footerEndereco');
       if (elFooterEndereco) {
         elFooterEndereco.innerHTML = SV.escapeHtml(CFG.endereco.logradouro) + '<br>' +
-          SV.escapeHtml(CFG.endereco.cidade) + '/' + SV.escapeHtml(CFG.endereco.uf) +
+          SV.escapeHtml(CFG.endereco.cidade) + ' / ' + SV.escapeHtml(CFG.endereco.uf) +
           ' — CEP ' + SV.escapeHtml(CFG.endereco.cep);
       }
       SV.$$('.js-telefone').forEach(el => { el.textContent = SV.fmt.telefone(CFG.telefone); });
