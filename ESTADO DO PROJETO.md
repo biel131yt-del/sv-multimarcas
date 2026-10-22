@@ -118,12 +118,16 @@ diretamente (mais rápido, sem passar pela function). Ele decide sozinho.
 cd scripts
 node aplicar-sql.mjs          # aplica o SQL no Neon
 node aguardar-deploy.mjs      # espera o deploy automatico ficar no ar
+node aguardar-arquivo.mjs /data/img-variantes.js   # espera um arquivo novo subir
+node medir-atualizacao.mjs    # mede quanto tempo o site leva para refletir
+node limpar-foto.mjs 2 frente # remove uma foto de teste (volta ao placeholder)
 node publicar-estoque.mjs     # publica o estoque (le do Neon)
 node sincronizar-fotos.mjs    # casa as fotos do banco com os arquivos existentes
 node migrar-para-blob.mjs     # migra fotos do GitHub para o Blob
 node corrigir-fotos.mjs       # repara registros com data URL
 node marcar-fotos.mjs 1 images/carros/1-frente.jpg   # aponta fotos
-node otimizar-imagens.mjs     # converte fotos para WebP + srcset
+node otimizar-imagens.mjs     # converte fotos para WebP + srcset + mapa
+node gerar-mapa-variantes.mjs # gera data/img-variantes.js (quais imagens tem srcset)
 node restaurar-foto.mjs       # recoloca uma foto no Blob a partir do backup
 node testar-publicacao.mjs    # valida o payload
 node testar-auth.mjs          # testa o login localmente
@@ -371,9 +375,11 @@ mediante iframe 375px para simular mobile.
 ## 🔲 Pendências (em ordem de prioridade)
 
 1. **Fotos reais dos 9 veículos** — pelo painel: `admin/veiculos.html` →
-   editar → enviar **frente, interior e traseira**. (Só o Golf id=1 tem as 3.)
-   Não precisa compilar nada: a foto vai comprimida (WebP, 1600px) direto
-   para o Vercel Blob.
+   editar → enviar **frente, interior e traseira**. Não precisa compilar nada:
+   a foto vai comprimida (WebP, 1600px) direto para o Vercel Blob.
+   - Estado atual: **só o Golf (id=1) tem as 3 fotos** — e a **capa é
+     provisória** (imagem de teste, não é o carro real). **Trocar pela foto
+     real do Golf.** Os veículos 2 a 9 estão sem foto nenhuma.
 2. **Trocar a senha do admin** e guardá-la em gerenciador de senhas
    (hoje: `Teste12345` — só para teste)
 3. **Dados reais da loja** — endereço, CEP, CNPJ, link do Google Maps, e-mail
