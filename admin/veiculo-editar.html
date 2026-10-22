@@ -466,6 +466,8 @@
 
       if (resp.ok) {
         fotos[slot] = json.caminho;
+        // Se trocou a capa, o preview lateral ja mostra a foto nova
+        if (slot === 'frente') atualizarPreview();
         const antes = (arquivo.size / 1024).toFixed(0);
         const depois = (json.bytes / 1024).toFixed(0);
         const detalhes = [];
@@ -570,6 +572,12 @@
     const modelo = $('#modelo').value || 'Modelo';
     const ano = $('#ano').value || '';
     const preco = Number(String($('#preco').value).replace(/\./g, '').replace(',', '.')) || 0;
+
+    // A imagem do preview e a CAPA do veiculo (como o visitante ve no site)
+    const imgPreview = document.getElementById('previewImg');
+    if (imgPreview) {
+      imgPreview.src = imgPath(fotos.frente || '');
+    }
 
     $('#previewMarca').textContent = marca.toUpperCase();
     $('#previewModelo').textContent = modelo + (ano ? ' ' + ano : '');
