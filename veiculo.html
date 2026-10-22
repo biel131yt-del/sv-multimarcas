@@ -694,7 +694,7 @@
       if (relacionados.length) {
         const grid = document.getElementById('relGrid');
         grid.innerHTML = relacionados.map(v => {
-          const img = (v.imagens && v.imagens[0]) || 'images/hero.webp';
+          const img = SV.fotoCapa(v);
           return '<article class="rel-card">' +
             '<a href="veiculo.html?id=' + v.id + '">' +
               '<div class="rel-img"><img src="' + img + '" alt="' + SV.escapeHtml(v.marca + ' ' + v.modelo) + '" loading="lazy" decoding="async">' +

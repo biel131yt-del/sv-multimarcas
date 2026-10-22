@@ -25,8 +25,8 @@ window.SV_VEHICLES = [
     "preco": 149900,
     "fotos": {
       "frente": "/api/foto?pathname=carros%2F1-frente-mviv77g6.webp",
-      "interior": "/api/foto?pathname=carros%2F1-interior.webp",
-      "traseira": "/api/foto?pathname=carros%2F1-traseira-costas-golf-gti-2022.jpg",
+      "interior": "/api/foto?pathname=carros%2F1-interior-mviyo4wb.webp",
+      "traseira": "/api/foto?pathname=carros%2F1-traseira-costas-golf-gti-2022-mviyo55f.jpg",
       "extras": []
     },
     "destaque": true,
@@ -47,7 +47,7 @@ window.SV_VEHICLES = [
       "Chave reserva",
       "Nota fiscal"
     ],
-    "atualizado_em": "2026-10-22T02:13:51.704Z"
+    "atualizado_em": "2026-10-22T03:08:07.113Z"
   },
   {
     "id": 2,
@@ -82,7 +82,7 @@ window.SV_VEHICLES = [
       "Manual do proprietário",
       "Chave reserva"
     ],
-    "atualizado_em": "2026-10-22T02:13:51.820Z"
+    "atualizado_em": "2026-10-22T03:08:07.234Z"
   },
   {
     "id": 3,
@@ -116,7 +116,7 @@ window.SV_VEHICLES = [
       "IPTV quitado",
       "Manual do proprietário"
     ],
-    "atualizado_em": "2026-10-22T02:13:52.053Z"
+    "atualizado_em": "2026-10-22T03:08:07.467Z"
   },
   {
     "id": 4,
@@ -153,7 +153,7 @@ window.SV_VEHICLES = [
       "Chave reserva",
       "Nota fiscal"
     ],
-    "atualizado_em": "2026-10-22T02:13:51.936Z"
+    "atualizado_em": "2026-10-22T03:08:07.351Z"
   },
   {
     "id": 5,
@@ -188,7 +188,7 @@ window.SV_VEHICLES = [
       "Manual do proprietário",
       "Chave reserva"
     ],
-    "atualizado_em": "2026-10-22T02:13:52.168Z"
+    "atualizado_em": "2026-10-22T03:08:07.584Z"
   },
   {
     "id": 6,
@@ -222,7 +222,7 @@ window.SV_VEHICLES = [
       "IPTV quitado",
       "Manual do proprietário"
     ],
-    "atualizado_em": "2026-10-22T02:13:52.284Z"
+    "atualizado_em": "2026-10-22T03:08:07.701Z"
   },
   {
     "id": 7,
@@ -256,7 +256,7 @@ window.SV_VEHICLES = [
       "IPTV quitado",
       "Chave reserva"
     ],
-    "atualizado_em": "2026-10-22T02:13:52.400Z"
+    "atualizado_em": "2026-10-22T03:08:07.818Z"
   },
   {
     "id": 8,
@@ -289,7 +289,7 @@ window.SV_VEHICLES = [
       "Freios ok",
       "IPTV quitado"
     ],
-    "atualizado_em": "2026-10-22T02:13:52.516Z"
+    "atualizado_em": "2026-10-22T03:08:07.935Z"
   },
   {
     "id": 9,
@@ -324,6 +324,6 @@ window.SV_VEHICLES = [
       "Manual do proprietário",
       "Chave reserva"
     ],
-    "atualizado_em": "2026-10-22T02:13:52.632Z"
+    "atualizado_em": "2026-10-22T03:08:08.053Z"
   }
 ];
