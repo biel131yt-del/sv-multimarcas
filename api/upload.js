@@ -74,8 +74,15 @@ export default async function handler(req, res) {
       const r = await subirFoto(binario, `${PASTA_BLOB}/${seguro}`, tipo);
 
       // Apaga a foto anterior (o blob antigo) para nao acumular lixo.
-      // O cliente manda o pathname antigo em "substituir".
-      const antigo = String(body.substituir || '').trim();
+      // O cliente manda o caminho antigo em "substituir" — pode vir como
+      // pathname puro (carros/1-frente.webp) ou como a URL do site
+      // (/api/foto?pathname=carros%2F1-frente.webp).
+      let antigo = String(body.substituir || '').trim();
+      if (antigo.indexOf('/api/foto?pathname=') > -1) {
+        try {
+          antigo = decodeURIComponent(antigo.split('pathname=')[1].split('&')[0]);
+        } catch { antigo = ''; }
+      }
       if (antigo && antigo.startsWith(PASTA_BLOB + '/') && antigo !== r.pathname) {
         try {
           await removerFoto(antigo);
