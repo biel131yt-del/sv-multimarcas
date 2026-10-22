@@ -396,6 +396,29 @@ mediante iframe 375px para simular mobile.
 
 ---
 
+## 💡 Melhoria possível (decidido: **não fazer agora**)
+
+A seção **Serviços** (`index.html`, `#servicos`) funciona, mas o usuário
+achou ela "simples/estranha". Análise do que incomoda, caso queira
+ajustar no futuro:
+
+| # | Problema | Ajuste sugerido |
+|---|---|---|
+| A | 8 botões em 4 cards — "VER ESTOQUE" duplica o CTA do header e há **4 botões vermelhos "WHATSAPP"** (o flutuante do canto inferior direito já existe) | Deixar **1 CTA por card**; WhatsApp vira link de texto discreto ("ou chame no WhatsApp") |
+| B | `.service-icon` é um quadrado de 48px com borda colorida — parece checkbox/placeholder | Ícone maior (~32px) **sem a caixa quadrada** |
+| C | Todos os 4 cards têm o mesmo peso; "Troca" pesa igual a "Compra" | Card "Compra" como destaque (2 colunas, imagem do estoque), os outros 3 menores |
+| D | Textos genéricos ("Consulte possibilidades para...") | Frases concretas + número real (ex.: "9 veículos disponíveis", "Avaliação grátis") |
+| E | Cores alternadas sem lógica (vermelho, azul, azul, vermelho) | Definir regra: vermelho = ação principal, azul = secundária, prata = informational |
+
+**Ordem de impacto:** A + B + D + E resolvem ~80% da sensação de "simples"
+sem mexer no layout. C é o que deixa com cara de loja de verdade.
+
+> Não implementado a pedido do usuário (21/10/2026). Os textos dos cards são
+> editáveis em `admin/conteudo.html` → `data/content.js`, então dá para
+> ajustar o texto sem mexer no código.
+
+---
+
 ## 📁 Estrutura de arquivos
 
 ```
