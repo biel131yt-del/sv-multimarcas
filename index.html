@@ -1262,24 +1262,26 @@
          topo, inteira, e o texto fica sobre fundo solido. */
       .hero {
         min-height: 0;
-        padding: calc(var(--header-h) + 12px) 0 36px;
+        padding: 0 0 36px;
         align-items: flex-start;
       }
       .hero-bg {
         height: 228px;
-        top: 0;
+        top: var(--header-h);
         bottom: auto;
         object-position: center 46%;
         opacity: .9;
       }
       .hero-overlay {
         background: linear-gradient(to bottom,
-          rgba(11,11,13,0.30) 0%,
-          rgba(11,11,13,0.72) 52%,
-          rgba(11,11,13,0.94) 82%,
-          #0B0B0D 100%);
+          rgba(11,11,13,0.18) 0%,
+          rgba(11,11,13,0.55) 45%,
+          rgba(11,11,13,0.92) 100%);
       }
-      .hero-content { padding: 0 20px; }
+      .hero-content {
+        margin-top: calc(var(--header-h) + 228px);
+        padding: 0 20px;
+      }
       .hero h1 {
         font-size: 2rem;
         line-height: 1.14;
