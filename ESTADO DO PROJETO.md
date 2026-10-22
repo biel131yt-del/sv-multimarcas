@@ -460,6 +460,34 @@ document.head.appendChild(m);
 > Para ver o PC, use o iframe de 1440px — a janela do harness tem 1000px e
 > portanto mostra o layout de celular, não o de PC.
 
+### 📸 Cache de foto: por que a foto "não aparecia" no celular
+
+O `/api/foto` responde com `Cache-Control: public, max-age=31536000, immutable`
+(1 ano, sem revalidar). Isso é ótimo **desde que cada foto tenha uma URL nova**.
+
+| Situação | Resultado |
+|---|---|
+| Foto com nome versionado (`1-frente-mviv77g6.webp`) | Cada upload gera URL nova → cache nunca atrapalha ✅ |
+| Foto com nome fixo (`1-interior.webp`) e depois trocada | **Todo mundo continua vendo a foto antiga** (cache de 1 ano) ❌ |
+
+Por isso:
+- o upload gera o nome com versão: `<id>-<angulo>-<versao>.<ext>`
+- `scripts/versionar-fotos.mjs` renomeia no Blob as fotos antigas que ainda
+  usavam o nome fixo (usa `rename` do @vercel/blob) e atualiza o banco
+- o upload também apaga o blob anterior (`substituir` no body da API)
+
+> ⚠️ **Nunca** grave uma foto em um caminho já usado. Sempre deixe o
+> upload gerar o nome com versão.
+
+### 🐛 Campo errado: `imagens` x `fotos`
+
+O banco usa **`fotos`** (objeto com frente/interior/traseira/extras).
+O campo `imagens` **não existe** — usá-lo faz o código cair no fallback e
+mostrar a imagem do hero do site no lugar da foto do carro.
+
+> `SV.fotoCapa(veiculo)` sempre lê `fotos.frente`. Use ela em vez de
+> `(v.imagens && v.imagens[0])`.
+
 ---
 
 ## 📁 Estrutura de arquivos
