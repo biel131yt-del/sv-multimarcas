@@ -26,10 +26,10 @@
     "priceRange": "$$",
     "address": {
       "@type": "PostalAddress",
-      "streetAddress": "Av. dos Automobilistas, nº 000",
-      "addressLocality": "São Paulo",
-      "addressRegion": "SP",
-      "postalCode": "00000-000",
+      "streetAddress": "Av. Ramiro Barcelos, 700",
+      "addressLocality": "São Jerônimo",
+      "addressRegion": "RS",
+      "postalCode": "96700-000",
       "addressCountry": "BR"
     },
     "openingHoursSpecification": [
@@ -1730,7 +1730,7 @@
           </span>
           <div>
             <strong>Endereço</strong>
-            <p id="enderecoTexto">Av. dos Automobilistas, nº 000<br>São Paulo / SP</p>
+            <p><a id="enderecoTexto" class="js-mapa" target="_blank" rel="noopener noreferrer" href="#">Av. Ramiro Barcelos, 700<br>São Jerônimo / RS</a></p>
           </div>
         </div>
 
@@ -1817,7 +1817,7 @@
           <h3>Contato</h3>
           <div class="footer-contato-item">
             <span class="f-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/></svg></span>
-            <div id="footerEndereco">Av. dos Automobilistas, nº 000<br>São Paulo / SP</div>
+            <div id="footerEndereco">Av. Ramiro Barcelos, 700<br>São Jerônimo / RS</div>
           </div>
           <div class="footer-contato-item">
             <span class="f-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6A19.79 19.79 0 0 1 2.12 4.18 2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72c.13.96.36 1.9.7 2.81a2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45c.9.34 1.85.57 2.81.7A2 2 0 0 1 22 16.92z"/></svg></span>
@@ -2015,6 +2015,15 @@
         elEndereco.innerHTML = SV.escapeHtml(CFG.endereco.logradouro) + '<br>' +
           SV.escapeHtml(CFG.endereco.cidade) + '/' + SV.escapeHtml(CFG.endereco.uf);
       }
+      // Endereco abre no Google Maps (link cadastrado no painel)
+      SV.$$('.js-mapa').forEach(el => {
+        if (CFG.googleMaps) {
+          el.href = CFG.googleMaps;
+        } else {
+          el.removeAttribute('target');
+          el.removeAttribute('href');
+        }
+      });
       const elFooterEndereco = SV.$('#footerEndereco');
       if (elFooterEndereco) {
         elFooterEndereco.innerHTML = SV.escapeHtml(CFG.endereco.logradouro) + '<br>' +

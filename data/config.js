@@ -15,12 +15,12 @@ window.SV_CONFIG = {
   email: 'contato@svmultimarcas.com.br',
   instagram: 'https://www.instagram.com/sv26anos/',
   facebook: 'https://www.facebook.com/SouzaVeiculosMultimarcas/?locale=pt_BR',
-  googleMaps: '',                    // TODO: colar o link real do Google Maps
+  googleMaps: 'https://www.google.com/maps/place/SV+MULTIMARCAS%2FSOUZA+VE%C3%8DULOS/@-29.9613627,-51.7273049,17z/data=!3m1!4b1!4m6!3m5!1s0x951bbfb4a4bbe53f:0xd728c433d7c72342!8m2!3d-29.9613627!4d-51.72473!16s%2Fg%2F11bzwnkbv6?entry=ttu&g_ep=EgoyMDI2MTAxOS4wIKXMDSoASAFQAw%3D%3D',
   endereco: {
-    logradouro: 'Av. dos Automobilistas, nº 000', // TODO: confirmar endereço
-    cidade: 'São Paulo',
-    uf: 'SP',
-    cep: '00000-000'                 // TODO: confirmar CEP
+    logradouro: 'Av. Ramiro Barcelos, 700',
+    cidade: 'São Jerônimo',
+    uf: 'RS',
+    cep: '96700-000'
   },
   horario: {
     semana: 'Segunda a sexta: 9h às 18h',
