@@ -419,6 +419,49 @@ sem mexer no layout. C é o que deixa com cara de loja de verdade.
 
 ---
 
+## 📱 Ajustes de celular (2026/10/22)
+
+> **Regra: o PC não muda.** Tudo fica dentro de `@media (max-width: 1023px)`
+> no `index.html` — que é exatamente a linha em que o site troca do layout
+> de PC (`min-width: 1024px`) para o de celular/tablet. O PC (≥1024px) fica
+> **idêntico** (validado: hero 900px, título 60px, badge de preço visível,
+> 3 colunas, zero overflow).
+
+### O que foi corrigido
+
+| Problema (só no celular) | Causa | Correção |
+|---|---|---|
+| **Hero "zuada"** — a foto virava um borrão escuro sem o carro | O `srcset` pegava `hero-400.webp` (400×270, ratio 1.48) e o `object-fit: cover` num box 367×812 cortava quase tudo | A foto fica só no topo (228px, inteirinha) e o texto vai **embaixo**, sobre fundo sólido. A hero deixou de ocupar a tela inteira (812px → 616px) |
+| **Preço aparecia 2x** no card | `.vehicle-price-badge` (sobre a foto) + `.vehicle-price` (no rodapé) | No celular, o badge sobre a foto some |
+| **"Fotos pendentes" aparecia mesmo com a foto lá** | O 1º render usa o seed local (pode estar velho) e o aviso é informação errada | O aviso só aparece quando os dados vêm do **banco** (`renderEstoque(lista, doBanco)`) |
+| Card mostrava placeholder sem foto | Mesma causa | Enquanto os dados não chegam, a foto fica com um **carregando** (shimmer) |
+| Placeholder dizia **"Envie pelo painel admin"** | Texto interno visível ao visitante | Agora é um ícone grande com **"FOTO EM BREVE"** (afeta PC e mobile — é correção de conteúdo) |
+| Demora para aparecer a foto no 4G | O seed local estava desatualizado | `data/vehicles.js` regravado com as fotos reais do banco |
+
+### Testar mobile sem ferramenta de viewport
+
+O browser do harness abre com ~1000px (que é o layout de celular do site).
+Para ver o celular de verdade e o PC:
+
+```js
+// 375px (celular)
+const f = document.createElement('iframe');
+f.style.cssText = 'position:fixed;left:0;top:0;width:375px;height:812px;z-index:99999;border:0';
+f.src = '/';
+document.body.appendChild(f);
+const m = document.createElement('style');
+m.textContent = 'body>*:not(iframe){display:none!important}';
+document.head.appendChild(m);
+
+// 1440px (PC) — troque width:375px por width:1440px;height:900px
+```
+
+> `file://` **não** funciona no browser do harness (só http/https).
+> Para ver o PC, use o iframe de 1440px — a janela do harness tem 1000px e
+> portanto mostra o layout de celular, não o de PC.
+
+---
+
 ## 📁 Estrutura de arquivos
 
 ```
