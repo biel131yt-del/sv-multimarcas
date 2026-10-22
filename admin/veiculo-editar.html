@@ -454,12 +454,20 @@
       });
 
       const ext = processada.webp ? 'webp' : 'jpg';
-      const nomeFinal = `${idVeiculo}-${slot}.${ext}`;
+      // Nome com versao: cada foto nova tem URL nova. Sem isso, o
+      // navegador (e o CDN) ficavam servindo a foto antiga por 1 ano,
+      // porque /api/foto usa cache longo.
+      const nomeFinal = `${idVeiculo}-${slot}-${Date.now().toString(36)}.${ext}`;
 
       const resp = await fetch('/api/upload', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ nome: nomeFinal, dados: processada.dataUrl })
+        body: JSON.stringify({
+          nome: nomeFinal,
+          dados: processada.dataUrl,
+          // o servidor apaga a foto anterior depois de gravar a nova
+          substituir: fotos[slot]
+        })
       });
 
       const json = await resp.json().catch(() => ({}));

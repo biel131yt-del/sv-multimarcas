@@ -9,7 +9,7 @@
  */
 
 import { salvarArquivo, temToken, erro } from './_github.js';
-import { temBlob, subirFoto } from './_blob.js';
+import { temBlob, subirFoto, removerFoto } from './_blob.js';
 
 const PASTA_GIT = 'images/carros';
 const PASTA_BLOB = 'carros';
@@ -72,6 +72,19 @@ export default async function handler(req, res) {
   if (temBlob()) {
     try {
       const r = await subirFoto(binario, `${PASTA_BLOB}/${seguro}`, tipo);
+
+      // Apaga a foto anterior (o blob antigo) para nao acumular lixo.
+      // O cliente manda o pathname antigo em "substituir".
+      const antigo = String(body.substituir || '').trim();
+      if (antigo && antigo.startsWith(PASTA_BLOB + '/') && antigo !== r.pathname) {
+        try {
+          await removerFoto(antigo);
+        } catch (e) {
+          // Falha ao limpar o antigo nao impede o upload novo
+          console.warn('[upload] nao foi possivel apagar a foto anterior:', e.message);
+        }
+      }
+
       return res.status(200).json({
         ok: true,
         origem: 'blob',
