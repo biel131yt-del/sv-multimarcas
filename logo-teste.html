@@ -57,7 +57,7 @@
     display: flex;
     align-items: center;
     justify-content: center;
-    padding: 0 .34em .06em .16em;
+    padding: 0 .30em .05em .12em;
   }
   .lg-veg {
     position: absolute;
@@ -65,22 +65,22 @@
     border-radius: .055em;
   }
   .lg-vermelho {
-    left: .10em; bottom: .045em;
-    width: .40em; height: .58em;
+    left: .06em; bottom: .05em;
+    width: .37em; height: .54em;
     background: linear-gradient(165deg, #ef2136 0%, #c8102e 46%, #8f0a20 100%);
-    transform: skewX(-13deg);
+    transform: skewX(-14deg);
   }
   .lg-azul {
-    left: .475em; bottom: .045em;
-    width: .40em; height: .47em;
+    left: .42em; bottom: .05em;
+    width: .37em; height: .43em;
     background: linear-gradient(165deg, #2689e0 0%, #1067b8 46%, #0a4a85 100%);
-    transform: skewX(-13deg);
+    transform: skewX(-14deg);
   }
   .lg-sigla {
     position: relative;
     font-style: italic;
     font-weight: 800;
-    font-size: .60em;
+    font-size: .68em;
     letter-spacing: -.015em;
     background: linear-gradient(180deg,
       #ffffff 0%, #f2f4f6 22%, #b9c0c8 44%,
@@ -94,12 +94,12 @@
   .lg-sairaa .lg-sigla, .lg-sairab .lg-sigla { letter-spacing: -.005em; }
   .lg-nome {
     position: relative;
-    margin-top: .075em;
+    margin-top: .06em;
     font-style: italic;
     font-weight: 800;
-    font-size: .148em;
-    letter-spacing: .30em;
-    text-indent: .30em; /* compensa o espacamento do ultimo caracter */
+    font-size: .128em;
+    letter-spacing: .20em;
+    text-indent: .20em; /* compensa o espacamento do ultimo caracter */
     white-space: nowrap;
     background: linear-gradient(180deg, #fdfdfe 0%, #cfd5db 40%, #7d858e 60%, #e8ecef 100%);
     -webkit-background-clip: text;
@@ -166,15 +166,15 @@
       + '</span>';
   }
   var alvo = {
-    'rep-a-150':   ['lg-mont', 140],
-    'rep-a-150-c': ['lg-mont', 140],
-    'rep-s-150':   ['lg-sairaa', 140],
-    'rep-s-150-c': ['lg-sairaa', 140],
-    'rep-a-64':    ['lg-mont', 60],
-    'rep-s-64':    ['lg-sairaa', 60],
-    'rep-a-48':    ['lg-mont', 45],
-    'rep-a-40':    ['lg-mont', 37],
-    'rep-a-192':   ['lg-mont', 192]
+    'rep-a-150':   ['lg-mont', 110],
+    'rep-a-150-c': ['lg-mont', 110],
+    'rep-s-150':   ['lg-sairaa', 110],
+    'rep-s-150-c': ['lg-sairaa', 110],
+    'rep-a-64':    ['lg-mont', 47],
+    'rep-s-64':    ['lg-sairaa', 47],
+    'rep-a-48':    ['lg-mont', 35],
+    'rep-a-40':    ['lg-mont', 29],
+    'rep-a-192':   ['lg-mont', 230]
   };
   Object.keys(alvo).forEach(function (id) {
     var el = document.getElementById(id);
