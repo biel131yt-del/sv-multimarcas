@@ -1,0 +1,185 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Teste — Logo em CSS x Logo em foto</title>
+<meta name="robots" content="noindex, nofollow">
+<link rel="icon" href="images/logo.png">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,800;1,800;1,900&family=Saira:ital,wght@1,700;1,800&display=swap" rel="stylesheet">
+<style>
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body {
+    background: #0b0b0d;
+    color: #e8eaed;
+    font-family: Inter, system-ui, sans-serif;
+    padding: 40px 24px 80px;
+  }
+  h1 { font-size: 20px; margin-bottom: 6px; }
+  .sub { color: #8a929b; font-size: 13px; margin-bottom: 34px; }
+  section { margin-bottom: 38px; }
+  .titulo-secao {
+    font-size: 14px; color: #a8adb5; letter-spacing: .06em;
+    text-transform: uppercase; margin-bottom: 14px;
+    border-left: 3px solid #c8102e; padding-left: 10px;
+  }
+  .linha {
+    display: flex; align-items: flex-end; gap: 34px;
+    flex-wrap: wrap; padding: 22px 20px; border-radius: 10px;
+    margin-bottom: 10px;
+  }
+  .escuro { background: #0b0b0d; outline: 1px solid #23262b; }
+  .claro  { background: #f2f3f5; outline: 1px solid #d8dadd; }
+  .celula { display: flex; flex-direction: column; align-items: center; gap: 10px; }
+  .celula img, .celula .lg-logo { image-rendering: auto; }
+  .rotulo { font-size: 11px; color: #6f7780; letter-spacing: .04em; }
+
+  /* ==========================================================
+     RÉPLICA DA LOGO EM CSS
+     base: .lg-logo recebe font-size = "unidade" da logo,
+     todo o resto é proporcional em em — muda o tamanho,
+     muda em um lugar só.
+     ========================================================== */
+  .lg-logo {
+    display: inline-flex;
+    flex-direction: column;
+    align-items: center;
+    line-height: 1;
+    user-select: none;
+    -webkit-user-select: none;
+  }
+  .lg-logo.lg-mont   { font-family: 'Montserrat', sans-serif; }
+  .lg-logo.lg-sairaa { font-family: 'Saira', sans-serif; }
+  .lg-marc {
+    position: relative;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 0 .34em .06em .16em;
+  }
+  .lg-veg {
+    position: absolute;
+    display: block;
+    border-radius: .055em;
+  }
+  .lg-vermelho {
+    left: .10em; bottom: .045em;
+    width: .40em; height: .58em;
+    background: linear-gradient(165deg, #ef2136 0%, #c8102e 46%, #8f0a20 100%);
+    transform: skewX(-13deg);
+  }
+  .lg-azul {
+    left: .475em; bottom: .045em;
+    width: .40em; height: .47em;
+    background: linear-gradient(165deg, #2689e0 0%, #1067b8 46%, #0a4a85 100%);
+    transform: skewX(-13deg);
+  }
+  .lg-sigla {
+    position: relative;
+    font-style: italic;
+    font-weight: 800;
+    font-size: .60em;
+    letter-spacing: -.015em;
+    background: linear-gradient(180deg,
+      #ffffff 0%, #f2f4f6 22%, #b9c0c8 44%,
+      #626a73 52%, #e6eaee 66%, #9aa2ab 84%, #d5dae0 100%);
+    -webkit-background-clip: text;
+    background-clip: text;
+    color: transparent;
+    -webkit-text-stroke: .028em #2e3236;
+    text-shadow: 0 .012em .02em rgba(0,0,0,.25);
+  }
+  .lg-sairaa .lg-sigla, .lg-sairab .lg-sigla { letter-spacing: -.005em; }
+  .lg-nome {
+    position: relative;
+    margin-top: .075em;
+    font-style: italic;
+    font-weight: 800;
+    font-size: .148em;
+    letter-spacing: .30em;
+    text-indent: .30em; /* compensa o espacamento do ultimo caracter */
+    white-space: nowrap;
+    background: linear-gradient(180deg, #fdfdfe 0%, #cfd5db 40%, #7d858e 60%, #e8ecef 100%);
+    -webkit-background-clip: text;
+    background-clip: text;
+    color: transparent;
+    -webkit-text-stroke: .12px #454a4f;
+  }
+</style>
+</head>
+<body>
+  <h1>Teste: logo em foto (atual) x r&eacute;plica em CSS</h1>
+  <p class="sub">A r&eacute;plica &eacute; feita com formas + texto com gradiente &mdash; sem imagem. Comparando tamanhos reais de uso.</p>
+
+  <section>
+    <div class="titulo-secao">Tamanho grande (como na compara&ccedil;&atilde;o direta)</div>
+    <div class="linha escuro">
+      <div class="celula"><img src="images/logo.png" alt="logo atual" style="height:150px"><div class="rotulo">ATUAL &mdash; foto PNG</div></div>
+      <div class="celula"><span id="rep-a-150"></span><div class="rotulo">CSS &mdash; Montserrat</div></div>
+      <div class="celula"><span id="rep-s-150"></span><div class="rotulo">CSS &mdash; Saira (mais quadradona)</div></div>
+    </div>
+    <div class="linha claro">
+      <div class="celula"><img src="images/logo.png" alt="logo atual" style="height:150px"></div>
+      <div class="celula"><span id="rep-a-150-c"></span></div>
+      <div class="celula"><span id="rep-s-150-c"></span></div>
+    </div>
+  </section>
+
+  <section>
+    <div class="titulo-secao">Tamanho do topo do site no PC (64px)</div>
+    <div class="linha escuro">
+      <div class="celula"><img src="images/logo.png" alt="logo atual" style="height:64px"><div class="rotulo">ATUAL</div></div>
+      <div class="celula"><span id="rep-a-64"></span><div class="rotulo">CSS Montserrat</div></div>
+      <div class="celula"><span id="rep-s-64"></span><div class="rotulo">CSS Saira</div></div>
+    </div>
+  </section>
+
+  <section>
+    <div class="titulo-secao">Tamanho do topo no celular (48px) e header rolado (40px)</div>
+    <div class="linha escuro">
+      <div class="celula"><img src="images/logo.png" alt="logo atual" style="height:48px"><div class="rotulo">ATUAL 48px</div></div>
+      <div class="celula"><span id="rep-a-48"></span><div class="rotulo">CSS 48px</div></div>
+      <div class="celula"><img src="images/logo.png" alt="logo rolada" style="height:40px"></div>
+      <div class="celula"><span id="rep-a-40"></span><div class="rotulo">CSS 40px</div></div>
+    </div>
+  </section>
+
+  <section>
+    <div class="titulo-secao">Prova de nitidez: aumenta 3x (PNG come&ccedil;a a borrar, CSS n&atilde;o)</div>
+    <div class="linha escuro">
+      <div class="celula"><img src="images/logo.png" alt="logo atual 3x" style="height:192px"><div class="rotulo">ATUAL esticada 3x</div></div>
+      <div class="celula"><span id="rep-a-192"></span><div class="rotulo">CSS n&iacute;tida em qualquer tamanho</div></div>
+    </div>
+  </section>
+
+<script>
+  function logo(classe, tamanho) {
+    return '<span class="lg-logo ' + classe + '" style="font-size:' + tamanho + 'px">'
+      + '<span class="lg-marc">'
+      +   '<i class="lg-veg lg-vermelho"></i>'
+      +   '<i class="lg-veg lg-azul"></i>'
+      +   '<b class="lg-sigla">SV</b>'
+      + '</span>'
+      + '<span class="lg-nome">MULTIMARCAS</span>'
+      + '</span>';
+  }
+  var alvo = {
+    'rep-a-150':   ['lg-mont', 140],
+    'rep-a-150-c': ['lg-mont', 140],
+    'rep-s-150':   ['lg-sairaa', 140],
+    'rep-s-150-c': ['lg-sairaa', 140],
+    'rep-a-64':    ['lg-mont', 60],
+    'rep-s-64':    ['lg-sairaa', 60],
+    'rep-a-48':    ['lg-mont', 45],
+    'rep-a-40':    ['lg-mont', 37],
+    'rep-a-192':   ['lg-mont', 192]
+  };
+  Object.keys(alvo).forEach(function (id) {
+    var el = document.getElementById(id);
+    if (el) el.outerHTML = logo(alvo[id][0], alvo[id][1]);
+  });
+</script>
+</body>
+</html>
